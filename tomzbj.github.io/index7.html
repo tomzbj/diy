@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <title>兰湾</title>
+    <meta name="description" content="">
+    <meta name="author" content="Stavros">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://st.avros.net/theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="http://st.avros.net/theme/bootstrap.min.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/local.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/pygments.css" rel="stylesheet">
+
+    <!-- So Firefox can bookmark->"abo this site" -->
+        <link href="http://st.avros.net//feeds/all.atom.xml" rel="alternate" title="兰湾" type="application/atom+xml">
+        <link href="http://st.avros.net//feeds/all.rss.xml" rel="alternate" title="兰湾" type="application/rss+xml">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="http://st.avros.net">兰湾</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+        
+
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/mc1648_1sv149_vco.html"><h2>MC1648+1SV149VCO实验</h2></a>
+        <div class= "well small"> 2010-01-18
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>以前搭过Colpitts和Hartley式的VCO, 但是频率覆盖总是只有2倍, 可能的原因是1SV149只能部分接入LC槽路, 接入多了反馈就少. MC1648是负阻振荡器, 在这一点上不受限制.</p>
+<p>把82p电容换成1SV149, 再试, 还是只能从2.7MHz调到5.1MHz.</p>
+<p>检查了一下各点的电压情况, 原来是MC1648的槽路有+1.5V左右的偏压, 这样在5V供电时1SV149只有3.5V的电压区间可以利用了, 反向电压1V以下不算的话, 只有2.5V了, 频率覆盖不够也算正常.</p>
+<p>于是接上辅助电源, 可以从2.7MHz调到11.9MHz了, 但是1SV149的反向电压才6.5V. 反向电压1V时的频率是3.3MHz左右, 频率覆盖有3倍多, 还是不能算满意.</p>
+<p>检查了一下电路没有问题, 看来是频率计到上限了. 于是把线圈的磁芯全部旋进, 这样可以从2.0MHz调到9.6MHz, 反向电压1V时的频率是2.7MHz, 差不多也还是3.5倍的频率覆盖, 估计勉强能做到从455kHz到1600kHz了.</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/mc1648_1sv149_vco.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/34063_ext_1.html"><h2>34063扩流实验的一些结果</h2></a>
+        <div class= "well small"> 2009-12-30
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>34063做buck的效率是相当低的, 手册上给出的83.7%的效率是在输入25V, 输出5V的条件下测到的. 以前我自己实验的结果是, 输入12V, 输出6V左右时效率只有60%多, 比线性稳压高不了多少. 因为是用达林顿管接成OC或OE开关, 没法直接驱动外接MOSFET.</p>
+<p>fdisk手里的一个路由器板, 3.3V供电是从5V buck降压得到的, 而且居然是用的34063. 5V降到3.3V如果用的是LDO, 那么效率就是66%, 可见这里效率一定远比66%高；于是和fdisk, sunzx一起把这部分电路抄了下来.</p>
+<p>基本原理: 34063内部开关管导通时, Q1关断, PFET栅极通过二极管D1被拉低导通；34063内部开关管关断时, Q1导通, PFET栅极拉高关断. 从而实现了利用外置MOSFET扩流. sunzx紧接着找到一个类似原理的boost升压电路, 换成了PNP管和NFET.</p>
+<p>照这两个电路接了一下, buck电路使用2SC945和MTD2955, 结果是输入5V 0.24A,  输出3.2V 0.29A,  效率大约77%;boost电路使用2SA733和MTD3055, 12V升29V效率只有52%了, 输入电压5V时则不能工作；换用导通电压很低的IRLML2502, 还是不能工作 …</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/34063_ext_1.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/winding_machine.html"><h2>土绕线机</h2></a>
+        <div class= "well small"> 2009-11-01
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>本来是个PWM调电机转速的板子, 做多了几块, 于是改造了一下. 用M48的INT0口数圈数, 在电机接轴器上粘了一块磁铁, 用A3144检测.
+电机是300转的减速电机.</p>
+<p>两个按键, 其中一个按了转100圈, 另一个键是10圈.</p>
+<p>用来绕变压器很方便.</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/winding_machine.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/freqmeter.html"><h2>频率计</h2></a>
+        <div class= "well small"> 2009-10-15
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>输入信号经 K246 共源缓冲, 直耦到 C1959 放大,  74HC04 整形后通过另一只作为闸门的 C1959, 由 74HC393 和 Mega8 的 T1 计数器一起计数. 理论能测到 224=16.777216MHz.</p>
+<p>电路如图:</p>
+<p><a href="/images/freqmeter.png" title="电路图"><img src="/images/freqmeter.png" width="500px" /></a></p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/freqmeter.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/step_up_expr_2.html"><h2>继续试验升压开关电源</h2></a>
+        <div class= "well small"> 2009-08-19
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>用UC3843搭flyback实现了输入18V,  输出220V左右点亮25W灯泡.  变压器使用EE25.4磁心.</p>
+<p>用MAX1771轻易实现单节18650升压输出5V 1A,  估计有输出5V 2A的潜力. Maxim的东西到底靠谱.</p>
+<p>LM2577搭flyback实现单节14500锂电升压输出60V,  输出6-13mA时效率大约在50%上下, 一般般吧. 同时线性降压输出1.2V.</p>
+<p>BL8530、PT1301等从1AA升到5V有点力不从心, 感觉还是从1AA升到2.5V/3.3V,  从2AA或单锂电升到5V比较合适.</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/step_up_expr_2.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/step_up_expr.html"><h2>最近试验各种升压电路的一些结果</h2></a>
+        <div class= "well small"> 2009-05-10
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><ol>
+<li>
+<p>MC34063:
+    限制最高升到40V, 实际试验可以升到60V左右. 外接2N5551大约能升至85V (输入电压12V), 只能输出10mA左右的电流. 由于占空比的限制, 很难升到更高了.</p>
+</li>
+<li>
+<p>NE555+IRFR420:
+    输入12V, 输出空载时可升到220V以上, 但接上负载后输出电压就急剧跌落. 用220V 5W灯泡作负载时, 大约能输出110V左右; 将输入电压提高到24V时能得到输出160V 30mA的结果, 效率50%左右.</p>
+</li>
+<li>
+<p>UC3843+IRF740:
+    与NE555+IRFR420的结果基本相同, 输出稍硬一些.</p>
+</li>
+<li>
+<p>级联UC3843 boost:
+    前级将18V升压至55V, 后级从55V升压至约210V. 用5W灯泡能稳定输出210V, 加大负载后电压跌落, 最好成绩是将输入电压提高到24V后, 输出150V/90mA, 不过效率只有大概56%.</p>
+</li>
+</ol>
+<p>总结: 似乎使用简单的boost很难做到输出200V/100mA以上, 还是得用反激、半桥或者全桥变换器才行。下一步先用MC34063接成反激式，用一个小磁环试试看，如果好用再换LM2577+E字磁芯。</p>
+<p>ps, 用LM2596接成inverter时，启动瞬间需要4.5A的电流，所以延迟启动一定不能省，并且需要较大的输入电容 …</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/step_up_expr.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/res_divider.html"><h2>分压电阻计算器</h2></a>
+        <div class= "well small"> 2009-02-08
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>写了个计算DC-DC电路输出分压电阻的小工具, 如图.</p>
+<p><a href="/images/res_divider.png" title="截图"><img src="/images/res_divider.png" height="300px" /></a></p>
+<p>输入所需要的电压和FB端参考电压, 它就自动计算出所需要的电阻值和误差, 电阻全部用5%精度的E24序列.</p>
+<p>下载链接:</p>
+<p><a href="/files/calc.zip">calc.zip</a></p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/res_divider.html">read more</a></div>
+    </div>	
+				
+<div class="pagination">
+<ul>
+    <li class="prev"><a href="http://st.avros.net/index6.html">&larr; Previous</a></li>
+
+    <li class=""><a href="http://st.avros.net/index.html">1</a></li>
+    <li class=""><a href="http://st.avros.net/index2.html">2</a></li>
+    <li class=""><a href="http://st.avros.net/index3.html">3</a></li>
+    <li class=""><a href="http://st.avros.net/index4.html">4</a></li>
+    <li class=""><a href="http://st.avros.net/index5.html">5</a></li>
+    <li class=""><a href="http://st.avros.net/index6.html">6</a></li>
+    <li class="active"><a href="http://st.avros.net/index7.html">7</a></li>
+
+    <li class="next disabled"><a href="#">&rarr; Next</a></li>
+
+</ul>
+</div>
+ 
+  
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="http://st.avros.net/archives.html">Archives</a>
+                <li><a href="http://st.avros.net/tags.html">Tags</a>
+
+
+
+                <li><a href="http://st.avros.net//feeds/all.atom.xml" rel="alternate">Atom feed</a></li>
+                <li><a href="http://st.avros.net//feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="http://st.avros.net/category/dian-yuan.html">电源</a></li>
+                <li><a href="http://st.avros.net/category/gong-ju.html">工具</a></li>
+                <li><a href="http://st.avros.net/category/ji-dian.html">机电</a></li>
+                <li><a href="http://st.avros.net/category/qi-ta.html">其他</a></li>
+                <li><a href="http://st.avros.net/category/wu-xian-dian.html">无线电</a></li>
+                <li><a href="http://st.avros.net/category/yin-pin.html">音频</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://blog.tariel.org">Tariel's blog</a></li>
+                <li><a href="http://kurapikov.blogspot.com">库拉皮科夫的翻墙才能看的空间</a></li>
+                <li><a href="http://just4fun.cn">乐趣为王</a></li>
+                <li><a href="http://scateu.me">Scateu Blog - S.B.</a></li>
+            </ul>
+            </div>
+
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Social
+                </li>
+           
+                <li><a href="http://weibo.com/stavros">新浪微博</a></li>
+            </ul>
+            </div>
+            </div>
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="http://st.avros.net">兰湾</a> &copy; Stavros 2017</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://st.avros.net/theme/bootstrap-collapse.js"></script>
+ 
+</body>
+</html>

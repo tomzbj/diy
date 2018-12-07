@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <title>兰湾</title>
+    <meta name="description" content="">
+    <meta name="author" content="Stavros">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://st.avros.net/theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="http://st.avros.net/theme/bootstrap.min.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/local.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/pygments.css" rel="stylesheet">
+
+    <!-- So Firefox can bookmark->"abo this site" -->
+        <link href="http://st.avros.net//feeds/all.atom.xml" rel="alternate" title="兰湾" type="application/atom+xml">
+        <link href="http://st.avros.net//feeds/all.rss.xml" rel="alternate" title="兰湾" type="application/rss+xml">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="http://st.avros.net">兰湾</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+    <div class='article'>
+        <div class="content-title">
+            <h1>AVR SD WAVE播放器</h1>
+2013-01-17
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+        </div>
+	
+        <div><p>得从大约两年前说起, 那会儿amobbs的马潮老师出了个题目: 8x8的LED屏, 中间四个常亮, 最外圈亮一个转圈跑. </p>
+<p>这东西没啥难度吧？我正好有块点阵屏闲着, 就焊了一块板, 从开始写程序计算, 39分钟解决了.  </p>
+<p>讨论过程中一师弟(好象是TwoPerson?)大概出口不慎, 把这位马潮老师惹怒了——于是他又出了个题, 原话如下: </p>
+<blockquote>
+<p>如果不服, 可以再次比试. 你在北大找5个学生, 组成一个小组. 用m16加一片lm324, 设计一个读取sd卡上wave文件, 并播放的wave播放器, 看谁做的好. 给你们一个月的时间, 下个学期开学我到北大找你, 比试实物效果. </p>
+</blockquote>
+<p>首先声明一下, 本人纯粹是外行, 本科化学, 研究生改物理了, 以上纯属业余爱好. 马老师这题目在我这个外行看来, 也就是一个人两三天到一周左右的工作量, 至于五个人搞一个月么？不过后来事情一多也就把这回事忘了. </p>
+<p>前段时间突然记起来了, 于是动手开干. 电路图太简单就不画了. 觉得没必要上m16, 于是用了一片m8, 硬件SPI接SD卡, 8位PWM输出, 用一片TL061搭成低通滤波, 后面一只8050缓冲接喇叭. 从学习SD协议、实现FAT开始, 焊接、写程序到调试全算上, 用了两个晚上、周六全天加周日半天, 基本完事. 当然8位PWM的音质有点惨不忍睹……</p>
+<p>原理图: </p>
+<p><a href="/images/avr_sd_waveplayer.png" title="电路图"><img src="/images/avr_sd_waveplayer.png" width="500px" /></a></p>
+<p>程序:</p>
+<p><a href="/files/avr_sd_waveplayer_src.7z">src.7z</a></p></div>
+	
+        <hr>
+
+    </div>
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="http://st.avros.net/archives.html">Archives</a>
+                <li><a href="http://st.avros.net/tags.html">Tags</a>
+
+
+
+                <li><a href="http://st.avros.net//feeds/all.atom.xml" rel="alternate">Atom feed</a></li>
+                <li><a href="http://st.avros.net//feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="http://st.avros.net/category/dian-yuan.html">电源</a></li>
+                <li><a href="http://st.avros.net/category/gong-ju.html">工具</a></li>
+                <li><a href="http://st.avros.net/category/ji-dian.html">机电</a></li>
+                <li><a href="http://st.avros.net/category/qi-ta.html">其他</a></li>
+                <li><a href="http://st.avros.net/category/wu-xian-dian.html">无线电</a></li>
+                <li><a href="http://st.avros.net/category/yin-pin.html">音频</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://blog.tariel.org">Tariel's blog</a></li>
+                <li><a href="http://kurapikov.blogspot.com">库拉皮科夫的翻墙才能看的空间</a></li>
+                <li><a href="http://just4fun.cn">乐趣为王</a></li>
+                <li><a href="http://scateu.me">Scateu Blog - S.B.</a></li>
+            </ul>
+            </div>
+
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Social
+                </li>
+           
+                <li><a href="http://weibo.com/stavros">新浪微博</a></li>
+            </ul>
+            </div>
+            </div>
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="http://st.avros.net">兰湾</a> &copy; Stavros 2017</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://st.avros.net/theme/bootstrap-collapse.js"></script>
+ 
+</body>
+</html>

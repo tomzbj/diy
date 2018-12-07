@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <title>兰湾</title>
+    <meta name="description" content="">
+    <meta name="author" content="Stavros">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://st.avros.net/theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="http://st.avros.net/theme/bootstrap.min.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/local.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/pygments.css" rel="stylesheet">
+
+    <!-- So Firefox can bookmark->"abo this site" -->
+        <link href="http://st.avros.net//feeds/all.atom.xml" rel="alternate" title="兰湾" type="application/atom+xml">
+        <link href="http://st.avros.net//feeds/all.rss.xml" rel="alternate" title="兰湾" type="application/rss+xml">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="http://st.avros.net">兰湾</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+    <div class='article'>
+        <div class="content-title">
+            <h1>最近试验各种升压电路的一些结果</h1>
+2009-05-10
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+        </div>
+	
+        <div><ol>
+<li>
+<p>MC34063:
+    限制最高升到40V, 实际试验可以升到60V左右. 外接2N5551大约能升至85V (输入电压12V), 只能输出10mA左右的电流. 由于占空比的限制, 很难升到更高了.</p>
+</li>
+<li>
+<p>NE555+IRFR420:
+    输入12V, 输出空载时可升到220V以上, 但接上负载后输出电压就急剧跌落. 用220V 5W灯泡作负载时, 大约能输出110V左右; 将输入电压提高到24V时能得到输出160V 30mA的结果, 效率50%左右.</p>
+</li>
+<li>
+<p>UC3843+IRF740:
+    与NE555+IRFR420的结果基本相同, 输出稍硬一些.</p>
+</li>
+<li>
+<p>级联UC3843 boost:
+    前级将18V升压至55V, 后级从55V升压至约210V. 用5W灯泡能稳定输出210V, 加大负载后电压跌落, 最好成绩是将输入电压提高到24V后, 输出150V/90mA, 不过效率只有大概56%.</p>
+</li>
+</ol>
+<p>总结: 似乎使用简单的boost很难做到输出200V/100mA以上, 还是得用反激、半桥或者全桥变换器才行。下一步先用MC34063接成反激式，用一个小磁环试试看，如果好用再换LM2577+E字磁芯。</p>
+<p>ps, 用LM2596接成inverter时，启动瞬间需要4.5A的电流，所以延迟启动一定不能省，并且需要较大的输入电容。</p>
+<p>用MC34063做inverter的效率则相当低，输入12V，输出-9V时大概只有50%的效率。看来要得到正负电压还是用反激式容易些。</p></div>
+	
+        <hr>
+
+    </div>
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="http://st.avros.net/archives.html">Archives</a>
+                <li><a href="http://st.avros.net/tags.html">Tags</a>
+
+
+
+                <li><a href="http://st.avros.net//feeds/all.atom.xml" rel="alternate">Atom feed</a></li>
+                <li><a href="http://st.avros.net//feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="http://st.avros.net/category/dian-yuan.html">电源</a></li>
+                <li><a href="http://st.avros.net/category/gong-ju.html">工具</a></li>
+                <li><a href="http://st.avros.net/category/ji-dian.html">机电</a></li>
+                <li><a href="http://st.avros.net/category/qi-ta.html">其他</a></li>
+                <li><a href="http://st.avros.net/category/wu-xian-dian.html">无线电</a></li>
+                <li><a href="http://st.avros.net/category/yin-pin.html">音频</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://blog.tariel.org">Tariel's blog</a></li>
+                <li><a href="http://kurapikov.blogspot.com">库拉皮科夫的翻墙才能看的空间</a></li>
+                <li><a href="http://just4fun.cn">乐趣为王</a></li>
+                <li><a href="http://scateu.me">Scateu Blog - S.B.</a></li>
+            </ul>
+            </div>
+
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Social
+                </li>
+           
+                <li><a href="http://weibo.com/stavros">新浪微博</a></li>
+            </ul>
+            </div>
+            </div>
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="http://st.avros.net">兰湾</a> &copy; Stavros 2017</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://st.avros.net/theme/bootstrap-collapse.js"></script>
+ 
+</body>
+</html>

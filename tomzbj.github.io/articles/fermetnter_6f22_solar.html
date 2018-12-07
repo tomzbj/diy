@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <title>兰湾</title>
+    <meta name="description" content="">
+    <meta name="author" content="Stavros">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://st.avros.net/theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="http://st.avros.net/theme/bootstrap.min.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/local.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/pygments.css" rel="stylesheet">
+
+    <!-- So Firefox can bookmark->"abo this site" -->
+        <link href="http://st.avros.net//feeds/all.atom.xml" rel="alternate" title="兰湾" type="application/atom+xml">
+        <link href="http://st.avros.net//feeds/all.rss.xml" rel="alternate" title="兰湾" type="application/rss+xml">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="http://st.avros.net">兰湾</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+    <div class='article'>
+        <div class="content-title">
+            <h1>最近的三个制作：酒酿机、6F22充电器、太阳能充电器</h1>
+2015-08-15
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+        </div>
+	
+        <div><ol>
+<li>
+<p>酒酿机</p>
+<p>做酒酿(醪醩)需要保持40度左右的温度发酵。正好家里有个最便宜的小熊酸奶机，不带控温功能的，能否用它来改装成酒酿机呢？</p>
+<p>把小熊酸奶机拆开一看，里面简单得一塌糊涂：铝板上装了个PTC电阻，直接接220V电源，作为发热器，旁边甩了两条线出来接前面板的指示灯。可以说毫无技术含量。于是把这些东西都拆掉，换成前几天做的PID控温电路。控温板上加了两个两位LED数码管，分别显示设定温度和实测温度，两个按键开关用来控温。加热器还是IRF530+LM35的配置。控温范围从35度到65度。</p>
+<p>发酵碗里装满水，放个温度计，开机一晚上实测……发现碗里的水温最终会比发热板的实测温度低15~20度。大概是因为发热板外面隔了一层塑料板，发酵碗又是一层塑料，两层塑料的热阻太大了。幸好温度已经能满足做酒酿的要求了。</p>
+<p>下次打算把LM35的引线接长一些，粘在发热板以外的塑料侧壁上，避免从发热板直接传导热量到LM35，这样效果也许会好些？</p>
+</li>
+<li>
+<p>6F22充电器</p>
+<p>手里有两个可充电的6F22，但是一直没有好用的充电器。以前买过一个，拆开一看，里面实在是惨不忍睹，只好扔了。</p>
+<p>自己做了一个，电路图如下：</p>
+<p><a href="/images2/2015/6f22_charger.png"><img src="/images2/2015/6f22_charger.png" width="480" /></a> </p>
+<p>从USB输入的5V电压，用TP7660二倍压得到10V，再通过100欧电阻限流后给6F22充电。TL061接成比较器，一个输入端接电池正极，另一个输入端接100欧电阻和1k电阻分压得到的约9.1V电压。输出端接两个LED，分别表示正在充电和已经充满。之所以用TL061，一是因为@Tariel之前送了我不少，二是因为它的输入共模电压最高可以达到电源电压，这是一般运放不具备的。</p>
+</li>
+<li>
+<p>太阳能充电器</p>
+<p>以前做的一个小台钟，用锂电池供电，充满一次电能工作半个月左右。但是半个月充一次电还是太麻烦，如果能利用太阳能给它充电，就省事多了。电路图如下：</p>
+<p><a href="/images2/2015/solar_charger.png"><img src="/images2/2015/solar_charger.png" width="480" /></a> </p>
+<p>就是PT1301的基本升压电路，输出电压为5.24V左右，再经过SS34降压后差不多是5V。等太阳能直射到书房了，看看效果如何。</p>
+</li>
+</ol></div>
+	
+        <hr>
+
+    </div>
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="http://st.avros.net/archives.html">Archives</a>
+                <li><a href="http://st.avros.net/tags.html">Tags</a>
+
+
+
+                <li><a href="http://st.avros.net//feeds/all.atom.xml" rel="alternate">Atom feed</a></li>
+                <li><a href="http://st.avros.net//feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="http://st.avros.net/category/dian-yuan.html">电源</a></li>
+                <li><a href="http://st.avros.net/category/gong-ju.html">工具</a></li>
+                <li><a href="http://st.avros.net/category/ji-dian.html">机电</a></li>
+                <li><a href="http://st.avros.net/category/qi-ta.html">其他</a></li>
+                <li><a href="http://st.avros.net/category/wu-xian-dian.html">无线电</a></li>
+                <li><a href="http://st.avros.net/category/yin-pin.html">音频</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://blog.tariel.org">Tariel's blog</a></li>
+                <li><a href="http://kurapikov.blogspot.com">库拉皮科夫的翻墙才能看的空间</a></li>
+                <li><a href="http://just4fun.cn">乐趣为王</a></li>
+                <li><a href="http://scateu.me">Scateu Blog - S.B.</a></li>
+            </ul>
+            </div>
+
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Social
+                </li>
+           
+                <li><a href="http://weibo.com/stavros">新浪微博</a></li>
+            </ul>
+            </div>
+            </div>
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="http://st.avros.net">兰湾</a> &copy; Stavros 2017</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://st.avros.net/theme/bootstrap-collapse.js"></script>
+ 
+</body>
+</html>

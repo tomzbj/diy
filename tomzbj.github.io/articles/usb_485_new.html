@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <title>兰湾</title>
+    <meta name="description" content="">
+    <meta name="author" content="Stavros">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://st.avros.net/theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="http://st.avros.net/theme/bootstrap.min.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/local.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/pygments.css" rel="stylesheet">
+
+    <!-- So Firefox can bookmark->"abo this site" -->
+        <link href="http://st.avros.net//feeds/all.atom.xml" rel="alternate" title="兰湾" type="application/atom+xml">
+        <link href="http://st.avros.net//feeds/all.rss.xml" rel="alternate" title="兰湾" type="application/rss+xml">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="http://st.avros.net">兰湾</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+    <div class='article'>
+        <div class="content-title">
+            <h1>USB-485隔离转换器</h1>
+2016-12-22
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+        </div>
+	
+        <div><p>调试各种设备经常用到RS-485总线, 但是现在的PC连232也基本没有了, 只剩USB能用, 因此需要搞个USB-485的转换器. 做法也简单, 先用CP2102/PL2303/CH340/FT232之类IC把USB转成TTL电平的串口信号, 再从TTL转成485. (顺便点评一下: PL2303太差劲, FT232国内盗版太多, 用原厂驱动会烧, CP2102好用但是只有QFN封装不好焊, 国产的CH340最好用.)</p>
+<p>这里有个问题, 485收发器都需要提供收/发方向信号(也有自动切换方向的, 比如MAX13487, 但是要用的时候总是买不到), 由MCU直接控制很容易, 但从USB转出来的串口信号没法判断方向. 网上的通行做法是把485的DI脚直接接地, 串口TXD信号用晶体管反相后驱动485的DE/RE脚. 这样在接收状态时, TXD空闲为高电平, 反相后把485的DE/RE拉低, 于是485方向为接收, 没问题; 发送0时TXD为低电平, 反相后485的DE/RE脚拉高, DI脚接地, 于是485输出0, 也没问题. 发送1时TXD和空闲时一样是高电平, 485的DE/RE拉低, 方向为接收, 此时485的A/B脚是高阻状态, 靠A的上拉和B的下拉电阻输出1. 这样确实能通讯, 短距离工作也一切正常, 但是总觉得不太可靠.</p>
+<p>偶然发现国产芯片: 江苏沁恒的CH341居然有个TNOW脚指示串口发送状态, 这样就不需要上面的笨办法了; 而且datasheet里还给了用它转换485的例子. 于是马上照做了一个, 果然好用, 目前115200波特率收发测试正常, 有空再试更高的波特率.</p>
+<p>原理图如下, 485驱动器用了ADI的ADM2483, 磁耦合隔离, 很好用. 不过它两边都要供电, 所以得再加个金升阳的隔离电源B0505S. 如果用自带供电的ADM2587, 这个隔离电源也可以省掉, 不过ADM2587实在太贵了. USB端加了TVS保护, 485端以后考虑也加一个.</p>
+<p><a href="/images2/2016/usb_485_new.png" title="USB转485"><img src="/images2/2016/usb_485_new.png" width="500px"/></a>  </p>
+<p>ps. 沁恒的CH340最近出了免12M晶振的新版本CH340B/C, 实测750kbps好用, 1.5Mbps时发几百字节偶尔丢一字节数据, 总之已经很不错了. CH341也赶紧出个免晶振的版本吧.</p></div>
+	
+        <hr>
+
+    </div>
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="http://st.avros.net/archives.html">Archives</a>
+                <li><a href="http://st.avros.net/tags.html">Tags</a>
+
+
+
+                <li><a href="http://st.avros.net//feeds/all.atom.xml" rel="alternate">Atom feed</a></li>
+                <li><a href="http://st.avros.net//feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="http://st.avros.net/category/dian-yuan.html">电源</a></li>
+                <li><a href="http://st.avros.net/category/gong-ju.html">工具</a></li>
+                <li><a href="http://st.avros.net/category/ji-dian.html">机电</a></li>
+                <li><a href="http://st.avros.net/category/qi-ta.html">其他</a></li>
+                <li><a href="http://st.avros.net/category/wu-xian-dian.html">无线电</a></li>
+                <li><a href="http://st.avros.net/category/yin-pin.html">音频</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://blog.tariel.org">Tariel's blog</a></li>
+                <li><a href="http://kurapikov.blogspot.com">库拉皮科夫的翻墙才能看的空间</a></li>
+                <li><a href="http://just4fun.cn">乐趣为王</a></li>
+                <li><a href="http://scateu.me">Scateu Blog - S.B.</a></li>
+            </ul>
+            </div>
+
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Social
+                </li>
+           
+                <li><a href="http://weibo.com/stavros">新浪微博</a></li>
+            </ul>
+            </div>
+            </div>
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="http://st.avros.net">兰湾</a> &copy; Stavros 2017</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://st.avros.net/theme/bootstrap-collapse.js"></script>
+ 
+</body>
+</html>

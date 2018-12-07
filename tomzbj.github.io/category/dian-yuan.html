@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <title>兰湾</title>
+    <meta name="description" content="">
+    <meta name="author" content="Stavros">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://st.avros.net/theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="http://st.avros.net/theme/bootstrap.min.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/local.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/pygments.css" rel="stylesheet">
+
+    <!-- So Firefox can bookmark->"abo this site" -->
+        <link href="http://st.avros.net//feeds/all.atom.xml" rel="alternate" title="兰湾" type="application/atom+xml">
+        <link href="http://st.avros.net//feeds/all.rss.xml" rel="alternate" title="兰湾" type="application/rss+xml">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="http://st.avros.net">兰湾</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+        
+
+        
+
+
+    <div class='article'>
+        <div class="content-title">
+            <a href="http://st.avros.net/articles/heatsink-calc.html"><h1>学习了一下散热片的简单估算</h1></a>
+2015-08-09
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ 
+        </div>
+        
+        <div><p>常用的板翅式散热器，其有效散热面积为：$$散热面积=(翅片高度\times2\times翅片数量+基板宽度)\times截断长度$$</p>
+<p>有效散热面积和热阻的关系：</p>
+<table>
+<thead>
+<tr>
+<th>A(cm<sub>2</sub>)</th>
+<th>R<sub>sa</sub>(K/W)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>500</td>
+<td>2.0</td>
+</tr>
+<tr>
+<td>250</td>
+<td>2.9</td>
+</tr>
+<tr>
+<td>100</td>
+<td>4.0</td>
+</tr>
+<tr>
+<td>50</td>
+<td>5.2</td>
+</tr>
+<tr>
+<td>25</td>
+<td>6.5</td>
+</tr>
+</tbody>
+</table>
+<p>简单拟合得:$$R_\mathrm{sa}=23.3A^{-0.39}$$</p>
+<p>总热阻$$R_\mathrm{tot}=R_\mathrm{sa}+R_\mathrm{cs}+R_\mathrm{jc}$$</p>
+<p>注：R<sub>sa</sub>为散热片向空气散热的热阻。
+R<sub>cs</sub>为器件和散热器的接触热阻，通过导热硅脂接触的取0.1~0.2K/W，加绝缘垫的取1K/W。
+R<sub>jc</sub>为器件内部热阻，见器件datasheet。</p>
+<p>散热能力$$P=\frac{T_\mathrm j-T_\mathrm a}{R_\mathrm{tot}}$$。T<sub>j</sub>为器件的允许工作结温，T<sub>a</sub>为环境温度。</p>
+<p>举例：一个宽50mm，翅片高10mm，8片翅片，截断长度为35mm的散热片，
+其有效散热面积为$$(10\mathrm{mm}\times2\times8+50\mathrm{mm})\times35\mathrm{mm}=73.5\mathrm{cm}^2$$</p>
+<p>按上面的公式，
+$$R_\mathrm{sa}=23.3\times73.5^{-0.39}=4.36\mathrm{K/W}$$</p>
+<p>给TOP3封装的BTA41散热，用硅脂接触，取
+$$R_\mathrm{cs}=0.2\mathrm{K/W}$$</p>
+<p>根据BTA41的datasheet，内部热阻
+$$R_\mathrm{jc}=0.9\mathrm{K/W}$$</p>
+<p>因此总热阻为5.46K/W。</p>
+<p>BTA41的最大允许结温T<sub>j</sub>125°C，环境温度取40°C，则有$$P=\frac{125^\circ \mathrm{C}-40^\circ \mathrm{C}}{5.46\mathrm{K/W}}=15.6\mathrm{W}$$</p>
+<p>查BTA41 datasheet里的P-I<sub>RMS</sub>曲线可得此时允许通过的交流电流有效值为16A左右。</p></div>
+        <hr />
+    </div>
+		
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/cute_power_v2.html"><h2>迷你智能电源</h2></a>
+        <div class= "well small"> 2015-07-14
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>做了个简单的小电源，用一节18650供电，可以输出1.26V、1.8V、2.5V、2.85V、3.3V、5.0V和6.0V，共7种电压，可以通过USB给18650充电，如图：</p>
+<p><a href="/images2/2015/cute_power_v2.jpg" title="实物图"><img src="/images2/2015/cute_power_v2.jpg" width="480px" /></a></p>
+<p>原理图：</p>
+<p><a href="/images2/2015/cute_power_v2.png" title="原理图"><img src="/images2/2015/cute_power_v2.png" width="480px" /></a></p>
+<p>充电使用TP4056，充电电流为1200/1.5k = 800mA。LM3478接成SEPIC电路，既能升压也能降压。单片机ATtiny13输出一路PWM信号，经滤波后控制LM3478的反馈端，从而控制输出电压。三只LED用于指示输出电压。</p>
+<p>源程序：</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;avr/io.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;avr/interrupt.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;util/delay.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;avr/sleep.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;misc.h …</span></pre></div> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/cute_power_v2.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/usb_3x_charger.html"><h2>带负载指示的USB一拖三充电器</h2></a>
+        <div class= "well small"> 2015-01-17
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>现在平板/手机之类一般都用USB充电了. 晚上睡觉前, 经常得两三个设备一起充电, 插座都不够用了. 如果能在一个充电器上做出几个USB口同时给它们充电, 岂不是很方便?</p>
+<p>不过这么一来, 供电就比较成问题了. 现在的设备一般都需要1A以上的充电电流, 有的需要2A. 3个2A一起充就得6A, 4个就得8A. 前面如果用12V降压到5V, 80%效率的话, 5V 6A需要提供12V 3.2A, 5V 8A需要提供12V 4.2A. 能提供这么大电流的12V适配器倒是有, 但是不太便携了. 所以还是折衷一下, 输出4A电流, 这样前面用12V 2A的适配器, 勉强够用. 这样就不能同时充3个2A的设备了, 免得一不小心就冒烟. 安全起见, 最好是再加个负载指示, 随时知道输出多大电流.</p>
+<p>电路如图, 从12V降压到5V, 用了AOSMD的AOZ1014. 这颗SOIC8的小芯片能提供最大5A的输出电流, 不过感觉不怎么踏实, 4A保险些. 输出电压用8.2k和1.5k电阻设定为0.8V * (8.2+1.5 …</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/usb_3x_charger.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/dc_tube_power.html"><h2>直流电子管电源</h2></a>
+        <div class= "well small"> 2015-01-16
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>玩直流管, 供电是个大麻烦. 甲电还好办, 一节电池搞定; 乙电一般需要60~90V, 要么从市电变压整流再滤波, 要么就DC-DC升压; boost升压还不行, 得和甲电隔离才行, 不然玩2P2之类需要栅偏压的管子就麻烦了, 因此只能用flyback或者推挽的方式.</p>
+<p>电路如图, CD4047接成多谐振荡器, 由两只74AHC1G00推动AO4800, AO4800的两只NMOS以推挽方式工作.</p>
+<p><a href="/images/dc_tube_power.png" title="电路图"><img src="/images/dc_tube_power.png" width="500px" /></a></p>
+<p>变压器的参数是... 忘了, 只好用LC表测量各绕组电感量, 初级分别是659uH和666uH, 次级则是188mH+188mH. 由此可算出匝数比是1:17. 按这个匝数比, 两个次级绕组串联, 锂电池电压从4.2V降落到3.5V时, 理论输出电压应该是118V~142V. 这个变压器不大, 线径很细, 内阻不小, 因此输出电压不会这么高, 给直流电子管供电还算合适.</p>
+<p>AMS1117-ADJ提供甲电. 1117要求5~10mA的最小负载电流, 否则空载输出电压会偏高. 这里应该给它加个几百欧的电阻作为负载. 不是大问题, 算了吧.</p>
+<p>用ATTiny13的ADC实现了简单的电池电量检测, 由红绿双色LED显示. 电池电压在4.0V以上时, LED显示绿色; 3.7V …</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/dc_tube_power.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/mini_power.html"><h2>迷你电源</h2></a>
+        <div class= "well small"> 2013-09-10
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>用一节锂电boost升压到5V, 后面接LDO, 用MCU的PWM输出一个电压信号给LDO的ADJ脚, 实现了可调输出. 同时用LCD显示输出电压电流和电池电压. 不过效率似乎低了点, 一节锂电用不了多久. 下次试试把LDO换成buck降压芯片.</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/mini_power.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/ne555_boost_3.html"><h2>NE555升压实验_3</h2></a>
+        <div class= "well small"> 2013-04-22
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>之前试验各种升压电路的结论是, 要想实现从单节锂电升压到5V或更高、大电流输出, PWM ic必须具有以下几个性能: </p>
+<ol>
+<li>
+<p>工作电压足够低, 一般锂电终止放电电压定在3.0V上下, 因此PWM ic的最低工作电压最好是2.7V或者更低; </p>
+</li>
+<li>
+<p>必须是推挽输出, 否则输出电流不够, MOS开关管要么不能完全导通, 要么不能完全关断, 两种情况都严重影响效率; </p>
+</li>
+</ol>
+<p>之前的实验里, NE555在5V升6.3V时表现良好, 但它的最低工作电压只能到4.5V, 不符合上述条件1. 于是想到能否用自举电路或者用7660倍压给NE555供电呢？搭电路实验, 结果如下: </p>
+<p>使用自举电路时, 正常启动后, 输入电压可以一直低到1.8V都能正常升压工作; 但输入电压低于4.0V时不能启动. 可见此路不通. </p>
+<p>使用7660倍压时可以在2.8V正常启动, 算是勉强达到要求, 可靠性还是不足. </p>
+<p>可以再试试用BL8530、HT7750之类小功率升压ic为NE555辅助供电, 如果还是不行, 那就得放弃用NE555实现单节锂电升5V的思路了. </p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/ne555_boost_3.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/lm2596_dac.html"><h2>用LM2596搭建数控稳压电源</h2></a>
+        <div class= "well small"> 2013-03-23
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>常用的LM2596芯片可以方便地搭成各种降压式开关稳压电源, 但要用单片机来控制它的输出电压就稍微有点麻烦了——主要的思路有两种, 一种是使用传统的电位器控制方式, 用单片机控制数字电位器来代替模拟电位器; 另一种则是利用单片机的PWM或DAC输出一个控制电压, 引入到LM2596的反馈环路中. 这次试验的是后一种思路. </p>
+<p><a href="/images/lm2596_dac.png" title="电路图"><img src="/images/lm2596_dac.png" width="500px" /></a></p>
+<p>如图, 设输出电压为Vout, 控制电压为Vctrl, LM2596的反馈端电压为Vfb, 根据运放的基本性质可得：</p>
+<p>Vctrl * R3/(R3+R8) + Vfb * R8/(R3+R8) = Vout * R9 / (R2+R9)</p>
+<p>按上图的参数, 可以写为Vctrl * 10/11 + Vfb * 1/11 = Vout * 1/4</p>
+<p>对于LM2596-ADJ, 其Vfb = 1.23V, 于是有Vout = 4/11 * (10 * Vctrl + 1.23 )</p>
+<p>于是, 当Vctrl = 0V时, 输出电压为1 …</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/lm2596_dac.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/ne555_boost_2.html"><h2>继续进行 NE555 boost 和 flyback 实验</h2></a>
+        <div class= "well small"> 2011-02-13
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>之前试过用NE555推MTD3055, 5V升6.3V的实验, 效果很好, 输出1A以上电流, 效率在80%到90%之间. 这次的电路图基本相同, 打算升压到125V左右, 再经过后面的线性稳压, 得到90V左右的稳定电压. 结果不太理想, 5V输入时闭环只能升到85V左右, 12V输入时可以达到130V, 效率50%~60%. 加大负载则效率迅速跌到30%. 从5V逐渐降低输入电压, 降到3.3V时仍能工作, 但带负载时(3W节能灯)不能从3.3V启动工作. 把振荡频率从25kHz提高到50kHz, 效率提高到接近70%, 但没有根本的改善. 再就是变压器的吱吱声实在是太烦人了. </p>
+<p>下次的实验目标：</p>
+<p>1)改用低Rds(on)的MOSFET代替IRFR420, 仍用boost方式, 看能不能稳定实现5V升到110V左右. boost没有噪音的优势还是很明显的. </p>
+<p>2)继续绕变压器, 实现升压到400V, 同时也试试用74HC04、晶体管自激之类实现升压的可能性. </p>
+<p>电路图:</p>
+<p><a href="/images/ne555_flyback_2.png" title="电路图"><img src="/images/ne555_flyback_2.png" width="500px" /></a></p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/ne555_boost_2.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/ne555_boost.html"><h2>又试了一下用NE555做boost</h2></a>
+        <div class= "well small"> 2010-04-13
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>555搭成多谐振荡器推动MOSFET，用C1815当作比较器，输入5V，输出6.3V左右，试着点了几个电子管的灯丝。
+结果如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">输出电压(V)</th>
+<th align="center">标称电流(A)</th>
+<th align="center">输出电流(A)</th>
+<th align="center">输入电流(A)</th>
+<th align="center">效率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">空载</td>
+<td align="center">6.76</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+</tr>
+<tr>
+<td align="center">6U1</td>
+<td align="center">6.20</td>
+<td align="center">0.30</td>
+<td align="center">0.32</td>
+<td align="center">0.46</td>
+<td align="center">86%</td>
+</tr>
+<tr>
+<td align="center">6N2</td>
+<td align="center">6.19</td>
+<td align="center">0.34</td>
+<td align="center">0.33</td>
+<td align="center">0.48</td>
+<td align="center">85%</td>
+</tr>
+<tr>
+<td align="center">6F2</td>
+<td align="center">6.17</td>
+<td align="center">0.45</td>
+<td align="center">0.43</td>
+<td align="center">0.61</td>
+<td align="center">87%</td>
+</tr>
+<tr>
+<td align="center">6P1 …</td></tr></tbody></table> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/ne555_boost.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/auto_charger.html"><h2>车载充电器</h2></a>
+        <div class= "well small"> 2010-01-18
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>用LM2596T的标准电路搭了个12V输入/5V输出的降压变换器. 因为听说有人的点烟器座里面居然把正负极接反了, 充电器一插上就冒烟, 于是保险起见在2596的前面加了个整流桥.</p>
+<p>整流二极管用B540C, 电感是在20mm磁环上绕了5T, 用LC表测了一下有40多uH, 够用了.</p>
+<p>负载电阻用5.1欧 1/2瓦电阻. 这个电阻功率明显不够, 于是用长线把它接出来放进水盆里, 应该安全了.</p>
+<p>一个负载电阻时, 输出电压5.00V, 电流0.98A, 输入电压12.0V, 电流0.55A. 两个电阻时输出5.00V 1.96A, 输入电流达到了1.12A.</p>
+<p>测了一下2596输入端的电压居然只有10V多一点了, 看来桥还是挺影响效率的, 以后得换个肖特基桥.</p>
+<p>按说2596的最大输出电流能达到3A, 但是不知道为什么, 三个电阻时电路就保护了, 试了几次都一样. 幸好2A也够用了.</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/auto_charger.html">read more</a></div>
+    </div>	
+				
+<div class="pagination">
+<ul>
+    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
+
+    <li class="active"><a href="http://st.avros.net/category/dian-yuan.html">1</a></li>
+    <li class=""><a href="http://st.avros.net/category/dian-yuan2.html">2</a></li>
+
+    <li class="next"><a href="http://st.avros.net/category/dian-yuan2.html">Next &rarr;</a></li>
+
+</ul>
+</div>
+ 
+  
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="http://st.avros.net/archives.html">Archives</a>
+                <li><a href="http://st.avros.net/tags.html">Tags</a>
+
+
+
+                <li><a href="http://st.avros.net//feeds/all.atom.xml" rel="alternate">Atom feed</a></li>
+                <li><a href="http://st.avros.net//feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="http://st.avros.net/category/dian-yuan.html">电源</a></li>
+                <li><a href="http://st.avros.net/category/gong-ju.html">工具</a></li>
+                <li><a href="http://st.avros.net/category/ji-dian.html">机电</a></li>
+                <li><a href="http://st.avros.net/category/qi-ta.html">其他</a></li>
+                <li><a href="http://st.avros.net/category/wu-xian-dian.html">无线电</a></li>
+                <li><a href="http://st.avros.net/category/yin-pin.html">音频</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://blog.tariel.org">Tariel's blog</a></li>
+                <li><a href="http://kurapikov.blogspot.com">库拉皮科夫的翻墙才能看的空间</a></li>
+                <li><a href="http://just4fun.cn">乐趣为王</a></li>
+                <li><a href="http://scateu.me">Scateu Blog - S.B.</a></li>
+            </ul>
+            </div>
+
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Social
+                </li>
+           
+                <li><a href="http://weibo.com/stavros">新浪微博</a></li>
+            </ul>
+            </div>
+            </div>
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="http://st.avros.net">兰湾</a> &copy; Stavros 2015</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://st.avros.net/theme/bootstrap-collapse.js"></script>
+ 
+</body>
+</html>

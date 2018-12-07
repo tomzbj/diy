@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <title>兰湾</title>
+    <meta name="description" content="">
+    <meta name="author" content="Stavros">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://st.avros.net/theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="http://st.avros.net/theme/bootstrap.min.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/local.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/pygments.css" rel="stylesheet">
+
+    <!-- So Firefox can bookmark->"abo this site" -->
+        <link href="http://st.avros.net//feeds/all.atom.xml" rel="alternate" title="兰湾" type="application/atom+xml">
+        <link href="http://st.avros.net//feeds/all.rss.xml" rel="alternate" title="兰湾" type="application/rss+xml">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="http://st.avros.net">兰湾</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+        
+
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/fpm_skill.html"><h2>开源我的fpm skill库</h2></a>
+        <div class= "well small"> 2016-11-28
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>无责任提供, 地址是<a href="https://github.com/tomzbj/fpm_skills">https://github.com/tomzbj/fpm_skills</a>, 请大家随意取用. 不定期更新.</p>
+<p>部分由Tariel和Kurapica制作的封装没有放进来, 如果有需要请自行联系他们二位.</p>
+<p>ps. 请先下载根目录的fpm.il并替换fpm目录的同名文件. 这个明文fpm.il由minux提供, 我添加了对槽孔的支持, 以及修正了若干bug, 比如双排简牛的缺口方向搞反, 四脚贴片有源晶振的管脚顺序错误之类.</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/fpm_skill.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/change_resolution.html"><h2>一键切换屏幕分辨率</h2></a>
+        <div class= "well small"> 2016-11-17
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>现在大家的桌面都是1920x1080或者2560x1440之类高分辨率了。但是有时候还不得不临时调到较低的分辨率，比如遇到需要像素级精确定位的时候，遇到百度网盘或者微信PC版这样字体又小又不能调大的软件的时候，等等。桌面右键然后改分辨率还是太麻烦了，用完了还得改回来。</p>
+<p>有没有办法一键切换分辨率呢？没找到现成的工具，自己写一个。程序如下：</p>
+<div class="highlight"><pre><span></span>#include &amp;lt;windows.h&amp;gt;
+
+int WINAPI WinMain (HINSTANCE hThisInstance, HINSTANCE hPrevInstance,
+            LPSTR lpszArgument, int nFunsterStil) 
+{ 
+    DEVMODE dm;
+
+    EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &amp;amp;dm);
+    if(dm.dmPelsHeight == 1080) {
+        dm.dmPelsHeight = 720;
+        dm.dmPelsWidth = 1280;
+    }
+    else {
+        dm.dmPelsHeight = 1080;
+        dm.dmPelsWidth …</pre></div> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/change_resolution.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/card_light.html"><h2>卡片手电 & STLINK转接板 & 迷你电源</h2></a>
+        <div class= "well small"> 2016-09-22
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><ol>
+<li>
+<p>卡片手电 <br>
+    做了个和银行卡一样大的手电. 最厚处厚5.5mm, 因此可以和其他的卡一起塞在钱包里. <br>
+    本来用AMC7135作为驱动, 结果这东西太娇气, 一不小心就烧坏, 于是干脆直接用电阻限流了, 好象效果也差不多.<br>
+    效果见图:<br>
+<a href="/images2/2016/card_light_1.jpg" title="卡片手电"><img src="/images2/2016/card_light_1.jpg" width="500px"/></a><br>
+<a href="/images2/2016/card_light_2.jpg" title="卡片手电"><img src="/images2/2016/card_light_2.jpg" width="500px"/></a>  </p>
+</li>
+<li>
+<p>STLINK转接板<br>
+    JLINK和STLINK提供的都是20pin的标准JTAG口. 但是20pin实在太占地方了, 自己做板一般只用4pin或者5pin的SWD接口, 所以做了这个转接小板, 如图:<br>
+<a href="/images2/2016/jtag_swd.jpg" title="STLINK转接板"><img src="/images2/2016/jtag_swd.jpg" width="500px"/></a>  </p>
+</li>
+<li>
+<p>simple power<br>
+    可以方便地从一节18650得到3.3V, 2.8V, 2.4V, 2.0V, 1.8V和1.5V共6种电压. 之前用SEPIC电路做过一个, 发现DC-DC还是干扰太大, 所以这次用了线性稳压, 干扰能小点.<br>
+    只用一个按键开关, 长按为开/关机, 短按为在不同电压之间切换, 用6个LED来指示各档输出电压.<br>
+<a href="/images2/2016/simple_power.jpg" title="simple power"><img src="/images2/2016/simple_power.jpg" width="500px"/></a></p>
+</li>
+</ol> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/card_light.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/ikea_led.html"><h2>修复宜家LED灯一则</h2></a>
+        <div class= "well small"> 2016-03-16
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>宜家买的LED灯不亮了。把线剪断，两边分别一测，发现LED是好的，电源适配器无输出，只得再给它做个驱动。</p>
+<p>LED需要恒流驱动，直接接个恒压输出的适配器上去是不行的，要么不亮，要么烧坏。串个电阻行不行呢？行是行，不过电阻会很热。这个LED灯是3W的，工作电流1A，接到5V电源上就需要串联2欧的电阻，电阻的发热量达到2W。这么做显然太不优雅。</p>
+<p>幸好手里还有若干LED驱动IC：华润的PT4115，用它可以顺便把调光功能也加上。画了个电路图如下：</p>
+<p><a href="/images2/2016/ikea_led.png"><img src="/images2/2016/ikea_led.png" width="500" /></a></p>
+<p>其中R1用于设定LED工作电流，公式为$I_{\rm LED} = \frac{0.1}{R_1}$. 电位器R2用于调光，从几百欧到几十kΩ的都可以用，这里用了拨轮式的音量电位器，好处是阻值按指数变化，这样LED亮度也按指数变化，会感觉实际亮度变化比较自然。</p>
+<p>LDO XC6206用于给PT4115的调光脚供电，用输出2.5V或3.3V的LDO都行。PT4115允许的输入电压范围是6~30V，但注意XC6206的输入电压最高只能到7V，因此只能用6~7V的电源供电。如果需要用更高输入电压的电源，可以把XC6206换成HT7133、MIC5207之类 …</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/ikea_led.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/makefile_size.html"><h2>利用Makefile实现avr-size -C的效果</h2></a>
+        <div class= "well small"> 2016-01-03
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>GNU工具链里的size大家应该都用过, 它可以显示elf/obj/exe/dll等可执行文件里各个段的大小, 非常方便. 加-A和-B参数分别是按sysv和berkeley格式显示, 默认带-B参数.</p>
+<p>avr-gcc里的avr-size则又增加了一个-C的选项, 可以显示单片机flash和ram的占用比例, 需要同时用--mcu参数指定avr单片机的型号, 效果是这样的:</p>
+<div class="highlight"><pre><span></span>avr-size -C --mcu=attiny26 main.elf
+AVR Memory Usage
+----------------
+Device: attiny26
+
+Program:    1316 bytes (64.3% Full)
+(.text + .data + .bootloader)
+
+Data:         23 bytes (18.0% Full)
+(.data + .bss + .noinit)
+</pre></div>
+
+
+<p>是不是很方便? 可惜arm-gcc里的size并没有这个选项, 于是从avr转到stm32之后, 常常会感觉到不方便.</p>
+<p>后来发现, 只要在Makefile里all目标后面加上几行, 也能达到同样目的. 需要你的工具链里有sed和bc, sed用来从size的结果里截取包含数据的第二行 …</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/makefile_size.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/fermetnter_6f22_solar.html"><h2>最近的三个制作：酒酿机、6F22充电器、太阳能充电器</h2></a>
+        <div class= "well small"> 2015-08-15
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><ol>
+<li>
+<p>酒酿机</p>
+<p>做酒酿(醪醩)需要保持40度左右的温度发酵。正好家里有个最便宜的小熊酸奶机，不带控温功能的，能否用它来改装成酒酿机呢？</p>
+<p>把小熊酸奶机拆开一看，里面简单得一塌糊涂：铝板上装了个PTC电阻，直接接220V电源，作为发热器，旁边甩了两条线出来接前面板的指示灯。可以说毫无技术含量。于是把这些东西都拆掉，换成前几天做的PID控温电路。控温板上加了两个两位LED数码管，分别显示设定温度和实测温度，两个按键开关用来控温。加热器还是IRF530+LM35的配置。控温范围从35度到65度。</p>
+<p>发酵碗里装满水，放个温度计，开机一晚上实测……发现碗里的水温最终会比发热板的实测温度低15~20度。大概是因为发热板外面隔了一层塑料板，发酵碗又是一层塑料，两层塑料的热阻太大了。幸好温度已经能满足做酒酿的要求了。</p>
+<p>下次打算把LM35的引线接长一些，粘在发热板以外的塑料侧壁上，避免从发热板直接传导热量到LM35，这样效果也许会好些？</p>
+</li>
+<li>
+<p>6F22充电器</p>
+<p>手里有两个可充电的6F22，但是一直没有好用的充电器。以前买过一个，拆开一看，里面实在是惨不忍睹，只好扔了。</p>
+<p>自己做了一个，电路图如下：</p>
+<p><a href="/images2/2015/6f22_charger.png"><img src="/images2/2015/6f22_charger.png" width="480" /></a> </p>
+<p>从USB输入的5V电压，用TP7660二倍压得到10V，再通过100欧电阻限流后给6F22充电。TL061接成比较器，一个输入端接电池正极，另一个输入端接100欧电阻和1k电阻分压得到的约9 …</p></li></ol> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/fermetnter_6f22_solar.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/pid_expr.html"><h2>PID控温实验</h2></a>
+        <div class= "well small"> 2015-07-13
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>做了个PID温控器，原理图如下：</p>
+<p><a href="/images2/2015/pid_expr.png"><img src="/images2/2015/pid_expr.png" width="480" /></a> </p>
+<p>电源电压首先流经0.33欧的取样电阻R1，然后给加热器供电。加热器用随便一个TO220封装的N沟道MOS管就行，LM35用来测温。高端电流检测虽然麻烦些，但这样加热器的连线可以更简单，四条线就够了。</p>
+<p>LM35输出的电压值经Mega48 AD转换后得到温度值。Mega48输出一路PWM经低通滤波后与取样电阻R1上的电压比较后控制MOS管的电流。之后用简单的PID算法即可实现控温了。</p>
+<p>把MOS管和LM35用导热胶粘在一块95mm x 66mm的散热片上，实测用12V 2A的电源供电时，开环加热可以达到44度左右。启用PID控温后，可以在室温~44度之间把温度控制到设定值正负0.1度。</p>
+<p>之后在这个基础上可以做很多东西了，比如酸奶机、酒酿机、煮温泉蛋机等等。</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/pid_expr.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/6f22_fm_rf.html"><h2>最近的三个制作</h2></a>
+        <div class= "well small"> 2015-05-21
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><ol>
+<li>
+<p>彻底榨干6F22的剩余电量</p>
+<p>从万用表里拆下来的6F22常常还有许多电量没有用掉, 直接扔掉比较可惜. 把它DC-DC降压后给单片机之类供电, 还能再撑一段时间. </p>
+<p>电路如图, 就是AOZ1016的标准电路. 在它的EN脚对地接一个22uF的电解电容, 再对电源和对地各接一个轻触开关, 便实现了软开关. EN脚的输入电流极小, 靠22u电解就能维持工作几十分钟. EN脚拉低时, AOZ1016消耗电流仅1μA左右, 完全可以忽略不计了. DC-DC降压到3.68V左右, 再由XC6206稳压到3.3V.</p>
+<p><a href="/images2/2015/6f22.png"><img src="/images2/2015/6f22.png" width="480" /></a> </p>
+</li>
+<li>
+<p>继续试验简易FM无线话筒</p>
+<p>话筒信号放大后直接推动与晶振串联的变容二极管, MMBT2222或S9018接成电容三点式振荡器, 谐振在晶振的三倍频上. 可惜这种方式能得到的频偏还是太小, 用收音机只能收到很微弱的信号. 下次试试锁相环调频吧.</p>
+<p><a href="/images2/2015/fm_caller_simple.png"><img src="/images2/2015/fm_caller_simple.png" width="480" /></a> </p>
+</li>
+<li>
+<p>RF功率计</p>
+<p>几年前Tariel/BH1PHL送了我一个50欧 100W的RF电阻, 一直没用上.</p>
+<p>这次用它做了个假负载+功率计, 从RF电阻上取电压, 检波、滤波后分压, 用mega48的adc采样, 显示在0801液晶屏上. </p>
+<p><a href="/images2/2015/rf_power_meter.png"><img src="/images2/2015/rf_power_meter.png" width="480" /></a> </p>
+<p>一开始检波二极管用的是2SC1622的BC结, 结果实测在50M时功率严重偏小, 144M和430M就一点功率也测不到了. 换成1N60之后一切正常. 估计是因为2SC1622的结电容太大?</p>
+<p>但是1N60耐压太低, 只有50V, 这样只能测到峰值25V的RF电压, 换算成功率只有6.25W了. 下次还是得用先衰减再测的方案.</p>
+</li>
+</ol> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/6f22_fm_rf.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/tiny24_clock.html"><h2>小台钟</h2></a>
+        <div class= "well small"> 2015-05-02
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>用手里闲置的Attiny24+LCD0801屏做了个小钟, 如图:</p>
+<p><a href="/images/tiny24_clock.jpg" title="照片"><img src="/images/tiny24_clock.jpg" width="500px" /></a></p>
+<p>用一节600还是800mAh的手机电池供电, 充满电可以工作半个月.</p>
+<p>原理图:</p>
+<p><a href="/images/tiny24_clock_2.png" title="原理图"><img src="/images/tiny24_clock_2.png" width="500px" /></a></p>
+<p>其中LCD用的是0801, 和1602接口完全一样, 加了一块之前做的<a href="articles/firefly&amp;serlcd1602.html">串口转换小板</a>. 由于是3.3V供电, LCD的V0脚需要接入负压, 这里负压用MCU的一路PWM经负倍压整流产生. 晶振用什么频率其实都无关紧要, 只要是个整数, 并且按一定的分频规则能凑出2Hz的频率就行了.</p>
+<p>源程序:</p>
+<p><a href="/files/tiny24_clock_src.7z">tiny24_clock_src.7z</a> </p>
+<p>改天再给它加个太阳能电池, 这样也许就再也不用充电了.</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/tiny24_clock.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/stm32_fonts.html"><h2>在stm32上使用二进制字库的简单方法</h2></a>
+        <div class= "well small"> 2015-03-13
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>标题其实可以写成"在可执行程序里嵌入二进制资源的方法", 不过这个题目大了点, 还是原样吧.</p>
+<p>以前如果我们用到不带字库的点阵LCD, 一般都是把字库按16进制写成一个大数组, 再和其他源程序一起编译. 有没有方便一点的办法呢？这里给出两个方案.</p>
+<ol>
+<li>
+<p>使用objcopy把字库转成目标文件(.o/.obj)</p>
+<p>假设我们需要嵌入的是5x7的ascii点阵字库, 文件名是asc5x7.bin.</p>
+<p>在arm-gcc环境下, 命令如下:</p>
+<div class="highlight"><pre><span></span>arm-none-eabi-objcopy -B arm -I binary -O elf32-littlearm --rename-section .data=.rodata asc5x7.bin asc5x7.o
+</pre></div>
+
+
+<p>需要注意的是, objcopy生成的.o文件默认是把数据放在.data段的. 因此这里需要加个--rename-section的选项, 把.data改成.text或者.rodata, 不然单片机可怜的一点点RAM根本不够用. 如果是在PC上运行, 这里改不改就无所谓了, 不过内存还是能省点就省点的好.</p>
+<p>在.o里会生成三个符号: <code>_binary_asc5x7_bin_start, _binary_asc5x7_bin_end, binary_asc5x7_bin_size.</code></p>
+<p>在程序里这么调用 …</p></li></ol> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/stm32_fonts.html">read more</a></div>
+    </div>	
+				
+<div class="pagination">
+<ul>
+    <li class="prev"><a href="http://st.avros.net/category/gong-ju.html">&larr; Previous</a></li>
+
+    <li class=""><a href="http://st.avros.net/category/gong-ju.html">1</a></li>
+    <li class="active"><a href="http://st.avros.net/category/gong-ju2.html">2</a></li>
+    <li class=""><a href="http://st.avros.net/category/gong-ju3.html">3</a></li>
+
+    <li class="next"><a href="http://st.avros.net/category/gong-ju3.html">Next &rarr;</a></li>
+
+</ul>
+</div>
+ 
+  
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="http://st.avros.net/archives.html">Archives</a>
+                <li><a href="http://st.avros.net/tags.html">Tags</a>
+
+
+
+                <li><a href="http://st.avros.net//feeds/all.atom.xml" rel="alternate">Atom feed</a></li>
+                <li><a href="http://st.avros.net//feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="http://st.avros.net/category/dian-yuan.html">电源</a></li>
+                <li><a href="http://st.avros.net/category/gong-ju.html">工具</a></li>
+                <li><a href="http://st.avros.net/category/ji-dian.html">机电</a></li>
+                <li><a href="http://st.avros.net/category/qi-ta.html">其他</a></li>
+                <li><a href="http://st.avros.net/category/wu-xian-dian.html">无线电</a></li>
+                <li><a href="http://st.avros.net/category/yin-pin.html">音频</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://blog.tariel.org">Tariel's blog</a></li>
+                <li><a href="http://kurapikov.blogspot.com">库拉皮科夫的翻墙才能看的空间</a></li>
+                <li><a href="http://just4fun.cn">乐趣为王</a></li>
+                <li><a href="http://scateu.me">Scateu Blog - S.B.</a></li>
+            </ul>
+            </div>
+
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Social
+                </li>
+           
+                <li><a href="http://weibo.com/stavros">新浪微博</a></li>
+            </ul>
+            </div>
+            </div>
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="http://st.avros.net">兰湾</a> &copy; Stavros 2017</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://st.avros.net/theme/bootstrap-collapse.js"></script>
+ 
+</body>
+</html>

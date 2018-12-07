@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <title>兰湾</title>
+    <meta name="description" content="">
+    <meta name="author" content="Stavros">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://st.avros.net/theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="http://st.avros.net/theme/bootstrap.min.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/local.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/pygments.css" rel="stylesheet">
+
+    <!-- So Firefox can bookmark->"abo this site" -->
+        <link href="http://st.avros.net//feeds/all.atom.xml" rel="alternate" title="兰湾" type="application/atom+xml">
+        <link href="http://st.avros.net//feeds/all.rss.xml" rel="alternate" title="兰湾" type="application/rss+xml">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="http://st.avros.net">兰湾</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+        
+
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/candy_floss.html"><h2>棉花糖机</h2></a>
+        <div class= "well small"> 2013-09-10
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>完全是参考网上那篇硬盘改棉花糖机的教程. 手里这块硬盘似乎坏得有点严重, 通电也转不起来了... 查了一下, 原来硬盘电机就是一个三相无刷电机, 于是用AVR给它搭了个驱动电路如图.</p>
+<p><a href="/images/candy_floss.png"><img src="/images/candy_floss.png" width="500" /></a></p>
+<p>其中三只NPN管用常用的C945, C1815之类都完全可以; 三对MOS管可以用分立的, 也可以用现成的互补对管, AOP605或AOP607之类, 在DIP8封装里集成了NMOS和PMOS各一只, 用起来方便一些.</p>
+<p>程序很简单, 按照U+V-, U+W-, V+W-, V+U-, W+U-, W+V- 这个顺序依次驱动6只MOS管, 判断剩余一相的过零时刻来换相, 就能转得很好. 闭环工作时, 如果把盘片全拆下来, 只剩光轴, 转速能达到4万转, 装上盘片就只有几千转了. 想让它转得稳定一些的话, 控制逻辑还得再复杂一些才行.</p>
+<p>后面的大同小异了, 不过效果不太理想, 固体酒精的火力不太好掌握, 费了很大劲只做出一点点. 以后有机会把它改成感应式加热的, 也许效果会好些?</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/candy_floss.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/mini_power.html"><h2>迷你电源</h2></a>
+        <div class= "well small"> 2013-09-10
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>用一节锂电boost升压到5V, 后面接LDO, 用MCU的PWM输出一个电压信号给LDO的ADJ脚, 实现了可调输出. 同时用LCD显示输出电压电流和电池电压. 不过效率似乎低了点, 一节锂电用不了多久. 下次试试把LDO换成buck降压芯片.</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/mini_power.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/50m_fm_tx.html"><h2>50M FM发射实验</h2></a>
+        <div class= "well small"> 2013-07-17
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>电路如图, 74HC04的一个非门接成10.245M晶体振荡器, 晶体一端并联变容二极管. 用剩下的五个非门来推动2N7002, 2N7002的D极谐振在10.245M的五倍频, 51.225M频率上. </p>
+<p><a href="/images/50m_fm.png"><img src="/images/50m_fm.png" width="500" /></a></p>
+<p>用VX-7R接收, 不管走到屋里哪个角落, 信号都挺强的. 可惜北京不允许使用50M频率, 只能在屋里大概试试了. 估计到开阔地能发射相当远的吧. </p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/50m_fm_tx.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/avr_sd_waveplayer_2.html"><h2>R-2R SD卡WAVE播放器</h2></a>
+        <div class= "well small"> 2013-07-14
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>用ATMega8, 16.9344M晶振, 14位r-2r作为DAC, 实现了流畅播放16位 44.1kbps单声道wav.  双声道没试, 估计超点频应该差不多了. </p>
+<p>这东西有点说来话长. 最早是amobbs的马潮老师出了个题目, 8*8的LED屏, 中间四个常亮, 最外圈亮一个转圈跑. 那会儿我正好有块点阵屏闲着, 就焊了一块板, 从开始写程序计算, 39分钟解决了.  </p>
+<p>讨论过程中师弟TwoPerson把这位马潮老师惹怒了. 于是他放出狂言, 原文如下:  </p>
+<blockquote>
+<p>如果不服, 可以再次比试. 你在北大找5个学生, 组成一个小组. 用m16加一片lm324, 设计一个读取sd卡上wave文件, 并播放的wave播放器, 看谁做的好.  给你们一个月的时间, 下个学期开学我到北大找你, 比试实物效果. </p>
+</blockquote>
+<p>在我这个外行看来, 这个题目也就是一个人两三天到一周左右的工作量, 至于五个人搞一个月么? 不过后来事情一多也就把这回事忘了.  </p>
+<p>今年1月份想起来了, 于是动手开干. 用8位PWM先试了一次, 从学习SD协议、实现FAT开始, 焊接、写程序到调试全算上, 用了两个晚上、周六全天加周日半天, 基本完事. 当然8位PWM的音质有点惨不忍睹……</p>
+<p>这次改用r-2r ladder来实现16位输出 ...</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/avr_sd_waveplayer_2.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/slide_sense.html"><h2>滑动触摸实验</h2></a>
+        <div class= "well small"> 2013-07-14
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>见ST的两个应用笔记, AN2927和AN2896. 基本原理就是把触摸区域当作一个电容, 用一个IO口通过大电阻对触摸区域充放电, 另一个IO口来读取状态, 记录充放电时间. 当手指摸上去时, 这个电容变大了, 因此充放电时间会变长. </p>
+<p><a href="http://v.youku.com/v_show/id_XNTMzNTkxMDQ0.html" target="_blank">视频链接</a></p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/slide_sense.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/nuclear_or_thermo_power.html"><h2>火电和核电, 哪个造成的放射性污染更严重?</h2></a>
+        <div class= "well small"> 2013-06-25
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>常识告诉我们...... 别急, 不要太相信常识, 一切要用数据说话. </p>
+<p>100万千瓦的核电站: 每年耗铀约30吨. 铀的密度很高, 和黄金差不多, 30吨铀也就是家里的大衣柜那么大, 一辆重型卡车就能拉走. 核燃料和核废料的运输和储存都有极严格的程序, 除非发生事故, 想泄露点都是很难的. 核废料最终会熔炼成类似玻璃的状态, 用水泥之类包裹, 再深埋处理. 一年埋一个大衣柜体积的核废料, 真的不算多, 一家人一年扔掉的生活垃圾估计都远不止这点体积.</p>
+<p>100万千瓦的火电站: 火电排放大量的粉尘和CO2之类, 这些都不用说了. 每年耗煤300万吨, 还用30吨重卡拉走的话, 就得10万辆, 平均每天就得300辆了. 注意这里还有个问题: 煤里也含有微量的铀. 在中国, 煤的平均含铀量大约3个ppm, 也就是说100万吨煤里就有3吨铀, 300万吨煤里就是9吨. 这些铀一部分随着烟尘排放到大气中, 一部分成了粉煤灰, 然后被加工成水泥、空心砖之类, 做了建筑材料. </p>
+<p>完了没有? 没完. 煤里还有另外一种放射性元素钍, 含量还要高一些, 在中国平均为6~10ppm. 也就是说这个100万千瓦的火电站每年消耗的300万吨煤里含有18~30吨的钍. 这些钍也一样, 要么被排放到大气中, 要么做了建筑材料. </p>
+<p>这还不算, 煤里还含有微量的钋 ...</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/nuclear_or_thermo_power.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/v_tx.html"><h2>发V机</h2></a>
+        <div class= "well small"> 2013-06-11
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>功能很简单, 就是发出字母V的莫尔斯电码"...-", 用来调试机器, 很好用. </p>
+<p>原理图:</p>
+<p><a href="/images/v_tx.png" title="电路图"><img src="/images/v_tx.png" width="500px" /></a></p>
+<p>由CD4060组成约100kHz的RC振荡器, 6次二分频后得到大约600Hz的音频信号; 继续由74HC393分频得到4bit控制信号, 由两只CD4011组成的逻辑电路变换成字母V的开关信号, 最后由一只NPN管实现600Hz音频调制. </p>
+<p>用一只8脚单片机的话, 硬件上可以更简单. 用逻辑电路的好处是不用调试, 焊好通电就能工作了. </p>
+<p>开始由一只10440锂电池直接供电, 结果发现电池电压变化会严重影响音调, 于是增加了HT7750升压电路, 让它在固定5V电压下工作, 效果好多了. </p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/v_tx.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/heterodyne_test.html"><h2>继续试验外差机</h2></a>
+        <div class= "well small"> 2013-05-23
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>分别用LA1600和分立器件实现了两个中波外差机.</p>
+<p>效果差不多, 在阳台上能收到中国之声一个台, 别的台都收不到了. 总之和之前做的直放机没啥区别吧.</p>
+<p>大概是输入回路的Q值太低, 弱信号全被中国之声压住了. 有空了再做FM机试试吧. </p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/heterodyne_test.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/usb_dac_tube.html"><h2>USB电子管声卡</h2></a>
+        <div class= "well small"> 2013-05-23
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>这次是PCM2702+NE5534+2P2的组合——以USB的供电能力最多只能带动2P2了. </p>
+<p><a href="/images/usb_dac_tube.jpg" title="电路图"><img src="/images/usb_dac_tube.jpg" width="500px" /></a></p>
+<p>相当小巧, PCB面积比公交卡还小, 不过输出变压器没包括在内. </p>
+<p>电路图如下, PCM2702输出的音频信号由NE5534反相放大后推动2P2. </p>
+<p><a href="/images/usb_dac_tube.png" title="电路图"><img src="/images/usb_dac_tube.png" width="500px" /></a></p>
+<p>主要的麻烦是供电, 一只2P2需要60V屏压、1.2或2.4V灯丝、-3.5V栅偏压. 60V高压用LM2577升压得到; 这里用灯丝串联电阻R14上的压降来代替栅偏压, 于是可以省下一组供电. 此外NE5534的最高供电电压是±22V, 这里给它提供了一路30V电压. 这块小板子上供电占了大概1/3的面积. </p>
+<p>效果么...... 只能说还凑合吧, 主要是音量太小了, 2P2的输出功率只有100mW. 下次试试两只2P2推挽的效果吧. </p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/usb_dac_tube.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/636_recv.html"><h2>636收音机</h2></a>
+        <div class= "well small"> 2013-04-22
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>说来惭愧, 玩了这么多年无线电, 以前从来没装响过一台收音机...... 后来发现, 不是收音机不行, 而是那会儿宿舍的电磁环境太差了, 用成品Philips D1875也照样一个AM台也收不到. </p>
+<p>636估计是除了矿石机以外, 最简单的能收到台的收音机了, 电路图如下: </p>
+<p><a href="/images/636_recv.png" title="电路图"><img src="/images/636_recv.png" width="500px" /></a></p>
+<p>这个电路图实际上已经是加强版了, 原版的636是没有倍压检波的. 我这次的实验用了长磁棒和空气双联, 跟当年的成品636相比, 可以算是豪华版了. 在阳台上试了一下, 中波低端可以收到中国之声, 声音挺清楚；高端就收不到什么信号了. </p>
+<p>636后来的版本又加上了再生, 应该能加强一些灵敏度和选择性；但是现在的电磁环境跟60年代不能相比了, 已经不适合装直放机了. 以后还是玩外差机吧. </p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/636_recv.html">read more</a></div>
+    </div>	
+				
+<div class="pagination">
+<ul>
+    <li class="prev"><a href="http://st.avros.net/author/stavros2.html">&larr; Previous</a></li>
+
+    <li class=""><a href="http://st.avros.net/author/stavros.html">1</a></li>
+    <li class=""><a href="http://st.avros.net/author/stavros2.html">2</a></li>
+    <li class="active"><a href="http://st.avros.net/author/stavros3.html">3</a></li>
+    <li class=""><a href="http://st.avros.net/author/stavros4.html">4</a></li>
+    <li class=""><a href="http://st.avros.net/author/stavros5.html">5</a></li>
+
+    <li class="next"><a href="http://st.avros.net/author/stavros4.html">Next &rarr;</a></li>
+
+</ul>
+</div>
+ 
+  
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="http://st.avros.net/archives.html">Archives</a>
+                <li><a href="http://st.avros.net/tags.html">Tags</a>
+
+
+
+                <li><a href="http://st.avros.net//feeds/all.atom.xml" rel="alternate">Atom feed</a></li>
+                <li><a href="http://st.avros.net//feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="http://st.avros.net/category/dian-yuan.html">电源</a></li>
+                <li><a href="http://st.avros.net/category/gong-ju.html">工具</a></li>
+                <li><a href="http://st.avros.net/category/ji-dian.html">机电</a></li>
+                <li><a href="http://st.avros.net/category/qi-ta.html">其他</a></li>
+                <li><a href="http://st.avros.net/category/wu-xian-dian.html">无线电</a></li>
+                <li><a href="http://st.avros.net/category/yin-pin.html">音频</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://blog.tariel.org">Tariel's blog</a></li>
+                <li><a href="http://kurapikov.blogspot.com">库拉皮科夫的翻墙才能看的空间</a></li>
+                <li><a href="http://just4fun.cn">乐趣为王</a></li>
+                <li><a href="http://scateu.me">Scateu Blog - S.B.</a></li>
+            </ul>
+            </div>
+
+
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="http://st.avros.net">兰湾</a> &copy; Stavros 2016</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://st.avros.net/theme/bootstrap-collapse.js"></script>
+ 
+</body>
+</html>

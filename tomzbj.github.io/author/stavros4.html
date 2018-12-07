@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <title>兰湾</title>
+    <meta name="description" content="">
+    <meta name="author" content="Stavros">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://st.avros.net/theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="http://st.avros.net/theme/bootstrap.min.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/local.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/pygments.css" rel="stylesheet">
+
+    <!-- So Firefox can bookmark->"abo this site" -->
+        <link href="http://st.avros.net//feeds/all.atom.xml" rel="alternate" title="兰湾" type="application/atom+xml">
+        <link href="http://st.avros.net//feeds/all.rss.xml" rel="alternate" title="兰湾" type="application/rss+xml">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="http://st.avros.net">兰湾</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+        
+
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/ne555_boost_3.html"><h2>NE555升压实验_3</h2></a>
+        <div class= "well small"> 2013-04-22
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>之前试验各种升压电路的结论是, 要想实现从单节锂电升压到5V或更高、大电流输出, PWM ic必须具有以下几个性能: </p>
+<ol>
+<li>
+<p>工作电压足够低, 一般锂电终止放电电压定在3.0V上下, 因此PWM ic的最低工作电压最好是2.7V或者更低; </p>
+</li>
+<li>
+<p>必须是推挽输出, 否则输出电流不够, MOS开关管要么不能完全导通, 要么不能完全关断, 两种情况都严重影响效率; </p>
+</li>
+</ol>
+<p>之前的实验里, NE555在5V升6.3V时表现良好, 但它的最低工作电压只能到4.5V, 不符合上述条件1. 于是想到能否用自举电路或者用7660倍压给NE555供电呢？搭电路实验, 结果如下: </p>
+<p>使用自举电路时, 正常启动后, 输入电压可以一直低到1.8V都能正常升压工作; 但输入电压低于4.0V时不能启动. 可见此路不通. </p>
+<p>使用7660倍压时可以在2.8V正常启动, 算是勉强达到要求, 可靠性还是不足. </p>
+<p>可以再试试用BL8530、HT7750之类小功率升压ic为NE555辅助供电, 如果还是不行, 那就得放弃用NE555实现单节锂电升5V的思路了. </p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/ne555_boost_3.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/lm2596_dac.html"><h2>用LM2596搭建数控稳压电源</h2></a>
+        <div class= "well small"> 2013-03-23
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>常用的LM2596芯片可以方便地搭成各种降压式开关稳压电源, 但要用单片机来控制它的输出电压就稍微有点麻烦了——主要的思路有两种, 一种是使用传统的电位器控制方式, 用单片机控制数字电位器来代替模拟电位器; 另一种则是利用单片机的PWM或DAC输出一个控制电压, 引入到LM2596的反馈环路中. 这次试验的是后一种思路. </p>
+<p><a href="/images/lm2596_dac.png" title="电路图"><img src="/images/lm2596_dac.png" width="500px" /></a></p>
+<p>如图, 设输出电压为Vout, 控制电压为Vctrl, LM2596的反馈端电压为Vfb, 根据运放的基本性质可得：</p>
+<p>Vctrl * R3/(R3+R8) + Vfb * R8/(R3+R8) = Vout * R9 / (R2+R9)</p>
+<p>按上图的参数, 可以写为Vctrl * 10/11 + Vfb * 1/11 = Vout * 1/4</p>
+<p>对于LM2596-ADJ, 其Vfb = 1.23V, 于是有Vout = 4/11 * (10 * Vctrl + 1.23 )</p>
+<p>于是, 当Vctrl = 0V时, 输出电压为1 ...</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/lm2596_dac.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/firefly&serlcd1602.html"><h2>萤火虫瓶子&LCD1602串口转换板</h2></a>
+        <div class= "well small"> 2013-03-19
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>前者是用AVR的io口模拟PWM, 驱动8个LED闪亮. </p>
+<p><a href="http://v.youku.com/v_show/id_XNTI4Nzc4MDYw.html" target="_blank">视频链接</a></p>
+<p>装到大玻璃瓶里, 关了灯看, 效果不错.</p>
+<p>分别试验了用PCF8574, 74HC164和用一片ATmega48实现用串口驱动1602液晶屏. </p>
+<p>PCF8574的方案很简单, 4个IO按4线法连接LCD高4位, 2个IO连接EN端和RS端. LCD RW直接接地, 用一只7660产生负压. 需要占用i2c口, 显示速度慢、性价比也低, 总之不推荐. </p>
+<p>用ATmega48扩展的话, 可以8线连接, 接口用i2c、spi、uart都可以, 用一个PWM口产生负压可以节省一只7660, 是最灵活的方式, 不过用uart时需要双方都有晶振. </p>
+<p>用74HC164要多占用两个IO, 不过用一些小技巧可以实现只占用两个GPIO：如图, 用电阻和二极管形成一个与门, 在串行写入数据时将最高位置1, 写完8bit后再拉高DATA端, 此时与门输出高电平, EN动作. 之后要拉低DATA, 连续八个CLK以清空164输出端, 避免影响下一轮. 实测写LCD快速、稳定, 成本也是三种方式里最低的. </p>
+<p><a href="/images/lcd_2wire.png" title="电路图"><img src="/images/lcd_2wire.png" width="500px" /></a></p>
+<p>后记: 后来还是觉得4线接法驱动LCD1602不太稳定. 继续改进, 改为用HC164的八个输出驱动LCD1602的全部8位数据接口, 输入端同时驱动RS脚, 同时再用一个IO来驱动EN脚. 总共用了三个IO, 不过稳定性好多了.</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/firefly&serlcd1602.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/avr_sd_waveplayer.html"><h2>AVR SD WAVE播放器</h2></a>
+        <div class= "well small"> 2013-01-17
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>得从大约两年前说起, 那会儿amobbs的马潮老师出了个题目: 8x8的LED屏, 中间四个常亮, 最外圈亮一个转圈跑. </p>
+<p>这东西没啥难度吧？我正好有块点阵屏闲着, 就焊了一块板, 从开始写程序计算, 39分钟解决了.  </p>
+<p>讨论过程中一师弟(好象是TwoPerson?)大概出口不慎, 把这位马潮老师惹怒了——于是他又出了个题, 原话如下: </p>
+<blockquote>
+<p>如果不服, 可以再次比试. 你在北大找5个学生, 组成一个小组. 用m16加一片lm324, 设计一个读取sd卡上wave文件, 并播放的wave播放器, 看谁做的好. 给你们一个月的时间, 下个学期开学我到北大找你, 比试实物效果. </p>
+</blockquote>
+<p>首先声明一下, 本人纯粹是外行, 本科化学, 研究生改物理了, 以上纯属业余爱好. 马老师这题目在我这个外行看来, 也就是一个人两三天到一周左右的工作量, 至于五个人搞一个月么？不过后来事情一多也就把这回事忘了. </p>
+<p>前段时间突然记起来了, 于是动手开干. 电路图太简单就不画了. 觉得没必要上m16, 于是用了一片m8, 硬件SPI接SD卡, 8位PWM输出, 用一片TL061搭成低通滤波, 后面一只8050缓冲接喇叭. 从学习SD协议、实现FAT开始, 焊接、写程序到调试全算上, 用了两个晚上 ...</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/avr_sd_waveplayer.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/2012_conclusion.html"><h2>2012制作总结</h2></a>
+        <div class= "well small"> 2012-12-10
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>各种实验性质的就不提了, 挑几个好玩的吧~</p>
+<ol>
+<li>
+<p>桌面温湿度计</p>
+<p>ATmega48+DS18B20+DHT11的经典配置, 简单试验了一下能工作. 不过DHT11精度太差了, 跟另外一个专门的湿度计读数相差1/3, 完全没法用. </p>
+</li>
+<li>
+<p>三用手电</p>
+<p>ATtiny26, 用INT0切换控制一个白光LED、一个紫外LED和一个红色激光LED, 实现手电/验钞笔/激光笔三合一, 如图.</p>
+<p><a href="/images/cash_detector_1.jpg" title="验钞笔"><img src="/images/cash_detector_1.jpg"width="500px"/></a></p>
+<p>图1 内部构造</p>
+<p><a href="/images/cash_detector_2.jpg" title="验钞笔"><img src="/images/cash_detector_2.jpg"width="500px"/></a></p>
+<p>图2 验钞效果</p>
+<p><a href="/images/cash_detector_3.jpg" title="验钞笔"><img src="/images/cash_detector_3.jpg"width="500px"/></a></p>
+<p>图3 激光笔效果</p>
+</li>
+<li>
+<p>直流电子管电源</p>
+<p>用一节锂电池当电源, LM2577接成flyback, 输出再通过IRFR420接成线性稳压, 输出60V. 另一路通过1117输出1.4V. 两路相互隔离. </p>
+</li>
+<li>
+<p>盖革计数器</p>
+<p>用一只锂电供电, 两只74HC00中的一只接成多谐振荡器, 缓冲后推动两只Si2302, 通过变压器升压到400V给盖革计数管供电; 另一只74HC00接成单稳态电路, 盖革计数管输出的脉冲整形、延时后推动LED和蜂鸣器. </p>
+</li>
+<li>
+<p>毫欧表/高斯计/温度计</p>
+<p>本质都一样, 都是四线法测电阻, 电流引线上串个精密电阻, 取它两端压降作为基准电压, 也就是所谓的比例式配置. 当毫欧表和高斯计用时 ...</p></li></ol> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/2012_conclusion.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/cm102_speaker.html"><h2>CM102音箱</h2></a>
+        <div class= "well small"> 2011-02-13
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>CM102是台湾C-Media公司的USB声卡芯片. 跟著名的PCM270x相比, 好处就是: 便宜、有DIP封装, 当然效果没法比了. 电路图如下: </p>
+<p><a href="/images/cm102_speaker.png" title="电路图"><img src="/images/cm102_speaker.png" width="500px" /></a></p>
+<p>结果是有很大的不规则的噪声...开始以为是VBUS直供TDA2822的原因, 于是让VBUS过了1117-3.3再供TDA2822, 结果仍然噪声很大；全换成用电池供电, 仍然噪声很大；干脆断开TDA2822, 把耳机接到CM102的输出上, 噪声没了. 看样子是买到山寨2822了, 下次用TEA2025重做吧, 或者直接改用LM4890. </p>
+<p>ps. C-Media的网站怎么可以这么2呢... 手里CM102的datasheet旧了, 而且几个图都巨模糊, 想找个新的看看, 上CM官网一找, 倒是有, 但是不支持google浏览器；换ie, 发现让注册用户；注册了用户, 下载了datasheet一看, 几个图还是模糊的. 这家的东西似乎卖得还不错, 比如当年的CMI8738. </p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/cm102_speaker.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/ne555_boost_2.html"><h2>继续进行 NE555 boost 和 flyback 实验</h2></a>
+        <div class= "well small"> 2011-02-13
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>之前试过用NE555推MTD3055, 5V升6.3V的实验, 效果很好, 输出1A以上电流, 效率在80%到90%之间. 这次的电路图基本相同, 打算升压到125V左右, 再经过后面的线性稳压, 得到90V左右的稳定电压. 结果不太理想, 5V输入时闭环只能升到85V左右, 12V输入时可以达到130V, 效率50%~60%. 加大负载则效率迅速跌到30%. 从5V逐渐降低输入电压, 降到3.3V时仍能工作, 但带负载时(3W节能灯)不能从3.3V启动工作. 把振荡频率从25kHz提高到50kHz, 效率提高到接近70%, 但没有根本的改善. 再就是变压器的吱吱声实在是太烦人了. </p>
+<p>下次的实验目标：</p>
+<p>1)改用低Rds(on)的MOSFET代替IRFR420, 仍用boost方式, 看能不能稳定实现5V升到110V左右. boost没有噪音的优势还是很明显的. </p>
+<p>2)继续绕变压器, 实现升压到400V, 同时也试试用74HC04、晶体管自激之类实现升压的可能性. </p>
+<p>电路图:</p>
+<p><a href="/images/ne555_flyback_2.png" title="电路图"><img src="/images/ne555_flyback_2.png" width="500px" /></a></p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/ne555_boost_2.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/water_lights.html"><h2>流水灯</h2></a>
+        <div class= "well small"> 2011-02-13
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>ourdev的马潮老师出了个题目: 8x8的LED屏, 中间四个常亮, 最外圈亮一个灯转圈跑. 说实话没啥难度, 一伙人讨论得煞有介事. 似乎马潮那边的学生衰了点, 作为专业搞电子的学生, 俩小时搞不出来的都有. 我正好闲着就焊了块板, 从开始写程序开始, 39分钟搞定. </p>
+<p>中间一北大的师弟把马潮老师惹毛了, 于是这老师又出了个题, 当joke看吧:</p>
+<blockquote>
+<p>如果不服, 可以再次比试. 你在北大找5个学生, 组成一个小组. 用m16加一片lm324, 设计一个读取sd卡上wave文件, 并播放的wave播放器, 看谁做的好. 给你们一个月的时间, 下个学期开学我到北大找你, 比试实物效果. </p>
+</blockquote> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/water_lights.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/ne555_boost.html"><h2>又试了一下用NE555做boost</h2></a>
+        <div class= "well small"> 2010-04-13
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>555搭成多谐振荡器推动MOSFET，用C1815当作比较器，输入5V，输出6.3V左右，试着点了几个电子管的灯丝。
+结果如下：</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th>输出电压(V)</th>
+<th>标称电流(A)</th>
+<th>输出电流(A)</th>
+<th>输入电流(A)</th>
+<th align="right">效率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">空载</td>
+<td>6.76</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td align="right">-</td>
+</tr>
+<tr>
+<td align="left">6U1</td>
+<td>6.20</td>
+<td>0.30</td>
+<td>0.32</td>
+<td>0.46</td>
+<td align="right">86%</td>
+</tr>
+<tr>
+<td align="left">6N2</td>
+<td>6.19</td>
+<td>0.34</td>
+<td>0.33</td>
+<td>0.48</td>
+<td align="right">85%</td>
+</tr>
+<tr>
+<td align="left">6F2</td>
+<td>6.17</td>
+<td>0.45</td>
+<td>0.43</td>
+<td>0.61</td>
+<td align="right">87%</td>
+</tr>
+<tr>
+<td align="left">6P1 ...</td></tr></tbody></table> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/ne555_boost.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/usb18b20.html"><h2>USB温度计</h2></a>
+        <div class= "well small"> 2010-04-07
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>用ATMEGA8+DS18B20做了个USB接口的温度计, 插上电脑就能显示室内温度, 体积和一般的U盘差不多大.</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/usb18b20.html">read more</a></div>
+    </div>	
+				
+<div class="pagination">
+<ul>
+    <li class="prev"><a href="http://st.avros.net/author/stavros3.html">&larr; Previous</a></li>
+
+    <li class=""><a href="http://st.avros.net/author/stavros.html">1</a></li>
+    <li class=""><a href="http://st.avros.net/author/stavros2.html">2</a></li>
+    <li class=""><a href="http://st.avros.net/author/stavros3.html">3</a></li>
+    <li class="active"><a href="http://st.avros.net/author/stavros4.html">4</a></li>
+    <li class=""><a href="http://st.avros.net/author/stavros5.html">5</a></li>
+
+    <li class="next"><a href="http://st.avros.net/author/stavros5.html">Next &rarr;</a></li>
+
+</ul>
+</div>
+ 
+  
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="http://st.avros.net/archives.html">Archives</a>
+                <li><a href="http://st.avros.net/tags.html">Tags</a>
+
+
+
+                <li><a href="http://st.avros.net//feeds/all.atom.xml" rel="alternate">Atom feed</a></li>
+                <li><a href="http://st.avros.net//feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="http://st.avros.net/category/dian-yuan.html">电源</a></li>
+                <li><a href="http://st.avros.net/category/gong-ju.html">工具</a></li>
+                <li><a href="http://st.avros.net/category/ji-dian.html">机电</a></li>
+                <li><a href="http://st.avros.net/category/qi-ta.html">其他</a></li>
+                <li><a href="http://st.avros.net/category/wu-xian-dian.html">无线电</a></li>
+                <li><a href="http://st.avros.net/category/yin-pin.html">音频</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://blog.tariel.org">Tariel's blog</a></li>
+                <li><a href="http://kurapikov.blogspot.com">库拉皮科夫的翻墙才能看的空间</a></li>
+                <li><a href="http://just4fun.cn">乐趣为王</a></li>
+                <li><a href="http://scateu.me">Scateu Blog - S.B.</a></li>
+            </ul>
+            </div>
+
+
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="http://st.avros.net">兰湾</a> &copy; Stavros 2016</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://st.avros.net/theme/bootstrap-collapse.js"></script>
+ 
+</body>
+</html>

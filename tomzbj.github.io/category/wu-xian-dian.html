@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <title>兰湾</title>
+    <meta name="description" content="">
+    <meta name="author" content="Stavros">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://st.avros.net/theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="http://st.avros.net/theme/bootstrap.min.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/local.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/pygments.css" rel="stylesheet">
+
+    <!-- So Firefox can bookmark->"abo this site" -->
+        <link href="http://st.avros.net//feeds/all.atom.xml" rel="alternate" title="兰湾" type="application/atom+xml">
+        <link href="http://st.avros.net//feeds/all.rss.xml" rel="alternate" title="兰湾" type="application/rss+xml">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="http://st.avros.net">兰湾</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+        
+
+        
+
+
+    <div class='article'>
+        <div class="content-title">
+            <a href="http://st.avros.net/articles/psk31_beacon.html"><h1>做了个PSK31 Beacon</h1></a>
+2017-04-12
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ 
+        </div>
+        
+        <div><p>psk31 是业余无线电爱好者常用的通讯方式. psk31 的原理就不介绍了, 见链接: 
+<a href="https://www.hellocq.net/forum/simple/?t88551.html">哈罗 CQ 火腿社区 - HAM 软件、HAM 网站 - PSK31 簡介 BV3FG - Powered by phpwind</a></p>
+<p>psk31 的调制如何具体实现呢? HAM 们常用的方式是用 digipan 等软件把要发送的消息调制到几百 Hz 的音频信号上, 再利用发射机的 SSB 模式把这个音频信号发射出去, 这里 SSB 实际上起了上变频的作用.</p>
+<p>也可以把整个调制过程都放在 MCU 里进行, 直接从 MCU 的 DAC 输出调制好的音频信号.</p>
+<p>ka7oei 则提供了一个偏硬件的直接调制方案, 见下图:</p>
+<p><a href="/images2/2017/psk31_beacon_1.png"><img src="/images2/2017/psk31_beacon_1.png" width="480" /></a> </p>
+<p>左下的振荡器振荡在所需频率的 4 倍上, 由计数器 74HC4017 接成四分频, 从 0 和 2 两脚输出一对相位相反的载波信号. MCU 的 PB2 通过 74HC00 选择相位. PA3 输出的 PWM 信号经低通滤波后, 再经 U2, Q4 调节 Q3 的漏极电压, 实现在输出 0 时将输出信号幅度逐渐降到零的瞬间切换相位. 这个方案很简洁, 我决定就拿这个图稍微改动一下. MCU 么, 用最简单的 ATTiny13 就好了.</p>
+<p>首先得在 PC 上软件模拟一下. 程序很简单, 找个 psk31 的码表, 一般是类似这样:</p>
+<div class="highlight"><pre><span></span>const uint16_t VARICODE_TABLE[] = {
+    0x8000,    /* ASCII = &#39; &#39;    1                             */
+    0xFF80,    /* ASCII = &#39;!&#39;    111111111                     */
+    0xAF80,    /* ASCII = &#39;&quot;&#39;    101011111                     */
+    0xFA80,    /* ASCII = &#39;#&#39;    111110101                     */
+...
+    0xA000,    /* ASCII = &#39;t&#39;    101                           */
+    0xDC00,    /* ASCII = &#39;u&#39;    110111                        */
+    0xF600,    /* ASCII = &#39;v&#39;    1111011                       */
+    0xD600,    /* ASCII = &#39;w&#39;    1101011                       */
+    0xDF00,    /* ASCII = &#39;x&#39;    11011111                      */
+    0xBA00,    /* ASCII = &#39;y&#39;    1011101                       */
+    0xEA80,    /* ASCII = &#39;z&#39;    111010101                     */
+};
+</pre></div>
+
+
+<p>存储格式是从高位到低位, 后面补零. 注意这个码表是从空格开始, 到小写 z 就结束了, 也就是 ASCII 码从 32 到 122 这 91 个字符, 这样能省下不少宝贵的 flash 空间. 毕竟 ATTiny13 的 flash 空间只有可怜的 1024 字节, 如果把完整的码表放进来, 一下子 512 字节就没有了.
+发送一个字符的函数可以写成这样:</p>
+<div class="highlight"><pre><span></span>void psk31_tx(char c)
+{
+    uint16_t varc;
+    for(varc = VARICODE_TABLE[c - &#39; &#39;]; varc; varc &amp;lt;&amp;lt;= 1) {
+        if(varc &amp;amp; 0x8000)
+            printf(&quot;1&quot;);
+        else
+            printf(&quot;0&quot;);
+    }
+    printf(&quot;00&quot;);
+}
+</pre></div>
+
+
+<p>然后随便找个字符串, 比如 Hello, world.</p>
+<div class="highlight"><pre><span></span>char msg[] = &quot;Hello, world.&quot;;
+char *p = msg;
+while(*p) {
+     psk31_tx(*p);
+     p++;
+}
+</pre></div>
+
+
+<p>编译运行, 就能看到效果了.</p>
+<p>在 MCU 上实现时要稍微复杂一点. 发送 1 好办, 保持满幅输出不变, 挨过 32ms 时间就完事. 发送 0 就复杂一些, 需要按余弦函数把输出幅度逐渐减小为零, 切换相位, 再把幅度逐渐增加到最大. 把 printf("1") 和 printf("0") 分别换成这两个操作就行. 但是这样就破坏了可移植性. 解决办法就是函数指针, 把 psk31_tx 函数写成这样:</p>
+<div class="highlight"><pre><span></span>void psk31_tx(char c, void (*tx0)(void), void (*tx1)(void))
+{
+    unsigned short varc;
+    for(varc = varicode_table[(c - &#39; &#39;)]; varc; varc &amp;lt;&amp;lt;= 1) {
+        if(varc &amp;amp; 0x8000)
+            (*tx1)();
+        else
+            (*tx0)();
+    }
+    (*tx0)();
+    (*tx0)();
+}
+</pre></div>
+
+
+<p>把发送 1 和 0 的操作写成两个回调函数传给 psk31_tx(), 这样就完美了.</p>
+<p>之后设计电路, 如图:</p>
+<p><a href="/images2/2017/psk31_beacon_2.png"><img src="/images2/2017/psk31_beacon_2.png" width="480" /></a> </p>
+<p>振荡这里用一只 74AHC1G00 加上 14.318M 的晶振就行了, 通过调节 KV1471 的偏压来微调频率. 四分频用了更常用的 74HC74, 两级二分频, 从第二级的 Q 和 / Q 脚输出一对相位相反的载波信号. 切换相位用一只模拟开关 74LVC1G3157 来实现. 其余部分基本保持 ka7oei 的设计不变.</p>
+<p>成品照片:</p>
+<p><a href="/images2/2017/psk31_beacon_3.jpg"><img src="/images2/2017/psk31_beacon_3.jpg" width="480" /></a> </p>
+<p>末级电源电压这里只用到 5V, 实测连续发送 1 时在 50 欧假负载上可以得到 40mW / +16dBm 的功率. 如果把末级供电电压提到 12V, 同时把 MMBT2222 和 2N7002 换成封装大一点的管子, 估计能做到 1W 上下, 再大就得加后级了.</p>
+<p>ATTiny13 的一大缺点是不能接晶振, 于是把它的 RC 时钟设到 4.8M, 通过 OSCCAL 寄存器微调到 4.096M 左右, 然后 8 分频作为定时器 0 的时钟源, 定时器 0 输出 PWM 的同时也提供了 4.096M / 8 / 256 = 2kHz 的时基信号. 余弦波形表用了 64 个点, 从而得到 2k / 64 = 31.25Hz. 输出 1 时只要什么都不做, 等定时器 0 中断 64 次就行了.</p>
+<p>ATTiny13 的另一大缺点... 就是 RAM 只有可怜的 64 字节. 实测发现即使发送 "Hello, world." 也一样爆栈, 只好不用回调机制, 同时把 "Hello, world." 也放到 flash, 才总算是发送成功.</p>
+<p>用 IC-R71E 接收, Digipan 和 MultiPSK 解调的效果图如下:</p>
+<p>Digipan</p>
+<p><a href="/images2/2017/psk31_beacon_4.png"><img src="/images2/2017/psk31_beacon_4.png" width="480" /></a> </p>
+<p>MultiPSK</p>
+<p><a href="/images2/2017/psk31_beacon_5.png"><img src="/images2/2017/psk31_beacon_5.png" width="480" /></a> </p>
+<p>感觉 Multipsk 的解调效果要好一些, 可能是 Digipan 那边有些参数没设置好.</p>
+<p>在这个 Beacon 的基础上可以玩出很多花样来, 看你怎么发挥了.</p></div>
+        <hr />
+    </div>
+		
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/50m_fm_tx_bh1417.html"><h2>试了一下BH1417用于6米波段发射</h2></a>
+        <div class= "well small"> 2016-04-14
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>BH1417是WFM发射IC, 以0.2MHz为间隔, 在87.7~88.9MHz和106.7~107.9MHz频段各有7个频点. 频率基准是7.6MHz的晶振, 先4分频得到1.9MHz, 然后一路50分频得38kHz作为立体声副载波, 另一路19分频得到100kHz给PLL作为参考. 如果把7.6M晶振换成3.579M, 则106.7~107.9MHz这7个频点就变成了50.255~50.820MHz, 全都落在6米业余波段以内.</p>
+<p>试着搭了一块板, 果然可以工作, 用VX-7R在7个频点都能准确地收到信号. 但是前级增益低了就几乎没声, 前级增益高了又全是噪声; 如果把VX-7R强行设置成WFM模式, 则一切正常. 估计是BH1417的前端预加重/限幅模块过于强大了.</p>
+<p>6米好玩, 等北京的6米解禁了要好好搞搞.</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/50m_fm_tx_bh1417.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/hc4046_expr.html"><h2>74HC4046实验(2)</h2></a>
+        <div class= "well small"> 2015-10-09
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>在前几天复习HC4046计算的基础上又试了一下, 用atmega48的timer0将16M主时钟先256预分频再125分频, Toggle模式, 得到250Hz 50%占空比的方波作为参考频率; HC4046的VCO输出接到atmega48的T1口, 用timer1作为÷N分频器. </p>
+<p>实测各种RC参数, 用HC4046的鉴相器2可以锁定在60kHz~165kHz, 800kHz~2.4MHz, 差不多有三倍的频率覆盖率, 给各种简单接收机做个本振应该是够了. 用鉴相器1只能锁定在120kHz~165kHz, 不过输出波形似乎稍微干净些.</p>
+<p>有空再试试用DDS输出作为HC4046的参考频率. 这里DDS的频率不用很高, 在AVR的定时器中断里更新相位累加字就可以了. 这样应该就能做到1Hz级别的精密步进了.</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/hc4046_expr.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/hc4046_calc.html"><h2>复习74HC4046的相关计算(1)</h2></a>
+        <div class= "well small"> 2015-09-22
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>前两天没事复习了一下74HC4046的计算. 主要材料: </p>
+<ol>
+<li>某个在线计算器, 只有VCO的计算. url: <a href="http://www.changpuak.ch/electronics/calc_03.php">http://www.changpuak.ch/electronics/calc_03.php</a></li>
+<li>Motorola的AN1410: Configuring and Applying the MC74HC4046A Phase-Locked Loop </li>
+<li>Philips的Datasheet </li>
+<li>Texas Instruments的Application Report SCHA003B: CMOS Phase-Locked-Loop Applications Using the CD54/74HC/HCT4046A and CD54/74HC/HCT7046A     </li>
+</ol>
+<p>根据Philips的datasheet, 取$R_1$ = 10k, $R_2$ = 10k, $C$ = 500p, $V_\rm{CC}$ = 5.0V …</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/hc4046_calc.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/cw3579.html"><h2>3.579MHz CW发射机</h2></a>
+        <div class= "well small"> 2015-01-15
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>电路如图, 用74HC240的一个门振荡, 另外7个门并联推动IRF510.
+用RS-232串口的RTS信号控制IRF510的供电, 作为电键.
+DTR信号控制整机供电和天线切换, 作为PTT.</p>
+<p><a href="/images/cw3579.png" title="电路图"><img src="/images/cw3579.png" width="500px" /></a></p>
+<p>实测发现一个大问题: CP2102转出来的RS-232的DTR和RTS极性是反的! 再一查, PL2303和FT232也是这样. 现在的PC基本已经不提供RS-232了, 没办法, 装个串口挡板, 用真实的串口再试试吧.</p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/cw3579.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/50m_fm_tx.html"><h2>50M FM发射实验</h2></a>
+        <div class= "well small"> 2013-07-17
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>电路如图, 74HC04的一个非门接成10.245M晶体振荡器, 晶体一端并联变容二极管. 用剩下的五个非门来推动2N7002, 2N7002的D极谐振在10.245M的五倍频, 51.225M频率上. </p>
+<p><a href="/images/50m_fm.png"><img src="/images/50m_fm.png" width="500" /></a></p>
+<p>用VX-7R接收, 不管走到屋里哪个角落, 信号都挺强的. 可惜北京不允许使用50M频率, 只能在屋里大概试试了. 估计到开阔地能发射相当远的吧. </p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/50m_fm_tx.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/v_tx.html"><h2>发V机</h2></a>
+        <div class= "well small"> 2013-06-11
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>功能很简单, 就是发出字母V的莫尔斯电码"...-", 用来调试机器, 很好用. </p>
+<p>原理图:</p>
+<p><a href="/images/v_tx.png" title="电路图"><img src="/images/v_tx.png" width="500px" /></a></p>
+<p>由CD4060组成约100kHz的RC振荡器, 6次二分频后得到大约600Hz的音频信号; 继续由74HC393分频得到4bit控制信号, 由两只CD4011组成的逻辑电路变换成字母V的开关信号, 最后由一只NPN管实现600Hz音频调制. </p>
+<p>用一只8脚单片机的话, 硬件上可以更简单. 用逻辑电路的好处是不用调试, 焊好通电就能工作了. </p>
+<p>开始由一只10440锂电池直接供电, 结果发现电池电压变化会严重影响音调, 于是增加了HT7750升压电路, 让它在固定5V电压下工作, 效果好多了. </p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/v_tx.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/heterodyne_test.html"><h2>继续试验外差机</h2></a>
+        <div class= "well small"> 2013-05-23
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>分别用LA1600和分立器件实现了两个中波外差机.</p>
+<p>效果差不多, 在阳台上能收到中国之声一个台, 别的台都收不到了. 总之和之前做的直放机没啥区别吧.</p>
+<p>大概是输入回路的Q值太低, 弱信号全被中国之声压住了. 有空了再做FM机试试吧. </p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/heterodyne_test.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/636_recv.html"><h2>636收音机</h2></a>
+        <div class= "well small"> 2013-04-22
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>说来惭愧, 玩了这么多年无线电, 以前从来没装响过一台收音机...... 后来发现, 不是收音机不行, 而是那会儿宿舍的电磁环境太差了, 用成品Philips D1875也照样一个AM台也收不到. </p>
+<p>636估计是除了矿石机以外, 最简单的能收到台的收音机了, 电路图如下: </p>
+<p><a href="/images/636_recv.png" title="电路图"><img src="/images/636_recv.png" width="500px" /></a></p>
+<p>这个电路图实际上已经是加强版了, 原版的636是没有倍压检波的. 我这次的实验用了长磁棒和空气双联, 跟当年的成品636相比, 可以算是豪华版了. 在阳台上试了一下, 中波低端可以收到中国之声, 声音挺清楚；高端就收不到什么信号了. </p>
+<p>636后来的版本又加上了再生, 应该能加强一些灵敏度和选择性；但是现在的电磁环境跟60年代不能相比了, 已经不适合装直放机了. 以后还是玩外差机吧. </p> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/636_recv.html">read more</a></div>
+    </div>	
+				
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://st.avros.net/articles/ift_mod.html"><h2>改造AM中周</h2></a>
+        <div class= "well small"> 2010-01-18
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>FCZ 的许多无线电制作资料上都用了他们自制的线圈, 这些线圈估计是很难买到的. 幸好查到了它们的绕制数据:</p>
+<table>
+<thead>
+<tr>
+<th align="center">型号</th>
+<th align="center">频率(MHz)</th>
+<th align="center">谐振电容(pF)</th>
+<th align="center">电感(μH)</th>
+<th align="center">空载Q值</th>
+<th align="center">4~6脚匝数</th>
+<th align="center">3~1脚匝数</th>
+<th align="center">3~2脚匝数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">FCZ3.5</td>
+<td align="center">3.5</td>
+<td align="center">220</td>
+<td align="center">9.4</td>
+<td align="center">70</td>
+<td align="center">7</td>
+<td align="center">20</td>
+<td align="center">10</td>
+</tr>
+<tr>
+<td align="center">FCZ7</td>
+<td align="center">7</td>
+<td align="center">120</td>
+<td align="center">4.6</td>
+<td align="center">80</td>
+<td align="center">5</td>
+<td align="center">14</td>
+<td align="center">7</td>
+</tr>
+<tr>
+<td align="center">FCZ14</td>
+<td align="center">14</td>
+<td align="center">70</td>
+<td align="center">1.85</td>
+<td align="center">75</td>
+<td align="center">4</td>
+<td align="center">12</td>
+<td align="center">6</td>
+</tr>
+<tr>
+<td align="center">FCZ21</td>
+<td align="center">21</td>
+<td align="center">40 …</td></tr></tbody></table> <a class="btn btn-info xsmall" href="http://st.avros.net/articles/ift_mod.html">read more</a></div>
+    </div>	
+				
+<div class="pagination">
+<ul>
+    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
+
+    <li class="active"><a href="http://st.avros.net/category/wu-xian-dian.html">1</a></li>
+    <li class=""><a href="http://st.avros.net/category/wu-xian-dian2.html">2</a></li>
+
+    <li class="next"><a href="http://st.avros.net/category/wu-xian-dian2.html">Next &rarr;</a></li>
+
+</ul>
+</div>
+ 
+  
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="http://st.avros.net/archives.html">Archives</a>
+                <li><a href="http://st.avros.net/tags.html">Tags</a>
+
+
+
+                <li><a href="http://st.avros.net//feeds/all.atom.xml" rel="alternate">Atom feed</a></li>
+                <li><a href="http://st.avros.net//feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="http://st.avros.net/category/dian-yuan.html">电源</a></li>
+                <li><a href="http://st.avros.net/category/gong-ju.html">工具</a></li>
+                <li><a href="http://st.avros.net/category/ji-dian.html">机电</a></li>
+                <li><a href="http://st.avros.net/category/qi-ta.html">其他</a></li>
+                <li><a href="http://st.avros.net/category/wu-xian-dian.html">无线电</a></li>
+                <li><a href="http://st.avros.net/category/yin-pin.html">音频</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://blog.tariel.org">Tariel's blog</a></li>
+                <li><a href="http://kurapikov.blogspot.com">库拉皮科夫的翻墙才能看的空间</a></li>
+                <li><a href="http://just4fun.cn">乐趣为王</a></li>
+                <li><a href="http://scateu.me">Scateu Blog - S.B.</a></li>
+            </ul>
+            </div>
+
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Social
+                </li>
+           
+                <li><a href="http://weibo.com/stavros">新浪微博</a></li>
+            </ul>
+            </div>
+            </div>
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="http://st.avros.net">兰湾</a> &copy; Stavros 2017</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://st.avros.net/theme/bootstrap-collapse.js"></script>
+ 
+</body>
+</html>

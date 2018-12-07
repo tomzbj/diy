@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <title>兰湾</title>
+    <meta name="description" content="">
+    <meta name="author" content="Stavros">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://st.avros.net/theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="http://st.avros.net/theme/bootstrap.min.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/local.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/pygments.css" rel="stylesheet">
+
+    <!-- So Firefox can bookmark->"abo this site" -->
+        <link href="http://st.avros.net//feeds/all.atom.xml" rel="alternate" title="兰湾" type="application/atom+xml">
+        <link href="http://st.avros.net//feeds/all.rss.xml" rel="alternate" title="兰湾" type="application/rss+xml">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="http://st.avros.net">兰湾</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+    <div class='article'>
+        <div class="content-title">
+            <h1>带负载指示的USB一拖三充电器</h1>
+2015-01-17
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+        </div>
+	
+        <div><p>现在平板/手机之类一般都用USB充电了. 晚上睡觉前, 经常得两三个设备一起充电, 插座都不够用了. 如果能在一个充电器上做出几个USB口同时给它们充电, 岂不是很方便?</p>
+<p>不过这么一来, 供电就比较成问题了. 现在的设备一般都需要1A以上的充电电流, 有的需要2A. 3个2A一起充就得6A, 4个就得8A. 前面如果用12V降压到5V, 80%效率的话, 5V 6A需要提供12V 3.2A, 5V 8A需要提供12V 4.2A. 能提供这么大电流的12V适配器倒是有, 但是不太便携了. 所以还是折衷一下, 输出4A电流, 这样前面用12V 2A的适配器, 勉强够用. 这样就不能同时充3个2A的设备了, 免得一不小心就冒烟. 安全起见, 最好是再加个负载指示, 随时知道输出多大电流.</p>
+<p>电路如图, 从12V降压到5V, 用了AOSMD的AOZ1014. 这颗SOIC8的小芯片能提供最大5A的输出电流, 不过感觉不怎么踏实, 4A保险些. 输出电压用8.2k和1.5k电阻设定为0.8V * (8.2+1.5)/1.5 = 5.17V, 比标准的5V高出3.5%, 还算安全. 在输出端和USB充电口之间再串联0.025欧的电阻用作电流取样. 当输出1A时, 这个电阻上的压降为25mV, 4A时为100mV.</p>
+<p>用LM358的其中一个运放接成差分放大器, 把取样电阻上的电压放大20倍左右. 另一只运放提供约0.73V的参考电压, 因为LM358按单电源方式工作时, 最低输出电压不能到0V, 至少要0.6V左右, 所以这里把它的输出电压"抬"高一些.</p>
+<p><a href="/images/usb_3x_charger.png" title="电路图"><img src="/images/usb_3x_charger.png" width="500px" /></a></p>
+<p>单片机供电用了XC6206, 结果一通电, 马上冒烟了... 原来XC6206的供电电压最高只能是5V. 没办法, 先凑和一下, 把单片机的VCC改接到输出的5V上. 下次这里还是得换成AMS1117之类.</p>
+<p>单片机用的是ATMEGA48. 用ADC6来读取LM358的输出电压. 负载指示用的是10位LED光条, 用MEGA48的PD0~PD7再加上PB0, PB1, 够了. 每格表示约0.4A电流, 10格一共4A. 程序很简单, 主要部分:</p>
+<div class="highlight"><pre><span></span>while(1) {
+    u16 data, p;
+    float volt, curr;
+    u8 i;
+    data = get_adc();
+    volt = data/256.0*5.0;
+    curr = volt*2.01-1.63;
+
+    i = curr / 0.4;
+    if(i&amp;gt;10)
+        i=10;
+    p = 0x3ff &amp;gt;&amp;gt; (10-i);
+    PORTD = p &amp;amp; 0xff;
+    PORTB = p &amp;gt;&amp;gt; 8;
+
+    _delay_ms(500);
+}
+</pre></div>
+
+
+<p>来两张效果图:</p>
+<p>输出电流约1.6A时, 亮4格:</p>
+<p><a href="/images/dc_tube_power_4.jpg" title="4格, 负载电流约1.6A"><img src="/images/dc_tube_power_4.jpg" width="500px" /></a></p>
+<p>输出电流约2.8A时, 亮7格:</p>
+<p><a href="/images/dc_tube_power_7.jpg" title="7格, 负载电流约2.8A"><img src="/images/dc_tube_power_7.jpg" width="500px" /></a></p></div>
+	
+        <hr>
+
+    </div>
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="http://st.avros.net/archives.html">Archives</a>
+                <li><a href="http://st.avros.net/tags.html">Tags</a>
+
+
+
+                <li><a href="http://st.avros.net//feeds/all.atom.xml" rel="alternate">Atom feed</a></li>
+                <li><a href="http://st.avros.net//feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="http://st.avros.net/category/dian-yuan.html">电源</a></li>
+                <li><a href="http://st.avros.net/category/gong-ju.html">工具</a></li>
+                <li><a href="http://st.avros.net/category/ji-dian.html">机电</a></li>
+                <li><a href="http://st.avros.net/category/qi-ta.html">其他</a></li>
+                <li><a href="http://st.avros.net/category/wu-xian-dian.html">无线电</a></li>
+                <li><a href="http://st.avros.net/category/yin-pin.html">音频</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://blog.tariel.org">Tariel's blog</a></li>
+                <li><a href="http://kurapikov.blogspot.com">库拉皮科夫的翻墙才能看的空间</a></li>
+                <li><a href="http://just4fun.cn">乐趣为王</a></li>
+                <li><a href="http://scateu.me">Scateu Blog - S.B.</a></li>
+            </ul>
+            </div>
+
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Social
+                </li>
+           
+                <li><a href="http://weibo.com/stavros">新浪微博</a></li>
+            </ul>
+            </div>
+            </div>
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="http://st.avros.net">兰湾</a> &copy; Stavros 2017</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://st.avros.net/theme/bootstrap-collapse.js"></script>
+ 
+</body>
+</html>

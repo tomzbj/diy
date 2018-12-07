@@ -1,0 +1,10 @@
+#ifndef _CONFIG_H
+#define _CONFIG_H
+
+#define ZIKU_BASE_ADDR (512UL * 1024UL)
+#define INDEX_BASE_ADDR (896UL * 1024UL)
+#define INDEX_TOTAL_NUM 8
+#define INDEX_SIZE (1024UL * 8)
+#define INDEX_RECORD_SIZE 8
+
+#endif

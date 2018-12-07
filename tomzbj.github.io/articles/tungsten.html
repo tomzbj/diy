@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <title>兰湾</title>
+    <meta name="description" content="">
+    <meta name="author" content="Stavros">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://st.avros.net/theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="http://st.avros.net/theme/bootstrap.min.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/local.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/pygments.css" rel="stylesheet">
+
+    <!-- So Firefox can bookmark->"abo this site" -->
+        <link href="http://st.avros.net//feeds/all.atom.xml" rel="alternate" title="兰湾" type="application/atom+xml">
+        <link href="http://st.avros.net//feeds/all.rss.xml" rel="alternate" title="兰湾" type="application/rss+xml">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="http://st.avros.net">兰湾</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+    <div class='article'>
+        <div class="content-title">
+            <h1>如何计算钨丝的直径?</h1>
+2015-08-07
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+        </div>
+	
+        <div><p>知乎上一哥们提了个问题：3.7V 电压，1.2A 电流，用钨丝绕成螺旋式弹簧丝，工作温度在 1200 摄氏度左右，怎么计算出来需要用多大直径的钨丝？链接：<a href="http://www.zhihu.com/question/33791069/answer/57434994">http://www.zhihu.com/question/33791069/answer/57434994</a></p>
+<p>以下是我的回答：</p>
+<p>斯特凡－玻尔兹曼定律：$j^<em>=\epsilon\sigma T^4$，其中$j^</em>$为辐射通量，$\sigma$为斯特凡－玻尔兹曼常数，值为$5.67\times 10^{-8}\rm{J \cdot s}^{-1}\cdot\rm m^{-2}\cdot\rm K^{-4}$。$\epsilon$为辐射系数，把钨丝当成黑体，则$\epsilon=1$。</p>
+<p>忽略传导和对流，只考虑辐射；把钨丝作为黑体，则</p>
+<p>钨丝辐射的总功率为$P = A\cdot 5.67^{-8}\cdot1473^4$。</p>
+<p>已知总功率$P=3.7\rm{V}\times1.2\rm{A}=4.44\rm W$，</p>
+<p>则可得钨丝表面积$A=1.66\times10^{-5} \rm m^2$。</p>
+<p><a href="/images2/2015/tungsten_resistance.png"><img src="/images2/2015/tungsten_resistance.png" width="480" /></a></p>
+<p>根据这个图，钨在 1200 摄氏度时的电阻率大约是$0.41\Omega\cdot \rm{mm}^2\cdot \rm{m}^{-1}$，电阻我们已经知道是$3.7\rm{V} / 1.2\rm{A} = 3.08\Omega$。</p>
+<p>把钨丝当作一个截面半径为$r$，长度为$h$的圆柱体，则它的电阻应该是$\frac{0.41\times10^{-6}h}{\pi r^2}$，</p>
+<p>表面积是$2\pi rh$(两个端面可以忽略不计)。</p>
+<p>整理得$\frac{h}{r^2}=2.36\times10^7，rh = 2.64\times10^{-6}$。</p>
+<p>解得$h=0.055\rm m$, $r=4.82\times10^{-5}\rm m$，也就是说长度 55mm，直径 0.096mm。</p>
+<p>验算一下，一根长 55mm、直径 0.096mm 的钨丝，1200 度时的电阻是 3.12 欧，</p>
+<p>表面积是 $16.6\rm{mm}^2$，和前面计算相符。</p>
+<p>如果是做题，做到这里就可以结束了。但如果是真做一个灯泡出来，则必须考虑灯泡内部充入惰性气体的对流和传导热量、钨丝直接向灯泡引出脚的传热、钨丝具体成分导致的电阻率变化 (可能相当大！) 等等。</p>
+<p>最后还得实际做一个来验证，在实测参数的基础上再调整。</p></div>
+	
+        <hr>
+
+    </div>
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="http://st.avros.net/archives.html">Archives</a>
+                <li><a href="http://st.avros.net/tags.html">Tags</a>
+
+
+
+                <li><a href="http://st.avros.net//feeds/all.atom.xml" rel="alternate">Atom feed</a></li>
+                <li><a href="http://st.avros.net//feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="http://st.avros.net/category/dian-yuan.html">电源</a></li>
+                <li><a href="http://st.avros.net/category/gong-ju.html">工具</a></li>
+                <li><a href="http://st.avros.net/category/ji-dian.html">机电</a></li>
+                <li><a href="http://st.avros.net/category/qi-ta.html">其他</a></li>
+                <li><a href="http://st.avros.net/category/wu-xian-dian.html">无线电</a></li>
+                <li><a href="http://st.avros.net/category/yin-pin.html">音频</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://blog.tariel.org">Tariel's blog</a></li>
+                <li><a href="http://kurapikov.blogspot.com">库拉皮科夫的翻墙才能看的空间</a></li>
+                <li><a href="http://just4fun.cn">乐趣为王</a></li>
+                <li><a href="http://scateu.me">Scateu Blog - S.B.</a></li>
+            </ul>
+            </div>
+
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Social
+                </li>
+           
+                <li><a href="http://weibo.com/stavros">新浪微博</a></li>
+            </ul>
+            </div>
+            </div>
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="http://st.avros.net">兰湾</a> &copy; Stavros 2017</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://st.avros.net/theme/bootstrap-collapse.js"></script>
+ 
+</body>
+</html>

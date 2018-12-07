@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <title>兰湾</title>
+    <meta name="description" content="">
+    <meta name="author" content="Stavros">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://st.avros.net/theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="http://st.avros.net/theme/bootstrap.min.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/local.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/pygments.css" rel="stylesheet">
+
+    <!-- So Firefox can bookmark->"abo this site" -->
+        <link href="http://st.avros.net//feeds/all.atom.xml" rel="alternate" title="兰湾" type="application/atom+xml">
+        <link href="http://st.avros.net//feeds/all.rss.xml" rel="alternate" title="兰湾" type="application/rss+xml">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="http://st.avros.net">兰湾</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+    <div class='article'>
+        <div class="content-title">
+            <h1>迷你智能电源</h1>
+2015-07-14
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+        </div>
+	
+        <div><p>做了个简单的小电源，用一节18650供电，可以输出1.26V、1.8V、2.5V、2.85V、3.3V、5.0V和6.0V，共7种电压，可以通过USB给18650充电，如图：</p>
+<p><a href="/images2/2015/cute_power_v2.jpg" title="实物图"><img src="/images2/2015/cute_power_v2.jpg" width="480px" /></a></p>
+<p>原理图：</p>
+<p><a href="/images2/2015/cute_power_v2.png" title="原理图"><img src="/images2/2015/cute_power_v2.png" width="480px" /></a></p>
+<p>充电使用TP4056，充电电流为1200/1.5k = 800mA。LM3478接成SEPIC电路，既能升压也能降压。单片机ATtiny13输出一路PWM信号，经滤波后控制LM3478的反馈端，从而控制输出电压。三只LED用于指示输出电压。</p>
+<p>源程序：</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;avr/io.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;avr/interrupt.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;util/delay.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;avr/sleep.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;misc.h&quot;</span><span class="cp"></span>
+
+<span class="n">vu8</span> <span class="n">g_status</span><span class="p">;</span>
+<span class="n">vu32</span> <span class="n">g_key</span><span class="p">;</span>
+<span class="c1">// 0, 1.2x, 1.8, 2.5, 2.85, 3.3, 5.0, 6.0</span>
+<span class="n">vu8</span> <span class="n">g_pwm</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">200</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">77</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>    <span class="c1">// 8种状态下的PWM值</span>
+
+<span class="kt">void</span> <span class="nf">port_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">PORTB</span> <span class="o">=</span> <span class="mh">0x0e</span><span class="p">;</span>
+    <span class="n">DDRB</span>  <span class="o">=</span> <span class="mh">0x1f</span><span class="p">;</span>               <span class="c1">// PB0~4作为输出</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">timer0_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">TCCR0B</span> <span class="o">=</span> <span class="mh">0x00</span><span class="p">;</span>
+    <span class="n">TCCR0A</span> <span class="o">=</span> <span class="mh">0x83</span><span class="p">;</span>              <span class="c1">// 快速PWM，1分频</span>
+    <span class="n">TCCR0B</span> <span class="o">=</span> <span class="mh">0x01</span><span class="p">;</span>              <span class="c1">// 启动定时器</span>
+    <span class="n">TIMSK0</span> <span class="o">|=</span> <span class="n">_BV</span><span class="p">(</span><span class="n">TOIE0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">ISR</span><span class="p">(</span><span class="n">TIM0_OVF_vect</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// 读键</span>
+    <span class="n">u8</span> <span class="n">tmp</span><span class="p">;</span>
+    <span class="n">g_key</span> <span class="o">&lt;&lt;=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">PORTB</span> <span class="o">&amp;</span> <span class="n">_BV</span><span class="p">(</span><span class="n">PB3</span><span class="p">);</span>
+
+    <span class="n">PORTB</span> <span class="o">|=</span> <span class="n">_BV</span><span class="p">(</span><span class="n">PB3</span><span class="p">);</span>
+    <span class="n">DDRB</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">_BV</span><span class="p">(</span><span class="n">PB3</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="p">(</span><span class="n">PINB</span> <span class="o">&amp;</span> <span class="n">_BV</span><span class="p">(</span><span class="n">PB3</span><span class="p">)</span> <span class="p">)</span> <span class="p">)</span>
+        <span class="n">g_key</span> <span class="o">|=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="n">g_key</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="mi">1</span><span class="p">;</span>
+
+    <span class="n">DDRB</span> <span class="o">|=</span> <span class="n">_BV</span><span class="p">(</span><span class="n">PB3</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>                 <span class="c1">// 恢复PB3的旧状态</span>
+        <span class="n">PORTB</span> <span class="o">|=</span> <span class="n">_BV</span><span class="p">(</span><span class="n">PB3</span><span class="p">);</span>
+    <span class="k">else</span>
+        <span class="n">PORTB</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">_BV</span><span class="p">(</span><span class="n">PB3</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(</span> <span class="p">(</span><span class="n">g_key</span> <span class="o">&amp;</span> <span class="mh">0xffffffff</span><span class="p">)</span> <span class="o">==</span> <span class="mh">0xffffff00</span> <span class="p">)</span> <span class="p">{</span>  <span class="c1">// 判断按键</span>
+        <span class="n">g_status</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">g_status</span> <span class="o">%=</span> <span class="mi">8</span><span class="p">;</span>
+        <span class="n">OCR0A</span> <span class="o">=</span> <span class="n">g_pwm</span><span class="p">[</span><span class="n">g_status</span><span class="p">];</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">g_status</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>   <span class="c1">// 状态0时调慢主频，省电</span>
+            <span class="n">CLKPR</span> <span class="o">=</span> <span class="mh">0x80</span><span class="p">;</span>
+            <span class="n">CLKPR</span> <span class="o">=</span> <span class="mh">0x08</span><span class="p">;</span>    
+            <span class="n">PORTB</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">_BV</span><span class="p">(</span><span class="n">PB4</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="n">CLKPR</span> <span class="o">=</span> <span class="mh">0x80</span><span class="p">;</span>
+            <span class="n">CLKPR</span> <span class="o">=</span> <span class="mh">0x03</span><span class="p">;</span>       <span class="c1">// 正常状态为8分频，9.6M / 8 = 1.2M</span>
+            <span class="n">PORTB</span> <span class="o">|=</span> <span class="n">_BV</span><span class="p">(</span><span class="n">PB4</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span> 
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">init_devices</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">port_init</span><span class="p">();</span>
+    <span class="n">timer0_init</span><span class="p">();</span>
+    <span class="n">set_sleep_mode</span><span class="p">(</span><span class="n">SLEEP_MODE_IDLE</span><span class="p">);</span>
+    <span class="n">sleep_enable</span><span class="p">();</span>
+    <span class="n">CLKPR</span> <span class="o">=</span> <span class="mh">0x80</span><span class="p">;</span>
+    <span class="n">CLKPR</span> <span class="o">=</span> <span class="mh">0x08</span><span class="p">;</span>
+
+    <span class="n">ACSR</span> <span class="o">|=</span> <span class="n">_BV</span><span class="p">(</span><span class="n">ACD</span><span class="p">);</span>           <span class="c1">// 关闭模拟比较器，也是为了省电 </span>
+    <span class="n">sei</span><span class="p">();</span>
+
+    <span class="n">PORTB</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">_BV</span><span class="p">(</span><span class="n">PB4</span><span class="p">);</span>         <span class="c1">// 禁用LM3478</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">init_devices</span><span class="p">();</span>
+
+    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">PORTB</span> <span class="o">=</span> <span class="p">(</span><span class="n">PORTB</span> <span class="o">&amp;</span> <span class="mh">0xf1</span><span class="p">)</span> <span class="o">|</span> <span class="p">((</span><span class="o">~</span><span class="p">(</span><span class="n">g_status</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">))</span> <span class="o">&amp;</span> <span class="mh">0x0e</span><span class="p">);</span> <span class="c1">// LED输出</span>
+        <span class="n">sleep_cpu</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div></div>
+	
+        <hr>
+
+    </div>
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="http://st.avros.net/archives.html">Archives</a>
+                <li><a href="http://st.avros.net/tags.html">Tags</a>
+
+
+
+                <li><a href="http://st.avros.net//feeds/all.atom.xml" rel="alternate">Atom feed</a></li>
+                <li><a href="http://st.avros.net//feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="http://st.avros.net/category/dian-yuan.html">电源</a></li>
+                <li><a href="http://st.avros.net/category/gong-ju.html">工具</a></li>
+                <li><a href="http://st.avros.net/category/ji-dian.html">机电</a></li>
+                <li><a href="http://st.avros.net/category/qi-ta.html">其他</a></li>
+                <li><a href="http://st.avros.net/category/wu-xian-dian.html">无线电</a></li>
+                <li><a href="http://st.avros.net/category/yin-pin.html">音频</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://blog.tariel.org">Tariel's blog</a></li>
+                <li><a href="http://kurapikov.blogspot.com">库拉皮科夫的翻墙才能看的空间</a></li>
+                <li><a href="http://just4fun.cn">乐趣为王</a></li>
+                <li><a href="http://scateu.me">Scateu Blog - S.B.</a></li>
+            </ul>
+            </div>
+
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Social
+                </li>
+           
+                <li><a href="http://weibo.com/stavros">新浪微博</a></li>
+            </ul>
+            </div>
+            </div>
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="http://st.avros.net">兰湾</a> &copy; Stavros 2017</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://st.avros.net/theme/bootstrap-collapse.js"></script>
+ 
+</body>
+</html>

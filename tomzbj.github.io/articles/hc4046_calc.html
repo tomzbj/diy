@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <title>兰湾</title>
+    <meta name="description" content="">
+    <meta name="author" content="Stavros">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://st.avros.net/theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="http://st.avros.net/theme/bootstrap.min.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/local.css" rel="stylesheet">
+    <link href="http://st.avros.net/theme/pygments.css" rel="stylesheet">
+
+    <!-- So Firefox can bookmark->"abo this site" -->
+        <link href="http://st.avros.net//feeds/all.atom.xml" rel="alternate" title="兰湾" type="application/atom+xml">
+        <link href="http://st.avros.net//feeds/all.rss.xml" rel="alternate" title="兰湾" type="application/rss+xml">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="http://st.avros.net">兰湾</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+            
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+    <div class='article'>
+        <div class="content-title">
+            <h1>复习74HC4046的相关计算(1)</h1>
+2015-09-22
+
+by <a class="url fn" href="http://st.avros.net/author/stavros.html">Stavros</a>
+ 
+
+
+        </div>
+	
+        <div><p>前两天没事复习了一下74HC4046的计算. 主要材料: </p>
+<ol>
+<li>某个在线计算器, 只有VCO的计算. url: <a href="http://www.changpuak.ch/electronics/calc_03.php">http://www.changpuak.ch/electronics/calc_03.php</a></li>
+<li>Motorola的AN1410: Configuring and Applying the MC74HC4046A Phase-Locked Loop </li>
+<li>Philips的Datasheet </li>
+<li>Texas Instruments的Application Report SCHA003B: CMOS Phase-Locked-Loop Applications Using the CD54/74HC/HCT4046A and CD54/74HC/HCT7046A     </li>
+</ol>
+<p>根据Philips的datasheet, 取$R_1$ = 10k, $R_2$ = 10k, $C$ = 500p, $V_\rm{CC}$ = 5.0V, $\rm{VCO_{in}}$分别为0.9V、2.5V、4.1V时Fo为2.0MHz、2.5MHz、3.0MHz, 用在线计算器算得的结果是1.1V时1926kHz, 2.5V时2409kHz, 3.9V时3099kHz, 基本吻合. </p>
+<p>根据TI的scha003b, 取$R_1$ = 30k, $R_2$ = 36k, $C$ = 1000p, $V_\rm{CC}$ = 5V, $\rm{VCO_{in}}$分别为1.0V、2.5V、4.4V时Fo计算值为305kHz、391kHz、500kHz, 实测值为318kHz、384kHz、492kHz. 用在线计算器算出的结果是1.1V时287kHz, 2.5V时355kHz, 3.9V时435kHz, 有点误差, 还算可以接受. </p>
+<p>根据AN1410, 取$R_1$ = 300k, $R_2$＝$\infty$, $C$ = 0.1uF, $\rm{VCO_{in}}$ = 1.0V, $V_\rm{DD}$ = 4.5V, 计算得Fo = 235Hz. 同样的参数用在线计算器算得VCOin = 1.1V时Fo = 64Hz, 差得有点远. </p>
+<p>AN1410里的另一个例子, 设计一个从200k到2M的锁相环, 最后给出的结果是$R_1$ = 42k, $R_2$ = $\infty$, $C$ = 175p. $\rm{VCO_{in}}$的范围是从0.25V到2.75V, $K_\rm{VCO}$ = 774.4kHz/V. 用在线计算器算出的结果是1.1V时235kHz, 2.5V时558kHz, $K_\rm{VCO}$ = 249.5kHz/V, 无论如何对不上. </p>
+<p>AN1410里再找一个例子, $R_1$ = 9.1k, $R_2$ = $\infty$, $V_\rm{DD}$ = 5.0V, $\rm{VCO_{in}}$在0.25V和2.5V时Fo分别为113.4kHz和1.3MHz, $K_\rm{VCO}$ = 529kHz/V. 用在线计算器算出的结果是2.5V时Fo为423kHz, 3.9V时也只有709kHz, $K_\rm{VCO}$为190kHz/V. 同样有三倍左右的误差. </p>
+<p>难道AN1410整个写错了? 不解.</p></div>
+	
+        <hr>
+
+    </div>
+        </div>
+        
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="http://st.avros.net/archives.html">Archives</a>
+                <li><a href="http://st.avros.net/tags.html">Tags</a>
+
+
+
+                <li><a href="http://st.avros.net//feeds/all.atom.xml" rel="alternate">Atom feed</a></li>
+                <li><a href="http://st.avros.net//feeds/all.rss.xml" rel="alternate">RSS feed</a></li>
+
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="http://st.avros.net/category/dian-yuan.html">电源</a></li>
+                <li><a href="http://st.avros.net/category/gong-ju.html">工具</a></li>
+                <li><a href="http://st.avros.net/category/ji-dian.html">机电</a></li>
+                <li><a href="http://st.avros.net/category/qi-ta.html">其他</a></li>
+                <li><a href="http://st.avros.net/category/wu-xian-dian.html">无线电</a></li>
+                <li><a href="http://st.avros.net/category/yin-pin.html">音频</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://blog.tariel.org">Tariel's blog</a></li>
+                <li><a href="http://kurapikov.blogspot.com">库拉皮科夫的翻墙才能看的空间</a></li>
+                <li><a href="http://just4fun.cn">乐趣为王</a></li>
+                <li><a href="http://scateu.me">Scateu Blog - S.B.</a></li>
+            </ul>
+            </div>
+
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Social
+                </li>
+           
+                <li><a href="http://weibo.com/stavros">新浪微博</a></li>
+            </ul>
+            </div>
+            </div>
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="http://st.avros.net">兰湾</a> &copy; Stavros 2017</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://st.avros.net/theme/bootstrap-collapse.js"></script>
+ 
+</body>
+</html>
