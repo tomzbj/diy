@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdarg.h>
+#include "usart_f0.h"
+#include "misc.h"
+#include "stm32f0xx.h"
+
+/*
+void uprintf(USART_TypeDef* USARTn, const char* __restrict fmt, ...)
+{
+    char buf[256];
+    va_list arp;
+    va_start(arp, fmt);
+    vsprintf(buf, fmt, arp);
+    USART_WriteData(USARTn, (unsigned char*)buf, strlen(buf));
+    va_end(arp);
+}
+*/
+
+void USART_Config(void)
+{
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
+
+    // PA9 as USART1_TX
+    GPIO_InitTypeDef GPIO_InitStructure;
+    GPIO_StructInit(&GPIO_InitStructure);
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+    GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_1);
+
+    USART_InitTypeDef USART_InitStructure;
+    USART_DeInit(USART1);
+    USART_StructInit(&USART_InitStructure);
+    USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+    USART_InitStructure.USART_StopBits = USART_StopBits_1;
+    USART_InitStructure.USART_Parity = USART_Parity_No;
+    USART_InitStructure.USART_HardwareFlowControl =
+            USART_HardwareFlowControl_None;
+    USART_InitStructure.USART_Mode = USART_Mode_Tx;
+    USART_InitStructure.USART_BaudRate = 500000UL;
+    USART_Init(USART1, &USART_InitStructure);
+    USART_Cmd(USART1, ENABLE);
+}
+
+void USART_WriteData(USART_TypeDef* USARTx, const void* data, int num)
+{
+    while(num--) {
+        ( {  while(USART_GetFlagStatus(USARTx, USART_FLAG_TXE) == RESET);});
+        USART_SendData(USARTx, *((unsigned char*)data));
+        data++;
+    }
+    ( {  while(USART_GetFlagStatus(USARTx, USART_FLAG_TC) == RESET);});
+}
