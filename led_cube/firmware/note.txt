@@ -1,0 +1,5 @@
+from usb_spiflash demo
+
+dma1_ch3 as spi1_tx for leds
+dma1_ch4&5 as spi2 rx/tx for spiflash
+dma1_ch6 as usart rx
