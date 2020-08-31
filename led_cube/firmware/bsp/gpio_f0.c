@@ -11,38 +11,21 @@ void GPIO_Config(void)
     GPIO_InitTypeDef gis;
     GPIO_StructInit(&gis);
 
-    // PB10 & PB11 as USART3
-    gis.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11;
+    // PA9 & PA10 as USART1
+    gis.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_10;
     gis.GPIO_Mode = GPIO_Mode_AF;
     gis.GPIO_OType = GPIO_OType_PP;
     gis.GPIO_PuPd = GPIO_PuPd_NOPULL;
     gis.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOB, &gis);
-    GPIO_PinAFConfig(GPIOB, GPIO_PinSource10, GPIO_AF_4);
-    GPIO_PinAFConfig(GPIOB, GPIO_PinSource11, GPIO_AF_4);
-
-    // PC13 as LED
-    gis.GPIO_Pin = GPIO_Pin_13;
-    gis.GPIO_Mode = GPIO_Mode_OUT;
-    gis.GPIO_OType = GPIO_OType_PP;
-    gis.GPIO_PuPd = GPIO_PuPd_NOPULL;
-    gis.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOC, &gis);
+    GPIO_Init(GPIOA, &gis);
+    GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_1);
+    GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_1);
 
     // PA11 & PA12 as USB
     gis.GPIO_Pin = GPIO_Pin_11 | GPIO_Pin_12;
     gis.GPIO_Mode = GPIO_Mode_AF;
     gis.GPIO_OType = GPIO_OType_PP;
     gis.GPIO_PuPd = GPIO_PuPd_NOPULL;
-    gis.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOA, &gis);
-
-    // PA0~PA4, PA6 as input
-    gis.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3
-        | GPIO_Pin_4 | GPIO_Pin_6;
-    gis.GPIO_Mode = GPIO_Mode_IN;
-    gis.GPIO_OType = GPIO_OType_PP;
-    gis.GPIO_PuPd = GPIO_PuPd_UP;
     gis.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOA, &gis);
 

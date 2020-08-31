@@ -1,6 +1,6 @@
 # hardware
 CPU := cortex-m0
-MCU := STM32F072
+MCU := STM32F070xB
 FREQ := 8000000
 FLASH_SIZE := 118K
 MEM_SIZE := 16K
@@ -18,7 +18,8 @@ PYTHON := "py.exe"
 IAP  := $(PYTHON) "iap.py"
 
 # List all default C defines here, like -D_DEBUG=1
-DDEFS = -D$(shell echo $(MCU) | tr a-z A-Z)
+#DDEFS = -D$(shell echo $(MCU) | tr a-z A-Z)
+DDEFS = -D$(shell echo $(MCU))
 #DDEFS = -D$(MCU)
 DDEFS += -DUSE_STDPERIPH_DRIVER -DHSE_VALUE=$(FREQ)
 DADEFS =
@@ -51,7 +52,7 @@ SRC = $(wildcard *.c _libs/*.c app/*.c drv/*.c bsp/*.c usb/*.c thirdparty/*/*.c)
 ## List all user directories here
 UINCDIR = ./_libs $(CORELIBDIR) $(DEV_DIR) $(STDPHDRV_INCDIR)
 UINCDIR += $(patsubst %,./%, bsp drv app usb)
-UINCDIR += $(patsubst %,./thirdparty/%, ztask zkey ugui zi2c flash_eeprom)
+UINCDIR += $(patsubst %,./thirdparty/%, ztask zkey ugui zi2c flash_eeprom fatfs)
 
 ########################################### for usb
 SRC += $(wildcard $(USB_DIR)/usbd_core/src/*.c)
@@ -89,8 +90,9 @@ CPFLAGS = $(MCFLAGS) $(OPT) -g -gdwarf-2 -mthumb
 CPFLAGS += -Wall -Wstrict-prototypes -Wa,-ahlms=$(<:.c=.lst) $(DEFS)
 CPFLAGS += -Wno-unused-function
 CPFLAGS += -ffunction-sections -fdata-sections -std=gnu99
-LDFLAGS = $(MCFLAGS) -mthumb -nostartfiles -T$(LDSCRIPT)
-LDFLAGS += -L. -lstm32f072_16m
+LDFLAGS = $(MCFLAGS) -mthumb -T$(LDSCRIPT)
+#LDFLAGS = $(MCFLAGS) -mthumb -nostartfiles -T$(LDSCRIPT)
+LDFLAGS += -L. -lstm32f070_16m
 LDFLAGS += -Wl,-Map=$(FULL_PRJ).map,--cref,--no-warn-mismatch $(LIBDIR)
 LDFLAGS += -Wl,--gc-sections -specs=nano.specs #-u _printf_float
  

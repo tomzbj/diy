@@ -1,11 +1,10 @@
-
 #include "usbd_pwr.h"
-struct
-{
+
+struct {
     __IO RESUME_STATE eState;
     __IO uint8_t bESOFcnt;
-}
-ResumeS;
+} ResumeS;
+
 __IO uint32_t remotewakeupon=0;
 void Suspend(void)
 {

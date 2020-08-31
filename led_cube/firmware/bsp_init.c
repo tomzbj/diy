@@ -2,6 +2,7 @@
 #include "usbd_msc_core.h"
 
 USB_CORE_HANDLE USB_Device_dev;
+FATFS g_fs;
 
 static void SPI2_SetCS(int cs)
 {
@@ -26,11 +27,16 @@ void SPI1_WriteByte(unsigned char data)
 {
     while(SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
     SPI_SendData8(SPI1, data);
-//    while(SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
-//    return SPI_ReceiveData8(SPI1);
 }
 
-//int uputs(const void* data, int size) { USART_WriteData(USART_USB, data, size); return 0; }
+void SPI1_WriteData(void* buf, int nbytes)
+{
+    while(nbytes > 0) {
+        SPI1_WriteByte(*(unsigned char*)buf);
+        buf++;
+        nbytes--;
+    }
+}
 
 static void SPIFLASH_Config(void)
 {
@@ -46,24 +52,25 @@ static void SPIFLASH_Config(void)
 void BSP_Init(void)
 {
     SystemInit();
+    FLASH_EEPROM_Config(0x08002800 - 2048, 2048);
     SysTick_Config(48000UL);
     GPIO_Config();
-    SPI_Config();
-    SPIFLASH_Config();
+    USART_Config();
     {
         SPI1_SetCS(1);
         static hc595_cfg_t cfg;
         cfg.cs_f = SPI1_SetCS;
         cfg.writebyte_f = SPI1_WriteByte;
-        cfg.fastwrite_f = SPI1_Write_DMA;
+//        cfg.fastwrite_f = SPI1_Write_DMA;
+        cfg.fastwrite_f = SPI1_WriteData;
         cfg.delay_f = _delay_ms_loop;
         HC595_Init(&cfg);
-
     }
-//    KEY_Config();
-    USART_Config();
-//    USBD_Init(&USB_Device_dev, &USR_desc, &USBD_HID_cb, &USR_cb);
-    USBD_Init(&USB_Device_dev, &USR_desc, &USBD_MSC_cb, &USR_cb);
+    SPI_Config();
+    SPIFLASH_Config();
+    extern FATFS g_fs;
+    f_mount(&g_fs, "0:", 1);
 
     DC_Config();
+    USBD_Init(&USB_Device_dev, &USR_desc, &USBD_MSC_cb, &USR_cb);
 }

@@ -88,7 +88,7 @@ void SPI_Config(void)
     SPI_RxFIFOThresholdConfig(SPI1, SPI_RxFIFOThreshold_QF);
     SPI_Cmd(SPI1, ENABLE);
 
-    DMA_DeInit(DMA1_Channel3);  // SPI1 tx
+/*    DMA_DeInit(DMA1_Channel3);  // SPI1 tx
     DMA_StructInit(&dis);
     dis.DMA_PeripheralBaseAddr = (unsigned long)&(SPI1->DR);
     dis.DMA_DIR = DMA_DIR_PeripheralDST;
@@ -100,4 +100,5 @@ void SPI_Config(void)
     dis.DMA_Priority = DMA_Priority_VeryHigh;
     dis.DMA_M2M = DMA_M2M_Disable;
     DMA_Init(DMA1_Channel3, &dis);
+    */
 }

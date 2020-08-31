@@ -1,7 +1,6 @@
 #include "misc.h"
 #include <string.h>
 #include "platform.h"
-#include "tasks.h"
 
 void SystemInit(void)    // called by startup script
 {
@@ -9,7 +8,6 @@ void SystemInit(void)    // called by startup script
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
     SYSCFG_MemoryRemapConfig(SYSCFG_MemoryRemap_SRAM);
     __enable_irq();
-
     RCC_DeInit();
     RCC_HSEConfig(RCC_HSE_ON);
     FLASH_SetLatency(FLASH_Latency_1);
@@ -28,7 +26,6 @@ void SystemInit(void)    // called by startup script
 int main(void)
 {
     void BSP_Init(void);
-    FLASH_EEPROM_Config(0x08002800 - 2048, 2048);
     BSP_Init();
     TASKS_Config();
     while(1) {

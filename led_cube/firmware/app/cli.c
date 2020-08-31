@@ -54,6 +54,11 @@ static void ParseWR(char* const tokens[], int count)
 
     if(0) {
     }
+    else if(strcasecmp(tokens[1], "off") == 0) {
+        for(int i = 0; i < 64; i++)
+            HC595_WriteByte(0x00);
+        ok();
+    }
     else if(strcasecmp(tokens[1], "freq") == 0) {
         int freq = strtol(tokens[2], NULL, 10);
         zt_setinteval(1, 500 / freq);

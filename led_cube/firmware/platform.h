@@ -4,6 +4,8 @@
 // thirdparty
 #include "ztask.h"
 #include "zkey.h"
+#include "ff.h"
+#include "flash_eeprom.h"
 
 // bsp
 #include "gpio_f0.h"
@@ -12,8 +14,9 @@
 
 // app
 #include "dataconfig.h"
-#include "flash_eeprom.h"
-#include "key.h"
+#include "tasks.h"
+#include "cli.h"
+#include "cmd.h"
 
 // drv
 #include "spiflash.h"

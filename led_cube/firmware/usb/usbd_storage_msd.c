@@ -18,10 +18,12 @@ int8_t STORAGE_Read(uint8_t lun, uint8_t* buf, uint32_t blk_addr,
 int8_t STORAGE_Write(uint8_t lun, uint8_t* buf, uint32_t blk_addr,
     uint16_t blk_len);
 int8_t STORAGE_GetMaxLun(void);
-USBD_STORAGE_cb_TypeDef USBD_MICRO_SDIO_fops =
-    {STORAGE_Init, STORAGE_GetCapacity, STORAGE_IsReady,
-        STORAGE_IsWriteProtected, STORAGE_Read, STORAGE_Write,
-        STORAGE_GetMaxLun, (int8_t*)STORAGE_Inquirydata, };
+USBD_STORAGE_cb_TypeDef USBD_MICRO_SDIO_fops = {
+    //
+    STORAGE_Init, STORAGE_GetCapacity, STORAGE_IsReady,
+    STORAGE_IsWriteProtected, STORAGE_Read, STORAGE_Write, STORAGE_GetMaxLun,
+    (int8_t*)STORAGE_Inquirydata    //
+    };
 USBD_STORAGE_cb_TypeDef* USBD_STORAGE_fops = &USBD_MICRO_SDIO_fops;
 
 int8_t STORAGE_Init(uint8_t lun)
@@ -48,13 +50,15 @@ int8_t STORAGE_IsWriteProtected(uint8_t lun)
     return 0;
 }
 
-int8_t STORAGE_Read(uint8_t lun, uint8_t* buf, uint32_t blk_addr, uint16_t blk_len)
+int8_t STORAGE_Read(uint8_t lun, uint8_t* buf, uint32_t blk_addr,
+    uint16_t blk_len)
 {
     SPIFLASH_FastRead(blk_addr * 4096, blk_len * 4096, buf);
     return 0;
 }
 
-int8_t STORAGE_Write(uint8_t lun, uint8_t* buf, uint32_t blk_addr, uint16_t blk_len)
+int8_t STORAGE_Write(uint8_t lun, uint8_t* buf, uint32_t blk_addr,
+    uint16_t blk_len)
 {
     SPIFLASH_SectorErase(blk_addr * 4096);
     SPIFLASH_Write(blk_addr * 4096, blk_len * 4096, buf);

@@ -63,10 +63,6 @@ void abort(void)
 
 int _write(int file, char *ptr, int len)
 {
-    unsigned short todo;
-    for (todo = 0; todo < len; todo++) {
-        USART_SendData(USART3, *ptr++);
-        while(USART_GetFlagStatus(USART3, USART_FLAG_TC) == RESET);
-    } 
+    USART_WriteData(USART1, ptr, len);
     return len;
 }
