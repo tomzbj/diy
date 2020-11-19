@@ -1,0 +1,67 @@
+#include "stm8s_it.h"
+#include "timer_8s.h"
+
+extern bool ButtonPressed;
+#ifdef _COSMIC_
+INTERRUPT_HANDLER(NonHandledInterrupt, 25) {}
+#endif 
+INTERRUPT_HANDLER_TRAP( TRAP_IRQHandler)
+{
+}
+INTERRUPT_HANDLER(TLI_IRQHandler, 0) {}
+INTERRUPT_HANDLER(AWU_IRQHandler, 1) {}
+INTERRUPT_HANDLER(CLK_IRQHandler, 2) {}
+INTERRUPT_HANDLER(EXTI_PORTA_IRQHandler, 3) {}
+INTERRUPT_HANDLER(EXTI_PORTB_IRQHandler, 4) {}
+INTERRUPT_HANDLER(EXTI_PORTC_IRQHandler, 5) {}
+INTERRUPT_HANDLER(EXTI_PORTD_IRQHandler, 6) {}
+INTERRUPT_HANDLER(EXTI_PORTE_IRQHandler, 7) {}
+#ifdef STM8S903
+INTERRUPT_HANDLER(EXTI_PORTF_IRQHandler, 8) {}
+#endif 
+#if defined (STM8S208) || defined (STM8AF52Ax)
+INTERRUPT_HANDLER(CAN_RX_IRQHandler, 8) {}
+INTERRUPT_HANDLER(CAN_TX_IRQHandler, 9) {}
+#endif 
+INTERRUPT_HANDLER(SPI_IRQHandler, 10) {}
+INTERRUPT_HANDLER(TIM1_UPD_OVF_TRG_BRK_IRQHandler, 11) {}
+INTERRUPT_HANDLER(TIM1_CAP_COM_IRQHandler, 12) {}
+#ifdef STM8S903
+INTERRUPT_HANDLER(TIM5_UPD_OVF_BRK_TRG_IRQHandler, 13) {}
+INTERRUPT_HANDLER(TIM5_CAP_COM_IRQHandler, 14) {}
+#else 
+INTERRUPT_HANDLER(TIM2_UPD_OVF_BRK_IRQHandler, 13) {}
+INTERRUPT_HANDLER(TIM2_CAP_COM_IRQHandler, 14) {}
+#endif 
+#if defined (STM8S208) || defined(STM8S207) || defined(STM8S007) || defined(STM8S105) || \
+defined(STM8S005) ||  defined (STM8AF62Ax) || defined (STM8AF52Ax) || defined (STM8AF626x)
+INTERRUPT_HANDLER(TIM3_UPD_OVF_BRK_IRQHandler, 15) {}
+INTERRUPT_HANDLER(TIM3_CAP_COM_IRQHandler, 16) {}
+#endif 
+#if defined (STM8S208) || defined(STM8S207) || defined(STM8S007) || defined(STM8S103) || \
+defined(STM8S003) ||  defined (STM8AF62Ax) || defined (STM8AF52Ax) || defined (STM8S903)
+INTERRUPT_HANDLER(UART1_TX_IRQHandler, 17) {}
+INTERRUPT_HANDLER(UART1_RX_IRQHandler, 18) {}
+#endif 
+INTERRUPT_HANDLER(I2C_IRQHandler, 19) {}
+#if defined(STM8S105) || defined(STM8S005) ||  defined (STM8AF626x)
+INTERRUPT_HANDLER(UART2_TX_IRQHandler, 20) {}
+INTERRUPT_HANDLER(UART2_RX_IRQHandler, 21) {}
+#endif 
+#if defined(STM8S207) || defined(STM8S007) || defined(STM8S208) || defined (STM8AF52Ax) || defined (STM8AF62Ax)
+INTERRUPT_HANDLER(UART3_TX_IRQHandler, 20) {}
+INTERRUPT_HANDLER(UART3_RX_IRQHandler, 21) {}
+#endif 
+#if defined(STM8S207) || defined(STM8S007) || defined(STM8S208) || defined (STM8AF52Ax) || defined (STM8AF62Ax)
+INTERRUPT_HANDLER(ADC2_IRQHandler, 22) {}
+#else 
+INTERRUPT_HANDLER(ADC1_IRQHandler, 22) {}
+#endif 
+#ifdef STM8S903
+INTERRUPT_HANDLER(TIM6_UPD_OVF_TRG_IRQHandler, 23) {}
+#else 
+@svlreg INTERRUPT_HANDLER(TIM4_UPD_OVF_IRQHandler, 23) {
+    TIMER4_IRQHandler();
+}
+#endif 
+INTERRUPT_HANDLER(EEPROM_EEC_IRQHandler, 24) {}
