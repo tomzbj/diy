@@ -1,0 +1,155 @@
+#include "st7735.h"
+
+static st7735_cfg_t g;
+
+// 写指令 
+void ST7735_WriteReg(unsigned char data)
+{
+    g.cs_f(0);
+    g.rs_f(0);
+    g.fastwrite_f(&data, 1);
+    g.cs_f(1);
+}
+
+// 写8位数据
+void ST7735_WriteData(unsigned char data)
+{
+    g.cs_f(0);
+    g.rs_f(1);
+    g.fastwrite_f(&data, 1);
+    g.cs_f(1);
+}
+
+void ST7735_ReadDataFast(unsigned char* buf, int nwords)
+{
+}
+
+void ST7735_WriteDataFast(unsigned char* buf, int nbytes)
+{
+    g.cs_f(0);
+    g.rs_f(1);
+    g.fastwrite_f(buf, nbytes);
+    g.cs_f(1);
+}
+
+void __write_reg_data(unsigned char reg, unsigned char data)
+{
+    ST7735_WriteReg(reg);
+    ST7735_WriteData(data);
+}
+
+void ST7735_Init(st7735_cfg_t* cfg)
+{
+    g = *cfg;
+    g.reset_f(0);
+    g.delay_us_f(100 * 1000);
+    g.reset_f(1);
+    g.delay_us_f(50 * 1000);
+
+    //开始初始化液晶屏
+    ST7735_WriteReg(0x11);
+    g.delay_us_f(120 * 1000);
+    /*
+    ST7735_WriteReg(0x11);
+    __write_reg_data(0x26, 0x04);    // setting gamma
+    __write_reg_data(0xb1, 0x0c);    // frame rate control
+    ST7735_WriteData(0x14);
+    __write_reg_data(0xc0, 0x0c);    // power control
+    ST7735_WriteData(0x05);
+    __write_reg_data(0xc1, 0x02);    // power control 2
+    __write_reg_data(0xc5, 0x32);    // vcom
+    ST7735_WriteData(0x32);
+    ST7735_WriteData(0x3b);
+    __write_reg_data(0xc7, 0x40);    // vcom offset control
+    __write_reg_data(0x2a, 0x00);    // start addr
+    ST7735_WriteData(0x00);
+    ST7735_WriteData(0x00);
+    ST7735_WriteData(0x7f);
+    __write_reg_data(0x2b, 0x00);    // start addr
+    ST7735_WriteData(0x00);
+    ST7735_WriteData(0x00);
+    ST7735_WriteData(0x7f);
+    __write_reg_data(0x36, 0xc8);    // direction
+    __write_reg_data(0x3a, 0x05);    // pixel format
+    ST7735_WriteReg(0x29);
+    */
+
+    if(1) {
+        ST7735_WriteReg(0x3A);
+        ST7735_WriteData(0x05);
+
+        ST7735_WriteReg(0xB2);
+        ST7735_WriteData(0x0C);
+        ST7735_WriteData(0x0C);
+        ST7735_WriteData(0x00);
+        ST7735_WriteData(0x33);
+        ST7735_WriteData(0x33);
+
+        ST7735_WriteReg(0xB7);
+        ST7735_WriteData(0x35);
+
+        ST7735_WriteReg(0xBB);
+        ST7735_WriteData(0x19);
+
+        ST7735_WriteReg(0xC0);
+        ST7735_WriteData(0x2C);
+
+        ST7735_WriteReg(0xC2);
+        ST7735_WriteData(0x01);
+
+        ST7735_WriteReg(0xC3);
+        ST7735_WriteData(0x12);
+
+        ST7735_WriteReg(0xC4);
+        ST7735_WriteData(0x20);
+
+        ST7735_WriteReg(0xC6);
+        ST7735_WriteData(0x0F);
+
+        ST7735_WriteReg(0xD0);
+        ST7735_WriteData(0xA4);
+        ST7735_WriteData(0xA1);
+
+        ST7735_WriteReg(0xE0);
+        ST7735_WriteData(0xD0);
+        ST7735_WriteData(0x04);
+        ST7735_WriteData(0x0D);
+        ST7735_WriteData(0x11);
+        ST7735_WriteData(0x13);
+        ST7735_WriteData(0x2B);
+        ST7735_WriteData(0x3F);
+        ST7735_WriteData(0x54);
+        ST7735_WriteData(0x4C);
+        ST7735_WriteData(0x18);
+        ST7735_WriteData(0x0D);
+        ST7735_WriteData(0x0B);
+        ST7735_WriteData(0x1F);
+        ST7735_WriteData(0x23);
+
+        ST7735_WriteReg(0xE1);
+        ST7735_WriteData(0xD0);
+        ST7735_WriteData(0x04);
+        ST7735_WriteData(0x0C);
+        ST7735_WriteData(0x11);
+        ST7735_WriteData(0x13);
+        ST7735_WriteData(0x2C);
+        ST7735_WriteData(0x3F);
+        ST7735_WriteData(0x44);
+        ST7735_WriteData(0x51);
+        ST7735_WriteData(0x2F);
+        ST7735_WriteData(0x1F);
+        ST7735_WriteData(0x1F);
+        ST7735_WriteData(0x20);
+        ST7735_WriteData(0x23);
+
+        ST7735_WriteReg(0x21);
+
+        ST7735_WriteReg(0x11);
+
+        ST7735_WriteReg(0x29);
+    }
+
+//    ST7735_WriteReg(0x36);
+//    ST7735_WriteData(0x78);
+//    WriteReg(0x36, 0x78);
+}
