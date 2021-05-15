@@ -1,0 +1,17 @@
+1.  简易fm发射 40X 20X8=1.6 done
+2.  音频输入模块 32x 14x8=1.1 done
+3.  发v模块 30x 22x8=1.8 tiny13 done
+4.  晶振发射, 14.318M 7倍频? done 发v能收到
+5.  话筒模块 34x 17x8=1.4 to test
+6.  PLL发射 40x40=16 50x gd32f330
+    1.  @ham AM发射机, 386/PDM? 386 AM/PDM AM/class e AM    直接5351方案!
+    2.  LPF: C1=0pF, C2=29pF(27pF), L2=0.16uH(180nH), C3=C5=43pF(47pF), L3=44nH(56nH), C4=14pF(15pF), L1=2.47uH(2.2uH)
+    3.  zboot: 增加不限制容量功能
+    4.  疑似短路待查！ done
+    5.  oled&key done
+    6.  si5351 done
+    7.  bias done
+    8.  adc todo
+    9.  fm todo
+        1.  i2c太慢!!! 另想办法
+        2.  实现FM发射，但CPU占用率太高
