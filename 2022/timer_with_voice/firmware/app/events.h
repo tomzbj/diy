@@ -1,0 +1,16 @@
+#ifndef _EVENTS_H
+#define _EVENTS_H
+
+enum {
+    EVENT_KEY1_PRESS,
+    EVENT_KEY1_LONGPRESS,
+    EVENT_KEY2_PRESS,
+    EVENT_KEY2_LONGPRESS,
+    EVENT_AUDIO_HT,
+    EVENT_AUDIO_TC,
+    EVENT_ERROR = -1
+};
+
+void EVENTS_Config(void);
+
+#endif
