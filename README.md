@@ -1,5 +1,15 @@
 # DIY
 
+## 2022
+
+### gd32_dds
+
+迷你DDS信号发生器, 详见 https://zhuanlan.zhihu.com/p/532016402
+
+### timer_with_voice
+
+带语音的定时器, 详见 https://zhuanlan.zhihu.com/p/492289874
+
 ## 2021 
 
 ### battery_analyzer
