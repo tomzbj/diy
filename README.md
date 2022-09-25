@@ -2,6 +2,10 @@
 
 ## 2022
 
+### resbox
+
+电阻箱, 详见 
+
 ### gd32_dds
 
 迷你DDS信号发生器, 详见 https://zhuanlan.zhihu.com/p/532016402

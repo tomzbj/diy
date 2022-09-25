@@ -1,0 +1,21 @@
++seg .const -b 0x8080 -n .const 
++seg .text -a .const  -n .text 
++seg .eeprom -b 0x1000 -m 256
++seg .bsct -b 0x0 -m 0x100  -n .bsct 
++seg .ubsct -a .bsct  -n .ubsct 
++seg .bit -a .ubsct  -n .bit -id 
++seg .data -a .bit -m 0x800  -n .data 
++seg .bss -a .data  -n .bss 
+
+#crtsi.sm8 %%OBJS%% libstm8l05x_md_vl.sm8 libfs.sm8 libis.sm8 libm.sm8 
+#crtsi0.sm8 %%OBJS%% libstm8l05x_md_vl_0.sm8 libfs0.sm8 libis0.sm8 libm0.sm8 
+#crtsi0.sm8 %%OBJS%% libfs0.sm8 libis0.sm8 libm0.sm8 
+crtsi0.sm8 %%OBJS%% libis0.sm8 libm0.sm8
+
++seg .const -b 0x8000 -k
+stm8_interrupt_vector.o
+
++def __endzp=@.ubsct			
++def __memory=@.bss				
++def __startmem=@.bss
++def __stack=0x7ff
