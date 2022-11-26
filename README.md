@@ -2,9 +2,13 @@
 
 ## 2022
 
+### aprs_beacon
+
+APRS调制实验, 详见 https://zhuanlan.zhihu.com/p/571071153
+
 ### resbox
 
-电阻箱, 详见 
+电阻箱, 详见 https://zhuanlan.zhihu.com/p/567995719 
 
 ### gd32_dds
 
