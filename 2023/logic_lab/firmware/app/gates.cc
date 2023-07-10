@@ -1,7 +1,7 @@
 #include "zgate.h"
 #include <vector>
 
-std :: vector<ZGate> gates;
+std::vector<ZGate> gates;
 
 void GATES_Config(void)
 {
@@ -28,6 +28,9 @@ void GATES_Task(void)
 {
     for(auto& gate : gates) {
         gate.update();
+    }
+    // 先更新所有门的状态, 再更新输出引脚
+    for(auto& gate : gates) {
         gate.output();
     }
 }
