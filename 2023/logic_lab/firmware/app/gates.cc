@@ -1,8 +1,7 @@
 #include "zgate.h"
 #include <vector>
 
-using namespace std;
-vector<ZGate> gates;
+std :: vector<ZGate> gates;
 
 void GATES_Config(void)
 {
