@@ -1,5 +1,14 @@
 # DIY
 
+## 2023
+
+### logic_gate
+逻辑门玩具, 详见 https://zhuanlan.zhihu.com/p/642499976
+
+### ble_t_rh_sensor
+
+低功耗蓝牙广播实验, 顺便DIY个温湿度计, 详见 https://zhuanlan.zhihu.com/p/625508018
+
 ## 2022
 
 ### aprs_beacon
