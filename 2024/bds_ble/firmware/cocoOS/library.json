@@ -1,0 +1,22 @@
+{
+  "name": "cocoOS",
+  "keywords": "task, scheduler, rtos, coroutines",
+  "description": "cocoOS is a free, open source, cooperative task scheduler, based on coroutines targeted for embedded microcontrollers",
+  "authors":
+  {
+    "name": "Peter Eckstrand",
+    "email": "info@cocoos.net",
+    "url": "http://www.cocoos.net"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cocoOS/cocoOS.git"
+  },  
+  "homepage": "http://www.cocoos.net",
+  "version": "5.0.4",
+  "build": {
+    "flags": "-I inc"
+  },
+  "frameworks": "*",
+  "platforms": "atmelavr, atmelsam, ststm32, timsp430"
+ }

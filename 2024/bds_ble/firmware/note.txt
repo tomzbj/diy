@@ -1,0 +1,17 @@
+BLE发送格式:
+
+1. 可阅读格式 8字节
+
+hh - mm - ss - rh - t - vbath - vbatl - sync_hours
+
+2. 短格式, 6字节
+
+time: 0-86399, 17bit
+rh: 0-99, 7bit
+t: -128~127, *.5, 8bit
+
+vbat, 0-420, 9bit
+sync_hours, 0-127, 7bit
+
+
+

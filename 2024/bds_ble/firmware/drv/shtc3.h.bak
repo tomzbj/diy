@@ -1,0 +1,21 @@
+#ifndef _SHTC3_H
+#define _SHTC3_H
+
+#include "zi2c.h"
+// i2c addr: 0x70
+
+typedef struct {
+    unsigned short RH, T;
+} shtc3_result_t;
+
+class SHTC3 {
+public:
+    SHTC3(ZI2C& i2c) : _i2c(i2c)
+    {
+    }
+    shtc3_result_t read(void);
+private:
+    ZI2C& _i2c;
+};
+
+#endif

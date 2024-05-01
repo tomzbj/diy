@@ -1,0 +1,401 @@
+In file included from app\stm32f0xx_flash.h:38,
+                 from app\stm32f0xx_flash.c:76:
+d:/work/libs/cmsis/hal_f0/_cmsis/stm32f0xx.h:149:3: error: #error "Please select first the target STM32F0xx device used in your application (in stm32f0xx.h file)"
+  149 |  #error "Please select first the target STM32F0xx device used in your application (in stm32f0xx.h file)"
+      |   ^~~~~
+In file included from app\stm32f0xx_flash.c:76:
+app\stm32f0xx_flash.h:369:23: error: unknown type name 'uint32_t'
+  369 | void FLASH_SetLatency(uint32_t FLASH_Latency);
+      |                       ^~~~~~~~
+app\stm32f0xx_flash.h:376:30: error: unknown type name 'uint32_t'
+  376 | FLASH_Status FLASH_ErasePage(uint32_t Page_Address);
+      |                              ^~~~~~~~
+app\stm32f0xx_flash.h:378:32: error: unknown type name 'uint32_t'
+  378 | FLASH_Status FLASH_ProgramWord(uint32_t Address, uint32_t Data);
+      |                                ^~~~~~~~
+app\stm32f0xx_flash.h:378:50: error: unknown type name 'uint32_t'
+  378 | FLASH_Status FLASH_ProgramWord(uint32_t Address, uint32_t Data);
+      |                                                  ^~~~~~~~
+app\stm32f0xx_flash.h:379:36: error: unknown type name 'uint32_t'
+  379 | FLASH_Status FLASH_ProgramHalfWord(uint32_t Address, uint16_t Data);
+      |                                    ^~~~~~~~
+app\stm32f0xx_flash.h:379:54: error: unknown type name 'uint16_t'
+  379 | FLASH_Status FLASH_ProgramHalfWord(uint32_t Address, uint16_t Data);
+      |                                                      ^~~~~~~~
+app\stm32f0xx_flash.h:386:33: error: unknown type name 'uint32_t'
+  386 | FLASH_Status FLASH_OB_EnableWRP(uint32_t OB_WRP);
+      |                                 ^~~~~~~~
+app\stm32f0xx_flash.h:387:33: error: unknown type name 'uint8_t'
+  387 | FLASH_Status FLASH_OB_RDPConfig(uint8_t OB_RDP);
+      |                                 ^~~~~~~
+app\stm32f0xx_flash.h:388:34: error: unknown type name 'uint8_t'
+  388 | FLASH_Status FLASH_OB_UserConfig(uint8_t OB_IWDG, uint8_t OB_STOP, uint8_t OB_STDBY);
+      |                                  ^~~~~~~
+app\stm32f0xx_flash.h:388:51: error: unknown type name 'uint8_t'
+  388 | FLASH_Status FLASH_OB_UserConfig(uint8_t OB_IWDG, uint8_t OB_STOP, uint8_t OB_STDBY);
+      |                                                   ^~~~~~~
+app\stm32f0xx_flash.h:388:68: error: unknown type name 'uint8_t'
+  388 | FLASH_Status FLASH_OB_UserConfig(uint8_t OB_IWDG, uint8_t OB_STOP, uint8_t OB_STDBY);
+      |                                                                    ^~~~~~~
+app\stm32f0xx_flash.h:389:34: error: unknown type name 'uint8_t'
+  389 | FLASH_Status FLASH_OB_BOOTConfig(uint8_t OB_BOOT1);
+      |                                  ^~~~~~~
+app\stm32f0xx_flash.h:390:35: error: unknown type name 'uint8_t'
+  390 | FLASH_Status FLASH_OB_BOOT0Config(uint8_t OB_BOOT0);
+      |                                   ^~~~~~~
+app\stm32f0xx_flash.h:391:37: error: unknown type name 'uint8_t'
+  391 | FLASH_Status FLASH_OB_BOOT0SWConfig(uint8_t OB_BOOT0SW);
+      |                                     ^~~~~~~
+app\stm32f0xx_flash.h:392:34: error: unknown type name 'uint8_t'
+  392 | FLASH_Status FLASH_OB_VDDAConfig(uint8_t OB_VDDA_ANALOG);
+      |                                  ^~~~~~~
+app\stm32f0xx_flash.h:393:40: error: unknown type name 'uint8_t'
+  393 | FLASH_Status FLASH_OB_SRAMParityConfig(uint8_t OB_SRAM_Parity);
+      |                                        ^~~~~~~
+app\stm32f0xx_flash.h:394:33: error: unknown type name 'uint8_t'
+  394 | FLASH_Status FLASH_OB_WriteUser(uint8_t OB_USER);
+      |                                 ^~~~~~~
+app\stm32f0xx_flash.h:395:35: error: unknown type name 'uint32_t'
+  395 | FLASH_Status FLASH_OB_ProgramData(uint32_t Address, uint8_t Data);
+      |                                   ^~~~~~~~
+app\stm32f0xx_flash.h:395:53: error: unknown type name 'uint8_t'
+  395 | FLASH_Status FLASH_OB_ProgramData(uint32_t Address, uint8_t Data);
+      |                                                     ^~~~~~~
+app\stm32f0xx_flash.h:396:1: error: unknown type name 'uint8_t'
+  396 | uint8_t FLASH_OB_GetUser(void);
+      | ^~~~~~~
+app\stm32f0xx_flash.h:397:1: error: unknown type name 'uint32_t'
+  397 | uint32_t FLASH_OB_GetWRP(void);
+      | ^~~~~~~~
+app\stm32f0xx_flash.h:401:21: error: unknown type name 'uint32_t'
+  401 | void FLASH_ITConfig(uint32_t FLASH_IT, FunctionalState NewState);
+      |                     ^~~~~~~~
+app\stm32f0xx_flash.h:402:32: error: unknown type name 'uint32_t'
+  402 | FlagStatus FLASH_GetFlagStatus(uint32_t FLASH_FLAG);
+      |                                ^~~~~~~~
+app\stm32f0xx_flash.h:403:22: error: unknown type name 'uint32_t'
+  403 | void FLASH_ClearFlag(uint32_t FLASH_FLAG);
+      |                      ^~~~~~~~
+app\stm32f0xx_flash.h:405:41: error: unknown type name 'uint32_t'
+  405 | FLASH_Status FLASH_WaitForLastOperation(uint32_t Timeout);
+      |                                         ^~~~~~~~
+app\stm32f0xx_flash.c:135:23: error: unknown type name 'uint32_t'
+  135 | void FLASH_SetLatency(uint32_t FLASH_Latency)
+      |                       ^~~~~~~~
+app\stm32f0xx_flash.c: In function 'FLASH_PrefetchBufferCmd':
+app\stm32f0xx_flash.c:162:3: warning: implicit declaration of function 'assert_param' [-Wimplicit-function-declaration]
+  162 |   assert_param(IS_FUNCTIONAL_STATE(NewState));
+      |   ^~~~~~~~~~~~
+app\stm32f0xx_flash.c:166:5: error: 'FLASH' undeclared (first use in this function)
+  166 |     FLASH->ACR |= FLASH_ACR_PRFTBE;
+      |     ^~~~~
+app\stm32f0xx_flash.c:166:5: note: each undeclared identifier is reported only once for each function it appears in
+app\stm32f0xx_flash.c:166:19: error: 'FLASH_ACR_PRFTBE' undeclared (first use in this function); did you mean 'FLASH_COMPLETE'?
+  166 |     FLASH->ACR |= FLASH_ACR_PRFTBE;
+      |                   ^~~~~~~~~~~~~~~~
+      |                   FLASH_COMPLETE
+app\stm32f0xx_flash.c:170:20: error: 'uint32_t' undeclared (first use in this function)
+  170 |     FLASH->ACR &= (uint32_t)(~((uint32_t)FLASH_ACR_PRFTBE));
+      |                    ^~~~~~~~
+app\stm32f0xx_flash.c:170:42: error: expected ')' before 'FLASH_ACR_PRFTBE'
+  170 |     FLASH->ACR &= (uint32_t)(~((uint32_t)FLASH_ACR_PRFTBE));
+      |                               ~          ^~~~~~~~~~~~~~~~
+      |                                          )
+app\stm32f0xx_flash.c: In function 'FLASH_GetPrefetchBufferStatus':
+app\stm32f0xx_flash.c:183:8: error: 'FLASH' undeclared (first use in this function)
+  183 |   if ((FLASH->ACR & FLASH_ACR_PRFTBS) != (uint32_t)RESET)
+      |        ^~~~~
+app\stm32f0xx_flash.c:183:21: error: 'FLASH_ACR_PRFTBS' undeclared (first use in this function)
+  183 |   if ((FLASH->ACR & FLASH_ACR_PRFTBS) != (uint32_t)RESET)
+      |                     ^~~~~~~~~~~~~~~~
+app\stm32f0xx_flash.c:183:43: error: 'uint32_t' undeclared (first use in this function)
+  183 |   if ((FLASH->ACR & FLASH_ACR_PRFTBS) != (uint32_t)RESET)
+      |                                           ^~~~~~~~
+app\stm32f0xx_flash.c:183:52: error: expected ')' before 'RESET'
+  183 |   if ((FLASH->ACR & FLASH_ACR_PRFTBS) != (uint32_t)RESET)
+      |      ~                                             ^~~~~
+      |                                                    )
+app\stm32f0xx_flash.c: In function 'FLASH_Unlock':
+app\stm32f0xx_flash.c:234:7: error: 'FLASH' undeclared (first use in this function)
+  234 |   if((FLASH->CR & FLASH_CR_LOCK) != RESET)
+      |       ^~~~~
+app\stm32f0xx_flash.c:234:19: error: 'FLASH_CR_LOCK' undeclared (first use in this function)
+  234 |   if((FLASH->CR & FLASH_CR_LOCK) != RESET)
+      |                   ^~~~~~~~~~~~~
+app\stm32f0xx_flash.c:237:19: error: 'FLASH_KEY1' undeclared (first use in this function)
+  237 |     FLASH->KEYR = FLASH_KEY1;
+      |                   ^~~~~~~~~~
+app\stm32f0xx_flash.c:238:19: error: 'FLASH_KEY2' undeclared (first use in this function)
+  238 |     FLASH->KEYR = FLASH_KEY2;
+      |                   ^~~~~~~~~~
+app\stm32f0xx_flash.c: In function 'FLASH_Lock':
+app\stm32f0xx_flash.c:250:3: error: 'FLASH' undeclared (first use in this function)
+  250 |   FLASH->CR |= FLASH_CR_LOCK;
+      |   ^~~~~
+app\stm32f0xx_flash.c:250:16: error: 'FLASH_CR_LOCK' undeclared (first use in this function)
+  250 |   FLASH->CR |= FLASH_CR_LOCK;
+      |                ^~~~~~~~~~~~~
+app\stm32f0xx_flash.c: At top level:
+app\stm32f0xx_flash.c:264:30: error: unknown type name 'uint32_t'
+  264 | FLASH_Status FLASH_ErasePage(uint32_t Page_Address)
+      |                              ^~~~~~~~
+app\stm32f0xx_flash.c: In function 'FLASH_EraseAllPages':
+app\stm32f0xx_flash.c:306:12: warning: implicit declaration of function 'FLASH_WaitForLastOperation' [-Wimplicit-function-declaration]
+  306 |   status = FLASH_WaitForLastOperation(FLASH_ER_PRG_TIMEOUT);
+      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from app\stm32f0xx_flash.c:76:
+app\stm32f0xx_flash.h:326:40: error: 'uint32_t' undeclared (first use in this function)
+  326 | #define FLASH_ER_PRG_TIMEOUT         ((uint32_t)0x000B0000)
+      |                                        ^~~~~~~~
+app\stm32f0xx_flash.c:306:39: note: in expansion of macro 'FLASH_ER_PRG_TIMEOUT'
+  306 |   status = FLASH_WaitForLastOperation(FLASH_ER_PRG_TIMEOUT);
+      |                                       ^~~~~~~~~~~~~~~~~~~~
+app\stm32f0xx_flash.h:326:49: error: expected ')' before numeric constant
+  326 | #define FLASH_ER_PRG_TIMEOUT         ((uint32_t)0x000B0000)
+      |                                      ~          ^~~~~~~~~~
+app\stm32f0xx_flash.c:306:39: note: in expansion of macro 'FLASH_ER_PRG_TIMEOUT'
+  306 |   status = FLASH_WaitForLastOperation(FLASH_ER_PRG_TIMEOUT);
+      |                                       ^~~~~~~~~~~~~~~~~~~~
+app\stm32f0xx_flash.c:311:6: error: 'FLASH' undeclared (first use in this function)
+  311 |      FLASH->CR |= FLASH_CR_MER;
+      |      ^~~~~
+app\stm32f0xx_flash.c:311:19: error: 'FLASH_CR_MER' undeclared (first use in this function); did you mean 'FLASH_IT_ERR'?
+  311 |      FLASH->CR |= FLASH_CR_MER;
+      |                   ^~~~~~~~~~~~
+      |                   FLASH_IT_ERR
+app\stm32f0xx_flash.c:312:19: error: 'FLASH_CR_STRT' undeclared (first use in this function)
+  312 |      FLASH->CR |= FLASH_CR_STRT;
+      |                   ^~~~~~~~~~~~~
+In file included from app\stm32f0xx_flash.c:76:
+app\stm32f0xx_flash.h:326:49: error: expected ')' before numeric constant
+  326 | #define FLASH_ER_PRG_TIMEOUT         ((uint32_t)0x000B0000)
+      |                                      ~          ^~~~~~~~~~
+app\stm32f0xx_flash.c:315:41: note: in expansion of macro 'FLASH_ER_PRG_TIMEOUT'
+  315 |     status = FLASH_WaitForLastOperation(FLASH_ER_PRG_TIMEOUT);
+      |                                         ^~~~~~~~~~~~~~~~~~~~
+app\stm32f0xx_flash.c: At top level:
+app\stm32f0xx_flash.c:335:32: error: unknown type name 'uint32_t'
+  335 | FLASH_Status FLASH_ProgramWord(uint32_t Address, uint32_t Data)
+      |                                ^~~~~~~~
+app\stm32f0xx_flash.c:335:50: error: unknown type name 'uint32_t'
+  335 | FLASH_Status FLASH_ProgramWord(uint32_t Address, uint32_t Data)
+      |                                                  ^~~~~~~~
+app\stm32f0xx_flash.c:392:36: error: unknown type name 'uint32_t'
+  392 | FLASH_Status FLASH_ProgramHalfWord(uint32_t Address, uint16_t Data)
+      |                                    ^~~~~~~~
+app\stm32f0xx_flash.c:392:54: error: unknown type name 'uint16_t'
+  392 | FLASH_Status FLASH_ProgramHalfWord(uint32_t Address, uint16_t Data)
+      |                                                      ^~~~~~~~
+app\stm32f0xx_flash.c: In function 'FLASH_OB_Unlock':
+app\stm32f0xx_flash.c:484:7: error: 'FLASH' undeclared (first use in this function)
+  484 |   if((FLASH->CR & FLASH_CR_OPTWRE) == RESET)
+      |       ^~~~~
+app\stm32f0xx_flash.c:484:19: error: 'FLASH_CR_OPTWRE' undeclared (first use in this function); did you mean 'FLASH_ERROR_WRP'?
+  484 |   if((FLASH->CR & FLASH_CR_OPTWRE) == RESET)
+      |                   ^~~~~~~~~~~~~~~
+      |                   FLASH_ERROR_WRP
+app\stm32f0xx_flash.c:487:22: error: 'FLASH_OPTKEY1' undeclared (first use in this function)
+  487 |     FLASH->OPTKEYR = FLASH_OPTKEY1;
+      |                      ^~~~~~~~~~~~~
+app\stm32f0xx_flash.c:488:22: error: 'FLASH_OPTKEY2' undeclared (first use in this function)
+  488 |     FLASH->OPTKEYR = FLASH_OPTKEY2;
+      |                      ^~~~~~~~~~~~~
+app\stm32f0xx_flash.c: In function 'FLASH_OB_Lock':
+app\stm32f0xx_flash.c:500:3: error: 'FLASH' undeclared (first use in this function)
+  500 |   FLASH->CR &= ~FLASH_CR_OPTWRE;
+      |   ^~~~~
+app\stm32f0xx_flash.c:500:17: error: 'FLASH_CR_OPTWRE' undeclared (first use in this function); did you mean 'FLASH_ERROR_WRP'?
+  500 |   FLASH->CR &= ~FLASH_CR_OPTWRE;
+      |                 ^~~~~~~~~~~~~~~
+      |                 FLASH_ERROR_WRP
+app\stm32f0xx_flash.c: In function 'FLASH_OB_Launch':
+app\stm32f0xx_flash.c:511:3: error: 'FLASH' undeclared (first use in this function)
+  511 |   FLASH->CR |= FLASH_CR_OBL_LAUNCH;
+      |   ^~~~~
+app\stm32f0xx_flash.c:511:16: error: 'FLASH_CR_OBL_LAUNCH' undeclared (first use in this function)
+  511 |   FLASH->CR |= FLASH_CR_OBL_LAUNCH;
+      |                ^~~~~~~~~~~~~~~~~~~
+app\stm32f0xx_flash.c: In function 'FLASH_OB_Erase':
+app\stm32f0xx_flash.c:526:3: error: unknown type name 'uint16_t'
+  526 |   uint16_t rdptmp = OB_RDP_Level_0;
+      |   ^~~~~~~~
+In file included from app\stm32f0xx_flash.c:76:
+app\stm32f0xx_flash.h:196:28: error: 'uint8_t' undeclared (first use in this function)
+  196 | #define OB_RDP_Level_0   ((uint8_t)0xAA)
+      |                            ^~~~~~~
+app\stm32f0xx_flash.c:526:21: note: in expansion of macro 'OB_RDP_Level_0'
+  526 |   uint16_t rdptmp = OB_RDP_Level_0;
+      |                     ^~~~~~~~~~~~~~
+app\stm32f0xx_flash.h:196:36: error: expected ')' before numeric constant
+  196 | #define OB_RDP_Level_0   ((uint8_t)0xAA)
+      |                          ~         ^~~~
+app\stm32f0xx_flash.c:526:21: note: in expansion of macro 'OB_RDP_Level_0'
+  526 |   uint16_t rdptmp = OB_RDP_Level_0;
+      |                     ^~~~~~~~~~~~~~
+app\stm32f0xx_flash.h:326:40: error: 'uint32_t' undeclared (first use in this function)
+  326 | #define FLASH_ER_PRG_TIMEOUT         ((uint32_t)0x000B0000)
+      |                                        ^~~~~~~~
+app\stm32f0xx_flash.c:537:39: note: in expansion of macro 'FLASH_ER_PRG_TIMEOUT'
+  537 |   status = FLASH_WaitForLastOperation(FLASH_ER_PRG_TIMEOUT);
+      |                                       ^~~~~~~~~~~~~~~~~~~~
+app\stm32f0xx_flash.h:326:49: error: expected ')' before numeric constant
+  326 | #define FLASH_ER_PRG_TIMEOUT         ((uint32_t)0x000B0000)
+      |                                      ~          ^~~~~~~~~~
+app\stm32f0xx_flash.c:537:39: note: in expansion of macro 'FLASH_ER_PRG_TIMEOUT'
+  537 |   status = FLASH_WaitForLastOperation(FLASH_ER_PRG_TIMEOUT);
+      |                                       ^~~~~~~~~~~~~~~~~~~~
+app\stm32f0xx_flash.c:542:5: error: 'FLASH' undeclared (first use in this function)
+  542 |     FLASH->CR |= FLASH_CR_OPTER;
+      |     ^~~~~
+app\stm32f0xx_flash.c:542:18: error: 'FLASH_CR_OPTER' undeclared (first use in this function)
+  542 |     FLASH->CR |= FLASH_CR_OPTER;
+      |                  ^~~~~~~~~~~~~~
+app\stm32f0xx_flash.c:543:18: error: 'FLASH_CR_STRT' undeclared (first use in this function)
+  543 |     FLASH->CR |= FLASH_CR_STRT;
+      |                  ^~~~~~~~~~~~~
+In file included from app\stm32f0xx_flash.c:76:
+app\stm32f0xx_flash.h:326:49: error: expected ')' before numeric constant
+  326 | #define FLASH_ER_PRG_TIMEOUT         ((uint32_t)0x000B0000)
+      |                                      ~          ^~~~~~~~~~
+app\stm32f0xx_flash.c:546:41: note: in expansion of macro 'FLASH_ER_PRG_TIMEOUT'
+  546 |     status = FLASH_WaitForLastOperation(FLASH_ER_PRG_TIMEOUT);
+      |                                         ^~~~~~~~~~~~~~~~~~~~
+app\stm32f0xx_flash.c:554:20: error: 'FLASH_CR_OPTPG' undeclared (first use in this function)
+  554 |       FLASH->CR |= FLASH_CR_OPTPG;
+      |                    ^~~~~~~~~~~~~~
+app\stm32f0xx_flash.c:557:7: error: 'OB' undeclared (first use in this function)
+  557 |       OB->RDP = (uint16_t)rdptmp;
+      |       ^~
+app\stm32f0xx_flash.c:557:18: error: 'uint16_t' undeclared (first use in this function)
+  557 |       OB->RDP = (uint16_t)rdptmp;
+      |                  ^~~~~~~~
+app\stm32f0xx_flash.c:557:27: error: expected ';' before 'rdptmp'
+  557 |       OB->RDP = (uint16_t)rdptmp;
+      |                           ^~~~~~
+      |                           ;
+In file included from app\stm32f0xx_flash.c:76:
+app\stm32f0xx_flash.h:326:49: error: expected ')' before numeric constant
+  326 | #define FLASH_ER_PRG_TIMEOUT         ((uint32_t)0x000B0000)
+      |                                      ~          ^~~~~~~~~~
+app\stm32f0xx_flash.c:560:43: note: in expansion of macro 'FLASH_ER_PRG_TIMEOUT'
+  560 |       status = FLASH_WaitForLastOperation(FLASH_ER_PRG_TIMEOUT);
+      |                                           ^~~~~~~~~~~~~~~~~~~~
+app\stm32f0xx_flash.c: At top level:
+app\stm32f0xx_flash.c:593:33: error: unknown type name 'uint32_t'
+  593 | FLASH_Status FLASH_OB_EnableWRP(uint32_t OB_WRP)
+      |                                 ^~~~~~~~
+app\stm32f0xx_flash.c:667:33: error: unknown type name 'uint8_t'
+  667 | FLASH_Status FLASH_OB_RDPConfig(uint8_t OB_RDP)
+      |                                 ^~~~~~~
+app\stm32f0xx_flash.c:735:34: error: unknown type name 'uint8_t'
+  735 | FLASH_Status FLASH_OB_UserConfig(uint8_t OB_IWDG, uint8_t OB_STOP, uint8_t OB_STDBY)
+      |                                  ^~~~~~~
+app\stm32f0xx_flash.c:735:51: error: unknown type name 'uint8_t'
+  735 | FLASH_Status FLASH_OB_UserConfig(uint8_t OB_IWDG, uint8_t OB_STOP, uint8_t OB_STDBY)
+      |                                                   ^~~~~~~
+app\stm32f0xx_flash.c:735:68: error: unknown type name 'uint8_t'
+  735 | FLASH_Status FLASH_OB_UserConfig(uint8_t OB_IWDG, uint8_t OB_STOP, uint8_t OB_STDBY)
+      |                                                                    ^~~~~~~
+app\stm32f0xx_flash.c:775:34: error: unknown type name 'uint8_t'
+  775 | FLASH_Status FLASH_OB_BOOTConfig(uint8_t OB_BOOT1)
+      |                                  ^~~~~~~
+app\stm32f0xx_flash.c:814:35: error: unknown type name 'uint8_t'
+  814 | FLASH_Status FLASH_OB_BOOT0Config(uint8_t OB_BOOT0)
+      |                                   ^~~~~~~
+app\stm32f0xx_flash.c:853:37: error: unknown type name 'uint8_t'
+  853 | FLASH_Status FLASH_OB_BOOT0SWConfig(uint8_t OB_BOOT0SW)
+      |                                     ^~~~~~~
+app\stm32f0xx_flash.c:891:34: error: unknown type name 'uint8_t'
+  891 | FLASH_Status FLASH_OB_VDDAConfig(uint8_t OB_VDDA_ANALOG)
+      |                                  ^~~~~~~
+app\stm32f0xx_flash.c:929:40: error: unknown type name 'uint8_t'
+  929 | FLASH_Status FLASH_OB_SRAMParityConfig(uint8_t OB_SRAM_Parity)
+      |                                        ^~~~~~~
+app\stm32f0xx_flash.c:978:33: error: unknown type name 'uint8_t'
+  978 | FLASH_Status FLASH_OB_WriteUser(uint8_t OB_USER)
+      |                                 ^~~~~~~
+app\stm32f0xx_flash.c:1017:35: error: unknown type name 'uint32_t'
+ 1017 | FLASH_Status FLASH_OB_ProgramData(uint32_t Address, uint8_t Data)
+      |                                   ^~~~~~~~
+app\stm32f0xx_flash.c:1017:53: error: unknown type name 'uint8_t'
+ 1017 | FLASH_Status FLASH_OB_ProgramData(uint32_t Address, uint8_t Data)
+      |                                                     ^~~~~~~
+app\stm32f0xx_flash.c:1048:1: error: unknown type name 'uint8_t'
+ 1048 | uint8_t FLASH_OB_GetUser(void)
+      | ^~~~~~~
+app\stm32f0xx_flash.c: In function 'FLASH_OB_GetUser':
+app\stm32f0xx_flash.c:1051:11: error: 'uint8_t' undeclared (first use in this function)
+ 1051 |   return (uint8_t)(FLASH->OBR >> 8);
+      |           ^~~~~~~
+app\stm32f0xx_flash.c:1051:20: error: 'FLASH' undeclared (first use in this function)
+ 1051 |   return (uint8_t)(FLASH->OBR >> 8);
+      |                    ^~~~~
+app\stm32f0xx_flash.c: At top level:
+app\stm32f0xx_flash.c:1059:1: error: unknown type name 'uint32_t'
+ 1059 | uint32_t FLASH_OB_GetWRP(void)
+      | ^~~~~~~~
+app\stm32f0xx_flash.c: In function 'FLASH_OB_GetWRP':
+app\stm32f0xx_flash.c:1062:11: error: 'uint32_t' undeclared (first use in this function)
+ 1062 |   return (uint32_t)(FLASH->WRPR);
+      |           ^~~~~~~~
+app\stm32f0xx_flash.c:1062:21: error: 'FLASH' undeclared (first use in this function)
+ 1062 |   return (uint32_t)(FLASH->WRPR);
+      |                     ^~~~~
+app\stm32f0xx_flash.c: In function 'FLASH_OB_GetRDP':
+app\stm32f0xx_flash.c:1074:8: error: 'uint8_t' undeclared (first use in this function)
+ 1074 |   if ((uint8_t)(FLASH->OBR & (FLASH_OBR_RDPRT1 | FLASH_OBR_RDPRT2)) != RESET)
+      |        ^~~~~~~
+app\stm32f0xx_flash.c:1074:17: error: 'FLASH' undeclared (first use in this function)
+ 1074 |   if ((uint8_t)(FLASH->OBR & (FLASH_OBR_RDPRT1 | FLASH_OBR_RDPRT2)) != RESET)
+      |                 ^~~~~
+app\stm32f0xx_flash.c:1074:31: error: 'FLASH_OBR_RDPRT1' undeclared (first use in this function)
+ 1074 |   if ((uint8_t)(FLASH->OBR & (FLASH_OBR_RDPRT1 | FLASH_OBR_RDPRT2)) != RESET)
+      |                               ^~~~~~~~~~~~~~~~
+app\stm32f0xx_flash.c:1074:50: error: 'FLASH_OBR_RDPRT2' undeclared (first use in this function)
+ 1074 |   if ((uint8_t)(FLASH->OBR & (FLASH_OBR_RDPRT1 | FLASH_OBR_RDPRT2)) != RESET)
+      |                                                  ^~~~~~~~~~~~~~~~
+app\stm32f0xx_flash.c: At top level:
+app\stm32f0xx_flash.c:1110:21: error: unknown type name 'uint32_t'
+ 1110 | void FLASH_ITConfig(uint32_t FLASH_IT, FunctionalState NewState)
+      |                     ^~~~~~~~
+app\stm32f0xx_flash.c:1138:32: error: unknown type name 'uint32_t'
+ 1138 | FlagStatus FLASH_GetFlagStatus(uint32_t FLASH_FLAG)
+      |                                ^~~~~~~~
+app\stm32f0xx_flash.c:1166:22: error: unknown type name 'uint32_t'
+ 1166 | void FLASH_ClearFlag(uint32_t FLASH_FLAG)
+      |                      ^~~~~~~~
+app\stm32f0xx_flash.c: In function 'FLASH_GetStatus':
+app\stm32f0xx_flash.c:1185:7: error: 'FLASH' undeclared (first use in this function)
+ 1185 |   if((FLASH->SR & FLASH_FLAG_BSY) == FLASH_FLAG_BSY)
+      |       ^~~~~
+In file included from app\stm32f0xx_flash.c:76:
+app\stm32f0xx_flash.h:310:40: error: 'FLASH_SR_BSY' undeclared (first use in this function); did you mean 'FLASH_BUSY'?
+  310 | #define FLASH_FLAG_BSY                 FLASH_SR_BSY     /*!< FLASH Busy flag */
+      |                                        ^~~~~~~~~~~~
+app\stm32f0xx_flash.c:1185:19: note: in expansion of macro 'FLASH_FLAG_BSY'
+ 1185 |   if((FLASH->SR & FLASH_FLAG_BSY) == FLASH_FLAG_BSY)
+      |                   ^~~~~~~~~~~~~~
+app\stm32f0xx_flash.c:1191:22: error: 'uint32_t' undeclared (first use in this function)
+ 1191 |     if((FLASH->SR & (uint32_t)FLASH_FLAG_WRPERR)!= (uint32_t)0x00)
+      |                      ^~~~~~~~
+app\stm32f0xx_flash.c:1191:31: error: expected ')' before 'FLASH_SR_WRPERR'
+ 1191 |     if((FLASH->SR & (uint32_t)FLASH_FLAG_WRPERR)!= (uint32_t)0x00)
+      |        ~                      ^
+      |                               )
+app\stm32f0xx_flash.c:1191:62: error: expected ')' before numeric constant
+ 1191 |     if((FLASH->SR & (uint32_t)FLASH_FLAG_WRPERR)!= (uint32_t)0x00)
+      |       ~                                                      ^~~~
+      |                                                              )
+app\stm32f0xx_flash.c:1197:34: error: 'FLASH_SR_PGERR' undeclared (first use in this function); did you mean 'FLASH_FLAG_PGERR'?
+ 1197 |       if((FLASH->SR & (uint32_t)(FLASH_SR_PGERR)) != (uint32_t)0x00)
+      |                                  ^~~~~~~~~~~~~~
+      |                                  FLASH_FLAG_PGERR
+app\stm32f0xx_flash.c:1197:64: error: expected ')' before numeric constant
+ 1197 |       if((FLASH->SR & (uint32_t)(FLASH_SR_PGERR)) != (uint32_t)0x00)
+      |         ~                                                      ^~~~
+      |                                                                )
+app\stm32f0xx_flash.c: At top level:
+app\stm32f0xx_flash.c:1218:41: error: unknown type name 'uint32_t'
+ 1218 | FLASH_Status FLASH_WaitForLastOperation(uint32_t Timeout)
+      |                                         ^~~~~~~~
+make: *** [app\stm32f0xx_flash.o] Error 1
