@@ -1,5 +1,11 @@
 # DIY
 
+## 2024
+
+### bds_ble
+
+GPS/北斗授时及蓝牙广播, 详见https://zhuanlan.zhihu.com/p/695644622
+
 ## 2023
 
 ### vga
