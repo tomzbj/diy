@@ -1,5 +1,11 @@
 # DIY
 
+## 2025
+
+### fan_ctrl
+
+再做风扇控制器, 详见https://zhuanlan.zhihu.com/p/26638044872
+
 ## 2024
 
 ### bds_ble
