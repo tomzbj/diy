@@ -2,6 +2,10 @@
 
 ## 2025
 
+### charlie
+
+查理复用式LED点阵屏幕实验, 详见
+
 ### fan_ctrl
 
 再做风扇控制器, 详见https://zhuanlan.zhihu.com/p/26638044872
