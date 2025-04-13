@@ -4,7 +4,7 @@
 
 ### charlie
 
-查理复用式LED点阵屏幕实验, 详见
+查理复用式LED点阵屏幕实验, 详见 https://zhuanlan.zhihu.com/p/1894827589903820364
 
 ### fan_ctrl
 
