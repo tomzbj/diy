@@ -31,19 +31,37 @@ void CHARLIE::view(void)
 void CHARLIE::poll(void)
 {
   static int count = 0;
-  ++count %= 140;
-  static int prev_x = 0, prev_y = 0;
-  set_dir(port[prev_x], pin[prev_x], IN);
-  set_dir(port[prev_y], pin[prev_y], IN);
-  int x = _array[count] & 0xf;
-  int y = _array[count] >> 4;
-  if(_vram[count % 20] & (1 << (count / 20))) {
-    set_dir(port[x], pin[x], H);
-    set_dir(port[y], pin[y], L);
+  ++count %= 15;
+  for(int i = 0; i < 15; i++) {
+    set_dir(port[i], pin[i], (count == i) ? L : IN);
   }
-  prev_x = x;
-  prev_y = y;
+  for(int i = 0; i < 140; i++) {
+    int x = _array[i] & 0xf;
+    int y = _array[i] >> 4;
+    if(y != count)
+      continue;
+    if(_vram[i % 20] & (1 << (i / 20))) {
+      set_dir(port[x], pin[x], H);
+    }
+  }
 }
+
+/*void CHARLIE::poll(void)
+ {
+ static int count = 0;
+ ++count %= 140;
+ static int prev_x = 0, prev_y = 0;
+ set_dir(port[prev_x], pin[prev_x], IN);
+ set_dir(port[prev_y], pin[prev_y], IN);
+ int x = _array[count] & 0xf;
+ int y = _array[count] >> 4;
+ if(_vram[count % 20] & (1 << (count / 20))) {
+ set_dir(port[x], pin[x], H);
+ set_dir(port[y], pin[y], L);
+ }
+ prev_x = x;
+ prev_y = y;
+ }*/
 
 void CHARLIE::init(void)
 {

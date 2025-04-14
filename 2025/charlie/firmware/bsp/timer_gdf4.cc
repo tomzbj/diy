@@ -22,7 +22,7 @@ void TIMER_Config(void)
   tis.prescaler = 0;
   tis.alignedmode = TIMER_COUNTER_EDGE;
   tis.counterdirection = TIMER_COUNTER_UP;
-  tis.period = 599UL;    // 120M / 1000 = 120ksps
+  tis.period = 19999UL;    // 120M / 1000 = 120ksps
   tis.clockdivision = TIMER_CKDIV_DIV1;
   tis.repetitioncounter = 0;
   timer_init(TIMER6, &tis);
