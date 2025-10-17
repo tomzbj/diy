@@ -2,6 +2,10 @@
 
 ## 2025
 
+### gd32f4_sdr
+
+RF直采收音机实验, 详见 https://zhuanlan.zhihu.com/p/1962658141918429943
+
 ### charlie
 
 查理复用式LED点阵屏幕实验, 详见 https://zhuanlan.zhihu.com/p/1894827589903820364
