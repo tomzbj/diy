@@ -1,0 +1,148 @@
+#include "misc.h"
+#include "adc_gdf4.h"
+#include "platform.h"
+
+//constexpr int ADC_BUF_SIZE = 1024;
+//static uint32_t _adc_buf[ADC_BUF_SIZE];
+//uint32_t adc_value[20];
+
+/*static void test0(void)
+ {
+ static uint32_t count = 0;
+ ++count %= 100;
+ if(!count) {
+ printf("test0 %lu\n", count);
+ }
+ }
+ static void test1(void)
+ {
+ static int count = 0;
+ ++count %= 100;
+ if(!count)
+ printf("test1\n");
+ }*/
+
+extern "C" void DMA1_Channel0_IRQHandler(void)
+{
+  if(dma_interrupt_flag_get(DMA1, DMA_CH0, DMA_INT_FLAG_FTF)) {
+    dma_interrupt_flag_clear(DMA1, DMA_CH0, DMA_INT_FLAG_FTF);
+    printf("adc done!\n");
+    adc_disable (ADC0);
+    adc_disable (ADC1);
+    dma_channel_disable(DMA1, DMA_CH0);
+  }
+  /*
+   if(dma_interrupt_flag_get(DMA1, DMA_CH0, DMA_INT_FLAG_HTF)) {
+   dma_interrupt_flag_clear(DMA1, DMA_CH0, DMA_INT_FLAG_HTF);
+   //    adc.irq_handler(adc.IRQ_HT);
+   //    lcr.feed(&_adc_buf[ADC_BUF_SIZE / 2]);
+   _dbg();
+   test1();
+   }*/
+}
+
+bool ADC_IsDone(void)
+{
+  if(dma_flag_get(DMA1, DMA_CH0, DMA_FLAG_FTF)) {
+    dma_flag_clear(DMA1, DMA_CH0, DMA_FLAG_FTF);
+    return true;
+  }
+  return false;
+}
+
+void dma_config(void);
+void ADC_Start(void* buf, int count)
+{
+  dma_channel_disable(DMA1, DMA_CH0);
+
+  DMA_CHCNT(DMA1, DMA_CH0) = count;
+  DMA_CHM0ADDR(DMA1, DMA_CH0) = (uint32_t)(buf);
+  timer_enable (TIMER1);
+  adc_enable (ADC0);
+  adc_enable (ADC1);
+
+  dma_channel_enable(DMA1, DMA_CH0);
+  adc_dma_mode_enable(ADC0);
+  adc_dma_mode_enable(ADC1);
+
+  while(!dma_flag_get(DMA1, DMA_CH0, DMA_FLAG_FTF));
+  dma_flag_clear(DMA1, DMA_CH0, DMA_FLAG_FTF);
+
+  adc_disable(ADC0);
+  adc_disable(ADC1);
+  dma_channel_disable(DMA1, DMA_CH0);
+}
+
+void ADC_GetDataOnce(void* dst)
+{
+}
+
+void dma_config(void)
+{
+  dma_single_data_parameter_struct dis;
+  dma_deinit(DMA1, DMA_CH0);
+  dis.periph_addr = (uint32_t)(&ADC_SYNCDATA);
+  dis.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
+//  dis.memory0_addr = (uint32_t)(adc_value);
+  dis.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
+  dis.periph_memory_width = DMA_PERIPH_WIDTH_32BIT;
+  dis.circular_mode = DMA_CIRCULAR_MODE_ENABLE;
+  dis.direction = DMA_PERIPH_TO_MEMORY;
+  dis.number = 8;
+  dis.priority = DMA_PRIORITY_HIGH;
+  dma_single_data_mode_init(DMA1, DMA_CH0, &dis);
+//  dma_interrupt_enable(DMA1, DMA_CH0, DMA_INT_HTF);
+//  dma_interrupt_enable(DMA1, DMA_CH0, DMA_INT_FTF);
+//  dma_channel_enable(DMA1, DMA_CH0);
+}
+
+void adc_config(void)
+{
+  adc_disable (ADC0);
+  adc_disable (ADC1);
+  adc_channel_length_config(ADC0, ADC_ROUTINE_CHANNEL, 1);
+  adc_channel_length_config(ADC1, ADC_ROUTINE_CHANNEL, 1);
+  adc_routine_channel_config(ADC0, 0, ADC_CHANNEL_4, ADC_SAMPLETIME_144);
+  adc_routine_channel_config(ADC1, 0, ADC_CHANNEL_5, ADC_SAMPLETIME_144);
+  adc_external_trigger_config(ADC0, ADC_ROUTINE_CHANNEL, EXTERNAL_TRIGGER_RISING);
+  adc_external_trigger_config(ADC1, ADC_ROUTINE_CHANNEL, EXTERNAL_TRIGGER_DISABLE);
+//  adc_external_trigger_source_config(ADC0, ADC_ROUTINE_CHANNEL, ADC_EXTTRIG_ROUTINE_T1_CH1);
+  adc_external_trigger_source_config(ADC0, ADC_ROUTINE_CHANNEL,
+    ADC_EXTTRIG_ROUTINE_T1_TRGO);
+
+  adc_data_alignment_config(ADC0, ADC_DATAALIGN_RIGHT);
+  adc_data_alignment_config(ADC1, ADC_DATAALIGN_RIGHT);
+
+  adc_sync_mode_config (ADC_DAUL_ROUTINE_PARALLEL);
+  adc_sync_dma_config (ADC_SYNC_DMA_MODE1);
+  adc_sync_dma_request_after_last_enable();
+  adc_special_function_config(ADC0, ADC_SCAN_MODE, ENABLE);
+  adc_special_function_config(ADC1, ADC_SCAN_MODE, ENABLE);
+  adc_enable(ADC0);
+  _delay_ms(1);
+  adc_calibration_enable(ADC0);
+  adc_enable(ADC1);
+  _delay_ms(1);
+  adc_calibration_enable(ADC1);
+  adc_dma_mode_disable(ADC0);
+  adc_dma_mode_disable(ADC1);
+  adc_disable(ADC0);
+  adc_disable(ADC1);
+}
+
+void ADC_Config(void)
+{
+  rcu_periph_clock_enable (RCU_SYSCFG);
+  rcu_periph_clock_enable (RCU_ADC0);
+  rcu_periph_clock_enable (RCU_ADC1);
+  rcu_periph_clock_enable (RCU_DMA1);
+  // HCLK = 240M, 240M / 6 = 40M
+  adc_clock_config (ADC_ADCCK_HCLK_DIV6);
+//  nvic_irq_enable(DMA1_Channel0_IRQn, 1, 0);
+  adc_config();
+  dma_config();
+
+  print_log();
+
+}
+
