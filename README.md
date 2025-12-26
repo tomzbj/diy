@@ -4,7 +4,7 @@
 
 ### capx_frontend 
 
-自带恒温器的电容测量前端, 详见
+自带恒温器的电容测量前端, 详见 https://zhuanlan.zhihu.com/p/1987997826635027638
 
 ### gd32f4_sdr
 
