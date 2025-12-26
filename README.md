@@ -2,6 +2,10 @@
 
 ## 2025
 
+### capx_frontend 
+
+自带恒温器的电容测量前端, 详见
+
 ### gd32f4_sdr
 
 RF直采收音机实验, 详见 https://zhuanlan.zhihu.com/p/1962658141918429943
