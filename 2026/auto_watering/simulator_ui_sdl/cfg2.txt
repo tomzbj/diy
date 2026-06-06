@@ -1,0 +1,20 @@
+485 Address (1~127):1
+485 Baudrate:0
+4~20mA connected with:0
+Brightness:5
+Gauge Type:0
+LHe Dec. Digits:1
+LHe Lower Limit:5000
+LHe Lower Limit Raw:10000
+LHe Measure Duration:0
+LHe Measure Inteval:0
+LHe Unit:4
+LHe Upper Limit:100000
+LHe Upper Limit Raw:100000
+LN2 Dec. Digits:2
+LN2 Lower Limit:8000
+LN2 Lower Limit Raw:20000
+LN2 Unit:0
+LN2 Upper Limit:1000000
+LN2 Upper Limit Raw:120000
+Show Resistance & Period:1

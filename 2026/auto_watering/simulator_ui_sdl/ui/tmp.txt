@@ -1,0 +1,241 @@
+#include "ui_main.h"
+#include <utility>
+
+static void btn_manual_cb(lv_event_t* e)
+{
+  auto code = lv_event_get_code(e);
+  UI& p = *(UI*)lv_event_get_user_data(e);
+
+  if(code == LV_EVENT_CLICKED) {
+    printf("KKK\n");
+//    p.load_cfg();
+//    p.switch_page(UI_MAIN::PAGE_CFG);
+  }
+}
+void UI_MAIN::show(void)
+{
+}
+void UI_MAIN::hide(void)
+{
+}
+
+void UI_MAIN::update(void)
+{
+//  char buf[32] = {0};
+//  vals_t vals;
+//  if(_cbs.get_vals_f != nullptr) _cbs.get_vals_f(&vals);
+  /* auto cap = vals.cap; for(int i = 3; i >= 0; i--) { sprintf(buf, "%d", cap % 10);
+   cap /= 10; lv_label_set_text(l_cap[i], buf); auto color = black;
+   if(vals.pos == 3 - i) color = dark_red;
+   lv_obj_set_style_text_color(l_cap[i], color, 0); } */
+}
+
+void UI_MAIN::init(void)
+{
+  static lv_style_t style_common;
+  lv_style_init(&style_common);
+  lv_style_set_text_font(&style_common, UI::font_cfg);
+  lv_style_set_pad_all(&style_common, 0);
+
+  {
+    _page_root = lv_obj_create(lv_scr_act());
+    lv_obj_set_size(_page_root, UI::WIDTH, UI::HEIGHT);
+    lv_obj_clear_flag(_page_root, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_set_style_radius(_page_root, 0, 3);
+    lv_obj_add_style(_page_root, &style_common, 0);
+
+    pobj con = lv_obj_create(_page_root);
+    lv_obj_set_size(con, UI::WIDTH - 0, UI::HEIGHT - 0);
+    lv_obj_set_style_radius(con, 15, 0);
+    lv_obj_add_style(con, &style_common, 0);
+    lv_obj_set_style_border_color(con, UI::light_grey, 0);
+    lv_obj_set_style_border_width(con, 1, 0);
+    lv_obj_set_style_bg_color(con, UI::light_grey, 0);
+    lv_obj_clear_flag(con, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_clear_flag(con, LV_OBJ_FLAG_CLICKABLE);
+  }
+  struct CON {
+      int x, y, w, h;
+      const char* name;
+  };
+  const CON con_inf[6] = {
+  //
+    {10, 10, lv_pct(40), lv_pct(40), "当前时间"},    //
+    {lv_pct(45), 10, lv_pct(40), lv_pct(40), "下次浇水"},    //
+    {10, lv_pct(50), lv_pct(40), lv_pct(40), "土壤湿度"},    //
+    {lv_pct(45), lv_pct(50), lv_pct(40), lv_pct(40), "浇水持续"},    //
+    {lv_pct(88), 10, lv_pct(10), lv_pct(40), "手\n动"},    //
+    {lv_pct(88), lv_pct(50), lv_pct(10), lv_pct(40), "设\n置"},    //
+    };
+  pobj val[6];
+
+  for(int i = 0; i < 6; i++) {
+    con_main[i] = lv_obj_create(_page_root);
+    auto& con = con_main[i];
+    auto& inf = con_inf[i];
+    lv_obj_set_size(con, inf.w, inf.h);
+    lv_obj_set_style_radius(con, 15, 0);
+    lv_obj_add_style(con, &style_common, 0);
+    lv_obj_set_style_border_color(con, UI::black, 0);
+    lv_obj_set_style_border_width(con, 1, 0);
+    lv_obj_set_style_bg_color(con, UI::white, 0);
+    lv_obj_clear_flag(con, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_clear_flag(con, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_align(con, LV_ALIGN_TOP_LEFT, inf.x, inf.y);
+
+    auto l_name = lv_label_create(con);
+    lv_label_set_text(l_name, inf.name);
+    lv_obj_set_style_text_color(l_name, UI::black, 0);
+    lv_obj_set_style_text_font(l_name, UI::font_main, 0);
+    if(i < 4)
+      lv_obj_align(l_name, LV_ALIGN_CENTER, 0, -15);
+    else
+      lv_obj_align(l_name, LV_ALIGN_CENTER, 0, 0);
+    if(i < 4) {
+      val[i] = lv_label_create(con);
+      lv_obj_set_style_text_color(val[i], UI::black, 0);
+      lv_obj_set_style_text_font(val[i], UI::font_main, 0);
+      lv_obj_align(val[i], LV_ALIGN_CENTER, 0, 15);
+    }
+  }
+  l_time = val[0];
+  l_time_next = val[1];
+  l_duration = val[2];
+  l_moisture = val[3];
+
+  lv_label_set_text(val[0], "21:43:15");
+  lv_label_set_text(val[1], "17:00");
+  lv_label_set_text(val[2], "75%");
+  lv_label_set_text(val[3], "10s");
+
+  lv_obj_add_flag(con_main[4], LV_OBJ_FLAG_CLICKABLE);
+  lv_obj_add_flag(con_main[5], LV_OBJ_FLAG_CLICKABLE);
+  lv_obj_add_event_cb(con_main[4], btn_manual_cb, LV_EVENT_ALL, this);
+  lv_obj_add_event_cb(con_main[5], btn_manual_cb, LV_EVENT_ALL, this);
+}
+#include "ui_cfg.h"
+#include <string>
+
+static void btn_cfg_save_event_cb(lv_event_t* e)
+{
+  if(lv_event_get_code(e) == LV_EVENT_CLICKED) {
+    UI* p = (UI*)lv_event_get_user_data(e);
+    p->switch_page(p->PAGE_MAIN);
+  }
+}
+
+static void btn_cfg_event_cb(lv_event_t* e)
+{
+  if(lv_event_get_code(e) == LV_EVENT_CLICKED) {
+    UI* p = (UI*)lv_event_get_user_data(e);
+    p->switch_page(p->PAGE_MAIN);
+  }
+}
+
+/* static void adjust_brightness_cb(lv_event_t* e)    // for slider
+ { auto code = lv_event_get_code(e);
+ auto ta = lv_event_get_target(e);
+ auto p = (UI*)lv_event_get_user_data(e);
+ auto val = lv_slider_get_value(ta);
+ if(code == LV_EVENT_VALUE_CHANGED) {
+ p->adjust_brightness(val); } }*/
+
+void UI_CFG::show(void)
+{
+}
+void UI_CFG::hide(void)
+{
+}
+
+void UI_CFG::init(void)
+{
+  _page_root = lv_obj_create(lv_scr_act());
+  lv_obj_align(_page_root, LV_ALIGN_CENTER, 0, 0);
+  lv_obj_set_size(_page_root, UI::WIDTH - 20, UI::HEIGHT);    //设置容器大小
+  lv_obj_set_style_radius(_page_root, 0, 0);    //设置容器圆角为直角
+  lv_obj_set_style_pad_all(_page_root, 0, 0);
+  lv_obj_set_style_border_width(_page_root, 0, 0);
+
+  lv_obj_set_flex_flow(_page_root, LV_FLEX_FLOW_COLUMN);
+  lv_obj_set_flex_align(_page_root, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER,
+    LV_FLEX_ALIGN_CENTER);
+  lv_obj_set_style_pad_all(_page_root, 0, 0);
+  lv_obj_set_style_pad_gap(_page_root, 0, LV_PART_MAIN);
+
+  pobj ta_cur_hour, ta_cur_min, ta_start_hour, ta_start_min, ta_duration, sl_brightness;    //    label_brightness_value;
+
+  pobj row[5] = {0};
+  {    // row1
+    for(uint32_t i = 0; i < sizeof(row) / sizeof(row[0]); i++) {
+      row[i] = lv_obj_create(_page_root);
+      auto& obj = row[i];
+      lv_obj_set_size(obj, lv_pct(100), 33);
+      lv_obj_set_style_pad_all(obj, 0, 0);
+      lv_obj_set_flex_flow(obj, LV_FLEX_FLOW_ROW);
+      lv_obj_set_flex_align(obj, LV_FLEX_ALIGN_SPACE_AROUND, LV_FLEX_ALIGN_CENTER,
+        LV_FLEX_ALIGN_CENTER);
+      lv_obj_remove_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+
+      if(i % 2 == 0)
+        lv_obj_set_style_bg_color(obj, UI::light_green, 0);
+      else
+        lv_obj_set_style_bg_color(obj, UI::light_yellow, 0);
+      lv_obj_set_style_border_width(obj, 0, 0);
+    }
+
+    if(1) {    // row[1]
+      pobj lbl_cur_time = lv_label_create(row[0]);
+      pobj lbl_start_time = lv_label_create(row[1]);
+      pobj lbl_duration = lv_label_create(row[2]);
+      pobj lbl_brightness = lv_label_create(row[3]);
+      pobj btn_ok = lv_button_create(row[4]);
+      pobj btn_cancel = lv_button_create(row[4]);
+      pobj lbl_btn_ok = lv_label_create(btn_ok);
+      pobj lbl_btn_cancel = lv_label_create(btn_cancel);
+
+      ta_cur_hour = lv_textarea_create(row[0]);
+      pobj colon1 = lv_label_create(row[0]);
+      ta_cur_min = lv_textarea_create(row[0]);
+
+      ta_start_hour = lv_textarea_create(row[1]);
+      pobj colon2 = lv_label_create(row[1]);
+      ta_start_min = lv_textarea_create(row[1]);
+
+      ta_duration = lv_textarea_create(row[2]);
+      sl_brightness = lv_slider_create(row[3]);
+
+      lv_label_set_text(lbl_cur_time, "当前时间");
+      lv_label_set_text(lbl_start_time, "下次浇水");
+      lv_label_set_text(lbl_duration, "浇水持续时间(秒)");
+      lv_label_set_text(lbl_brightness, "屏幕亮度");
+      lv_label_set_text(colon1, ":");
+      lv_label_set_text(colon2, ":");
+      lv_label_set_text(lbl_btn_ok, LV_SYMBOL_OK);
+      lv_label_set_text(lbl_btn_cancel, LV_SYMBOL_CLOSE);
+
+      lv_obj_set_width(lbl_cur_time, lv_pct(50));
+      lv_obj_set_width(lbl_start_time, lv_pct(50));
+      lv_obj_set_width(sl_brightness, lv_pct(50));
+      lv_obj_set_height(sl_brightness, 15);
+      lv_obj_set_size(btn_ok, lv_pct(30), 25);
+      lv_obj_set_size(btn_cancel, lv_pct(30), 25);
+      lv_obj_align(lbl_btn_ok, LV_ALIGN_CENTER, 0, 0);
+      lv_obj_align(lbl_btn_cancel, LV_ALIGN_CENTER, 0, 0);
+      lv_obj_add_event_cb(btn_ok, btn_cfg_save_event_cb, LV_EVENT_ALL, this);
+      lv_obj_add_event_cb(btn_cancel, btn_cfg_event_cb, LV_EVENT_ALL, this);
+
+      for(auto& obj : {ta_cur_min, ta_cur_hour, ta_start_hour, ta_start_min, ta_duration}) {
+        lv_obj_set_size(obj, lv_pct(15), 35);
+        lv_textarea_set_one_line(obj, true);
+        lv_textarea_set_accepted_chars(obj, "1234567890");
+        lv_textarea_set_text(obj, "00");
+        lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, 0);
+        lv_obj_set_style_border_width(obj, 0, 0);
+        lv_obj_remove_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+      }
+      for(auto& obj : {ta_cur_min, ta_cur_hour, lbl_cur_time, colon1, ta_start_min,
+        ta_start_hour, lbl_start_time, colon2, ta_duration, lbl_duration, lbl_brightness})
+        lv_obj_set_style_text_font(obj, UI::font_cfg, 0);
+    }
+  }
+}

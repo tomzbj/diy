@@ -1,0 +1,127 @@
+#include "misc.h"
+#include "lvgl.h"
+
+static void assert(int cond)
+{
+  (cond) ? (exit(-1)) : (void)0;
+}
+
+uint32_t timer_cb_1ms(uint32_t inteval, void* param)
+{
+  extern class ZUART4 udp;
+  udp.tick();
+  extern class ZCli cli;
+  if(udp.idle()) {
+    char buf[4096] = {0};
+    char c = udp.peek();
+    int len = udp.read(buf, sizeof(buf));
+    if(c == '#')
+      cli.parse(buf, len);
+    else
+      udp.write(buf, len);
+  }
+
+  extern class UDP_SERVER server;
+  server.poll();
+  return 1;
+}
+
+uint32_t timer_cb_16ms(uint32_t inteval, void* param)
+{
+  fflush(stdout);
+  lv_tick_inc(16);
+  lv_timer_handler();
+  if(1) {
+    static int count = 0;
+    ++count %= 10;
+    if(!count) {
+      extern class UI ui;
+      ui.update();
+    }
+  }
+  return 16;
+}
+
+SDL_Wrapper::SDL_Wrapper(int x, int y, float zoom_factor)
+{
+  _w = x;
+  _h = y;
+  _zoom_factor_w = 1;
+  _zoom_factor_h = 1;
+
+  int ret = SDL_Init(SDL_INIT_EVERYTHING);
+  assert(ret != 0);
+  _pwin = SDL_CreateWindow("GAUGE", SDL_WINDOWPOS_CENTERED,
+  SDL_WINDOWPOS_CENTERED, x * zoom_factor, y * zoom_factor, SDL_WINDOW_RESIZABLE);
+  assert(_pwin == NULL);
+  _ren = SDL_CreateRenderer(_pwin, -1, SDL_RENDERER_ACCELERATED);
+  assert(_ren == NULL);
+  SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best");
+  _surface = SDL_CreateRGBSurface(0, x, y, 16, 0xf800, 0x07e0, 0x001f, 0);
+  _timer_id_16ms = SDL_AddTimer(100, timer_cb_16ms, _pwin);
+  _timer_id_1ms = SDL_AddTimer(1, timer_cb_1ms, _pwin);
+}
+
+void* SDL_Wrapper::get_framebuffer(void)
+{
+  return _surface->pixels;
+}
+
+int SDL_Wrapper::update(void)
+{
+  int _w_actual, _h_actual;
+  SDL_Event evt;
+  if(SDL_PollEvent(&evt)) {
+//        printf("%d\n", evt.type); fflush(stdout);
+    SDL_GetWindowSize(_pwin, &_w_actual, &_h_actual);
+    _zoom_factor_w = ((float)_w) / _w_actual;
+    _zoom_factor_h = ((float)_h) / _h_actual;
+
+    if(0) {
+      static int count = 0;
+      ++count %= 10;
+      if(!count) {
+        printf("### %d %d %d %d %f %f\n", _w, _h, _w_actual, _h_actual, _zoom_factor_w,
+          _zoom_factor_h);
+      }
+    }
+    int quit = (evt.type == SDL_QUIT) ? 1 : 0;
+    if(evt.type == SDL_KEYDOWN) {
+      const char* T = SDL_GetKeyName(evt.key.keysym.sym);
+//             printf("%s\n", T);
+      if(strcasecmp(T, "Escape") == 0)
+        quit = 1;
+      /* if(strcasecmp(T, "Left") == 0) if(x0 > 0) x0 -= 5;
+       if(strcasecmp(T, "Right") == 0) if(x0 < 200) x0 += 5;
+       if(strcasecmp(T, "Up") == 0) if(y0 > 0) y0 -= 5;
+       if(strcasecmp(T, "Down") == 0) if(y0 < 200) y0 += 5;
+       fflush(stdout); */
+    }
+    if(quit > 0)
+      return 1;
+  }
+  SDL_SetRenderDrawColor(_ren, 0, 0, 0, 0);    //清除背景
+  SDL_RenderClear(_ren);
+  SDL_Texture* tex = SDL_CreateTextureFromSurface(_ren, _surface);
+  SDL_RenderCopy(_ren, tex, NULL, NULL);
+  SDL_DestroyTexture(tex);
+  SDL_RenderPresent(_ren);
+
+  return 0;
+}
+
+SDL_Wrapper::~SDL_Wrapper(void)
+{
+  SDL_RemoveTimer(_timer_id_16ms);
+  SDL_RemoveTimer(_timer_id_1ms);
+  (_surface) ? SDL_FreeSurface(_surface) : (void)0;
+  (_ren) ? SDL_DestroyRenderer(_ren) : (void)0;
+  (_pwin) ? SDL_DestroyWindow(_pwin) : (void)0;
+
+  if(SDL_WasInit(SDL_INIT_EVERYTHING) == 0)
+    puts("SDL was NOT running!");
+  else {
+    SDL_Quit();
+    puts("SDL_Quit successfully.");
+  }    //    getch();
+}
