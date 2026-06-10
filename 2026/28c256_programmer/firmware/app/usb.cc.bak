@@ -1,0 +1,50 @@
+#include "misc.h"
+#include "platform.h"
+
+extern "C" void USB_IRQHandler(void)
+{
+  void USBD_IRQHandler(uint8_t busid);
+  USBD_IRQHandler(0);
+}
+
+extern "C" void usb_dc_low_level_init(int busid)
+{
+}
+
+extern "C" void USB_Read(uint8_t* data, int size)
+{
+  ucdc.push(data, size);
+}
+
+extern "C" void USB_Write(uint8_t* data, int size)
+{
+//  void cdc_acm_data_send(uint8_t* data, int size);
+//  cdc_acm_data_send(data, size);
+}
+
+extern "C" void USB_Config(void)
+{
+  __HAL_RCC_SYSCFG_CLK_ENABLE();
+  __HAL_RCC_PWR_CLK_ENABLE();
+  __HAL_RCC_USB_CLK_ENABLE();
+//  msc_ram_init();
+  NVIC_EnableIRQ(USB_IRQn);
+
+//  RCC_HSI48Cmd (ENABLE);
+//  while(RCC_GetFlagStatus(RCC_FLAG_HSI48RDY) == RESET);
+//  RCC_USBCLKConfig (RCC_USBCLK_PLLCLK);
+//  RCC_APB1PeriphClockCmd(RCC_APB1Periph_USB, ENABLE);
+//  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
+
+//  NVIC_InitTypeDef nis;
+//  nis.NVIC_IRQChannelPriority = 1;
+//  nis.NVIC_IRQChannelCmd = ENABLE;
+//  nis.NVIC_IRQChannel = USB_IRQn;    //USARTn_IRQChannel;
+//  NVIC_Init(&nis);
+
+  void cdc_acm_init(uint8_t busid, uintptr_t reg_base);
+//  cdc_acm_init(0, (uintptr_t)0x50000000); //dwc2
+  cdc_acm_init(0, (uintptr_t)0x40005c00);    // fsdev
+  HAL_Delay(500);    // at least 100ms
+  print_log();
+}

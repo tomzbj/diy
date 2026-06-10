@@ -2,6 +2,14 @@
 
 ## 2026
 
+### 28c256_programmer
+
+28C256编程器, flasher.py是上位机
+
+### auto_watering
+
+自动浇水器
+
 ### dtmf
 
 DTMF调制解调实验
