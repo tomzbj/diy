@@ -1,0 +1,113 @@
+/* Author: tomzbj  Updated: 2026-04-03  Rev: 0.02 */
+
+#ifndef _FIFO_H
+#define _FIFO_H
+
+#include <cstdint>
+#include <cstring>
+#include <memory>
+
+class ZFIFO {
+  public:
+    ZFIFO(uint32_t size)
+    {
+      _buf = std::make_unique<uint8_t[]>(size);
+      if((size & (size - 1)) != 0)
+        size = 0x80000000 >> (__builtin_clz(size) - 1);
+      _size = size;
+      _in = _out = 0;
+    }
+
+    void clear(void)
+    {
+      _out = _in;
+    }
+    uint8_t peek(void)
+    {
+      return _buf[_out & (_size - 1)];
+    }
+
+    void peek(void* data, int ofs, int size)
+    {
+      uint8_t* pdata = (uint8_t*)data;
+      for(int i = 0; i < size; i++) {
+        pdata[i] = _buf[(_out + ofs + i) & (_size - 1)];
+      }
+    }
+
+    void peek(void* data, int size)
+    {
+      peek(data, 0, size);
+    }
+
+    void traverse(int (*printf_f)(const char* args, ...))
+    {
+      uint32_t size = _in - _out;
+      for(uint32_t i = 0; i < size; i++) {
+        printf_f("%c", _buf[((_out + i) & (_size - 1))]);
+      }
+      printf_f("\n");
+      printf_f("in: %d out: %d free: %d\n", _in, _out, _size - _in + _out);
+    }
+
+    int put(const void* pdata, uint32_t len)    //向kfifo中添加数t
+    {
+      uint32_t l;
+      len = min(len, _size - _in + _out);    //buffer中空的长度
+//        smp_mb(); /* * Ensure that we sample the _out index -before- we * start putting bytes into the kfifo. */
+      l = min(len, _size - (_in & (_size - 1))); /* first put the data starting from _in to buffer end */
+      memcpy(_buf.get() + (_in & (_size - 1)), pdata, l);
+      memcpy(_buf.get(), (uint8_t*)pdata + l, len - l); /* then put the rest (if any) at the beginning of the buffer */
+//        smp_wmb(); /* * Ensure that we add the bytes to the kfifo -before- * we update the _in index. */
+      _in += len;    //每次累加，到达最大值后溢出，自动转为0
+
+      return len;
+    }
+    int get(void* pdata, uint32_t len)    //从kfifo中取数据
+    {
+      uint32_t l;
+      len = min(len, _in - _out);    //有数据的缓冲区的长度
+//        smp_rmb(); /* * Ensure that we sample the _in index -before- we * start removing bytes from the kfifo. */
+      l = min(len, _size - (_out & (_size - 1))); /* first get the data from _out until the end of the buffer */
+      memcpy(pdata, _buf.get() + (_out & (_size - 1)), l);
+      memcpy((uint8_t*)pdata + l, _buf.get(), len - l); /* then get the rest (if any) from the beginning of the buffer */
+//        smp_mb(); /* * Ensure that we remove the bytes from the kfifo -before- * we update the _out index. */
+      _out += len;    //每次累加，到达最大值后溢出，自动转为0
+      return len;
+    }
+    uint32_t available(void)    //获取kfifo中有数据的buffer大小
+    {
+      return _in - _out;
+    }
+    uint32_t free_space(void)
+    {
+      return _size - (_in - _out);
+    }
+    int put_exact(const void* pdata, uint32_t len)
+    {
+      if(len > free_space())
+        return 0;
+      uint32_t l;
+      l = min(len, _size - (_in & (_size - 1)));
+      memcpy(_buf.get() + (_in & (_size - 1)), pdata, l);
+      memcpy(_buf.get(), (uint8_t*)pdata + l, len - l);
+      _in += len;
+      return (int)len;
+    }
+    uint32_t size(void)
+    {
+      return _size;
+    }
+
+  private:
+    std::unique_ptr<uint8_t[]> _buf;
+    uint32_t _size, _in, _out;
+
+    template<typename T>
+    inline T min(T x, T y)
+    {
+      return (x <= y) ? x : y;
+    }
+};
+
+#endif
