@@ -1,0 +1,61 @@
+// ** *      INCLUDES **
+#include "lv_port_disp.h"
+#include "lvgl.h"
+#include "gc9307.h"
+//#include "platform.h"
+
+// ** *      DEFINES ** //  *      TYPEDEFS //  *  STATIC PROTOTYPES
+
+static void disp_init(void);
+static void disp_flush(lv_disp_drv_t* drv, const lv_area_t* area,
+  lv_color_t* color_p);
+
+//  *  STATIC VARIABLES //  *      MACROS
+#define MY_DISP_HOR_RES  320
+#define MY_DISP_VER_RES  172
+
+//  *   GLOBAL FUNCTIONS
+extern class TFT_GC9307 tft;
+
+void disp_set_window(int x1, int y1, int x2, int y2)
+{
+  tft.set_window(x1, y1, x2, y2);
+}
+void disp_write(unsigned short* buf, int n)
+{
+  tft.write(buf, n);
+}
+
+void lv_port_disp_init(void)
+{
+  disp_init();    // * Initialize your display
+
+  static lv_disp_draw_buf_t draw_buf_dsc_2;
+  static lv_color_t buf_2_1[MY_DISP_HOR_RES * 20];    // A buffer for 10 rows
+  static lv_color_t buf_2_2[MY_DISP_HOR_RES * 20];    // An other buffer for 10 rows
+  lv_disp_draw_buf_init(&draw_buf_dsc_2, buf_2_1, buf_2_2, MY_DISP_HOR_RES * 20);    // Initialize the display buffer
+
+  static lv_disp_drv_t disp_drv;    // Descriptor of a display driver
+  lv_disp_drv_init(&disp_drv);    // Basic initialization
+
+  disp_drv.hor_res = MY_DISP_HOR_RES;
+  disp_drv.ver_res = MY_DISP_VER_RES;
+  disp_drv.flush_cb = disp_flush; /*Used to copy the buffer's content to the display*/
+  disp_drv.draw_buf = &draw_buf_dsc_2; /*Set a display buffer*/
+
+  disp_drv.full_refresh = 0; /*Required for Example 3)*/
+  lv_disp_drv_register(&disp_drv);
+}
+
+//*   STATIC FUNCTIONS
+static void disp_init(void)    // Initialize your display and the required peripherals.
+{
+}
+static void disp_flush(lv_disp_drv_t* drv, const lv_area_t* area, lv_color_t* color_p)
+{
+  disp_set_window(area->x1, area->y1, area->x2, area->y2);
+  uint32_t count = (area->y2 - area->y1 + 1) * (area->x2 - area->x1 + 1);
+//printf("%08lX %lu\n", (uint32_t)color_p, count);
+  disp_write((uint16_t*)color_p, count);    // You can use DMA or any hardware acceleration to do this operation in the background but 'lv_disp_flush_ready()' has to be called when finished.*/
+  lv_disp_flush_ready(drv);    //  IMPORTANT!!! *Inform the graphics library that you are ready with the flushing
+}

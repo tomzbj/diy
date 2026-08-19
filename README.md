@@ -2,6 +2,22 @@
 
 ## 2026
 
+### cube_timer
+
+立方定时器
+
+### self_adaptive_charger
+
+自适应多功能充电器
+
+### volt_meter_charlie
+
+极简电压表
+
+### player_v4
+
+仿ipod shuffle播放器
+
 ### 28c256_programmer
 
 28C256编程器, flasher.py是上位机
