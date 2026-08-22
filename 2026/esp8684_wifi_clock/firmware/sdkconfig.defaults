@@ -1,0 +1,17 @@
+# Arduino-as-IDF-component (see examples/espidf-arduino-wifiscan)
+CONFIG_AUTOSTART_ARDUINO=y
+CONFIG_FREERTOS_HZ=1000
+
+# First WiFi start after flash erase does full RF calibration (NVS empty).
+# Default INT_WDT 300ms / TWDT 5s will reset the chip mid-cal.
+CONFIG_ESP_INT_WDT_TIMEOUT_MS=1000
+CONFIG_ESP_TASK_WDT_TIMEOUT_S=30
+CONFIG_ESP_PHY_REDUCE_TX_POWER=y
+
+# This board: 40 MHz XTAL, 2MB flash, DIO (not DevKitM-1 26 MHz / 4MB / QIO)
+CONFIG_XTAL_FREQ_40=y
+# CONFIG_XTAL_FREQ_26 is not set
+CONFIG_ESPTOOLPY_FLASHSIZE_2MB=y
+# CONFIG_ESPTOOLPY_FLASHSIZE_4MB is not set
+CONFIG_ESPTOOLPY_FLASHMODE_DIO=y
+# CONFIG_ESPTOOLPY_FLASHMODE_QIO is not set
