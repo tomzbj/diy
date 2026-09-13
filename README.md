@@ -2,6 +2,10 @@
 
 ## 2026
 
+### td4_visual
+
+TD4 CPU, ROM板改为MCU+屏
+
 ### cube_timer
 
 立方定时器
